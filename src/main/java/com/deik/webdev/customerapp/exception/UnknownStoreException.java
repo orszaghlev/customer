@@ -4,7 +4,7 @@ import com.deik.webdev.customerapp.model.Store;
 import lombok.Data;
 
 @Data
-public class UnknownStoreException {
+public class UnknownStoreException extends Exception {
 
     private Store store;
 

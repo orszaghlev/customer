@@ -4,14 +4,14 @@ import com.deik.webdev.customerapp.model.Staff;
 import lombok.Data;
 
 @Data
-public class UnknownStaffException {
+public class UnknownStaffException extends Exception {
 
     private Staff staff;
 
     public UnknownStaffException() {
     }
 
-    public UnknownCountryException(String message, Staff staff) {
+    public UnknownStaffException(String message, Staff staff) {
         super(message);
         this.staff = staff;
     }
