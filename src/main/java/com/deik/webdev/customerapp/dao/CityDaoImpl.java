@@ -46,7 +46,7 @@ public class CityDaoImpl implements CityDao {
     protected CountryEntity queryCountry(String country) {
 
         Optional<CountryEntity> countryEntity = countryRepository.findByName(country);
-        if(!countryEntity.isPresent()){
+        if (!countryEntity.isPresent()) {
             countryEntity = Optional.ofNullable(CountryEntity.builder()
                     .name(country)
                     .lastUpdate(new Timestamp((new Date()).getTime()))

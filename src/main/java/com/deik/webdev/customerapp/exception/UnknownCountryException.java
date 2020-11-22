@@ -1,6 +1,5 @@
 package com.deik.webdev.customerapp.exception;
 
-import com.deik.webdev.customerapp.model.Country;
 import lombok.Data;
 
 @Data
