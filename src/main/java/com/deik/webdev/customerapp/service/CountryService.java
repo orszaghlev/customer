@@ -9,7 +9,7 @@ public interface CountryService {
 
     Collection<Country> getAllCountry();
 
-    void createCountry(Country country);
+    void recordCountry(Country country);
     void deleteCountry(Country country) throws UnknownCountryException;
 
 }

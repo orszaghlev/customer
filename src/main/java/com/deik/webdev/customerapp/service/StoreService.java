@@ -10,7 +10,7 @@ public interface StoreService {
 
     Collection<Store> getAllStore();
 
-    void createStore(Store store) throws UnknownStaffException;
+    void recordStore(Store store) throws UnknownStaffException;
     void deleteStore(Store store) throws UnknownStoreException;
 
 }

@@ -10,7 +10,7 @@ public interface CityService {
 
     Collection<City> getAllCity();
 
-    void createCity(City city) throws UnknownCountryException;
+    void recordCity(City city) throws UnknownCountryException;
     void deleteCity(City city) throws UnknownCityException;
 
 }

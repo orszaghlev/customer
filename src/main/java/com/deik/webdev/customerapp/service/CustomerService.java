@@ -10,7 +10,7 @@ public interface CustomerService {
 
     Collection<Customer> getAllCustomer();
 
-    void createCustomer(Customer customer) throws UnknownStoreException;
+    void recordCustomer(Customer customer) throws UnknownStoreException;
     void deleteCustomer(Customer customer) throws UnknownCustomerException;
 
 }
