@@ -56,7 +56,6 @@ public class AddressDaoImpl implements AddressDao {
     }
 
     protected CityEntity queryCity(String city, String country) throws UnknownCountryException {
-
         Optional<CityEntity> cityEntity = cityRepository.findByName(city);
         if (!cityEntity.isPresent()) {
             Optional<CountryEntity> countryEntity = countryRepository.findByName(country);
