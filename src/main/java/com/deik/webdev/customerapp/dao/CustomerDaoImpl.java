@@ -19,6 +19,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import static java.lang.Integer.parseInt;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -54,9 +56,7 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     protected StoreEntity queryStore(String store, String staff, String staffAddress, String staffCity, String staffCountry) throws UnknownStaffException, UnknownCountryException {
-        Optional<StoreEntity> storeEntity = storeRepository.findByName(store).stream()
-                .filter(entity -> entity.getStaff().getFirstName().equals(staff))
-                .findFirst();
+        Optional<StoreEntity> storeEntity = storeRepository.findById(parseInt(store));
         if (!storeEntity.isPresent()) {
             Optional<StaffEntity> staffEntity = staffRepository.findByFirstName(staff);
             if (!staffEntity.isPresent()) {
