@@ -25,7 +25,7 @@ public class CustomerController {
     private final CustomerService service;
 
     @GetMapping("/customer")
-    public Collection<CustomerDto> listCustomers(){
+    public Collection<CustomerDto> listCustomers() {
         return service.getAllCustomer()
                 .stream()
                 .map(model -> CustomerDto.builder()

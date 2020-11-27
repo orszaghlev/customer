@@ -23,7 +23,7 @@ public class CountryController {
     private final CountryService service;
 
     @GetMapping("/country")
-    public Collection<CountryDto> listCountries(){
+    public Collection<CountryDto> listCountries() {
         return service.getAllCountry()
                 .stream()
                 .map(model -> CountryDto.builder()

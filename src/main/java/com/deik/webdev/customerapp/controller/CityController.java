@@ -24,7 +24,7 @@ public class CityController {
     private final CityService service;
 
     @GetMapping("/city")
-    public Collection<CityDto> listCities(){
+    public Collection<CityDto> listCities() {
         return service.getAllCity()
                 .stream()
                 .map(model -> CityDto.builder()

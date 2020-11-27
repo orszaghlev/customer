@@ -1,10 +1,9 @@
 package com.deik.webdev.customerapp.controller;
 
-import com.deik.webdev.customerapp.dto.AddressDto;
-import com.deik.webdev.customerapp.dto.AddressRecordRequestDto;
+import com.deik.webdev.customerapp.dto.StoreDto;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
-import com.deik.webdev.customerapp.model.Address;
-import com.deik.webdev.customerapp.service.AddressService;
+import com.deik.webdev.customerapp.model.Store;
+import com.deik.webdev.customerapp.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -20,35 +19,37 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-public class AddressController {
+public class StoreController {
 
-    private final AddressService service;
+    private final StoreService service;
 
-    @GetMapping("/address")
-    public Collection<AddressDto> listAddresses() {
-        return service.getAllAddress()
+    @GetMapping("/store")
+    public Collection<StoreDto> listStores() {
+        return service.getAllStore()
                 .stream()
-                .map(model -> AddressDto.builder()
+                .map(model -> StoreDto.builder()
+                        .staff(model.getStaff())
+                        .staffAddress(model.getStaffAddress())
+                        .staffCity(model.getStaffCity())
+                        .staffCountry(model.getStaffCountry())
                         .address(model.getAddress())
-                        .address2(model.getAddress2())
-                        .district(model.getDistrict())
                         .city(model.getCity())
                         .country(model.getCountry())
                         .build())
                 .collect(Collectors.toList());
     }
 
-    @PostMapping("/address")
-    public void record(@RequestBody AddressRecordRequestDto requestDto) {
+    @PostMapping("/store")
+    public void record(@RequestBody StoreDto requestDto) {
         try {
-            service.recordAddress(new Address(
+            service.recordStore(new Store(
+                    requestDto.getStaff(),
+                    requestDto.getStaffAddress(),
+                    requestDto.getStaffCity(),
+                    requestDto.getStaffCountry(),
                     requestDto.getAddress(),
-                    requestDto.getAddress2(),
-                    requestDto.getDistrict(),
                     requestDto.getCity(),
-                    requestDto.getCountry(),
-                    requestDto.getPostalCode(),
-                    requestDto.getPhone()
+                    requestDto.getCountry()
             ));
         } catch (UnknownCountryException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
