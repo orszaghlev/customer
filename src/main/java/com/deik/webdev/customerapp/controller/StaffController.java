@@ -45,7 +45,7 @@ public class StaffController {
     }
 
     @PostMapping("/staff")
-    public void record(@RequestBody StaffDto requestDto) {
+    public void recordStaff(@RequestBody StaffDto requestDto) {
         try {
             service.recordStaff(new Staff(
                     requestDto.getFirstName(),

@@ -35,7 +35,7 @@ public class CityController {
     }
 
     @PostMapping("/city")
-    public void record(@RequestBody CityDto requestDto) {
+    public void recordCity(@RequestBody CityDto requestDto) {
         try {
             service.recordCity(new City(
                     requestDto.getName(),

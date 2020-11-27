@@ -45,7 +45,7 @@ public class CustomerController {
     }
 
     @PostMapping("/customer")
-    public void record(@RequestBody CustomerDto requestDto) {
+    public void recordCustomer(@RequestBody CustomerDto requestDto) {
         try {
             service.recordCustomer(new Customer(
                     requestDto.getStore(),

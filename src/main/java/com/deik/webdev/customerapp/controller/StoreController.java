@@ -40,7 +40,7 @@ public class StoreController {
     }
 
     @PostMapping("/store")
-    public void record(@RequestBody StoreDto requestDto) {
+    public void recordStore(@RequestBody StoreDto requestDto) {
         try {
             service.recordStore(new Store(
                     requestDto.getStaff(),

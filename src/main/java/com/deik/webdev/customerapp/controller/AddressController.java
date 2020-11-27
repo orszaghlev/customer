@@ -39,7 +39,7 @@ public class AddressController {
     }
 
     @PostMapping("/address")
-    public void record(@RequestBody AddressRecordRequestDto requestDto) {
+    public void recordAddress(@RequestBody AddressRecordRequestDto requestDto) {
         try {
             service.recordAddress(new Address(
                     requestDto.getAddress(),

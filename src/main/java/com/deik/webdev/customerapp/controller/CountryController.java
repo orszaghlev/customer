@@ -33,7 +33,7 @@ public class CountryController {
     }
 
     @PostMapping("/country")
-    public void record(@RequestBody CountryDto requestDto) {
+    public void recordCountry(@RequestBody CountryDto requestDto) {
         try {
             service.recordCountry(new Country(
                     requestDto.getName()
