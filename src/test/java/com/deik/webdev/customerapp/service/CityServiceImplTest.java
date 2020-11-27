@@ -43,7 +43,7 @@ public class CityServiceImplTest {
     }
 
     @Test
-    void testReadAllCities(){
+    void testReadAllCities() {
         when(dao.readAll()).thenReturn(getDefaultCities());
         Collection<City> actual = service.getAllCity();
 
@@ -57,7 +57,7 @@ public class CityServiceImplTest {
         );
     }
 
-    private Collection<City> getDefaultCities(){
+    private Collection<City> getDefaultCities() {
         return Arrays.asList(
                 new City(
                         "name",

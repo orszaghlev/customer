@@ -32,7 +32,7 @@ public class CountryServiceImplTest {
     }
 
     @Test
-    void testReadAllCountries(){
+    void testReadAllCountries() {
         when(dao.readAll()).thenReturn(getDefaultCountries());
         Collection<Country> actual = service.getAllCountry();
 
@@ -45,7 +45,7 @@ public class CountryServiceImplTest {
         );
     }
 
-    private Collection<Country> getDefaultCountries(){
+    private Collection<Country> getDefaultCountries() {
         return Arrays.asList(
                 new Country(
                         "name"

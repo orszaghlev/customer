@@ -44,7 +44,7 @@ class AddressServiceImplTest {
     }
 
     @Test
-    void testReadAllAddresses(){
+    void testReadAllAddresses() {
         when(dao.readAll()).thenReturn(getDefaultAddresses());
         Collection<Address> actual = service.getAllAddress();
 
@@ -52,7 +52,7 @@ class AddressServiceImplTest {
     }
 
     @Test
-    void testReadAddressesFromUnknownCity(){
+    void testReadAddressesFromUnknownCity() {
         when(dao.readAll()).thenReturn(getDefaultAddresses());
         final String unknownCityName = "UnknownCity";
         Collection<Address> actual = service.getAddressInCity(unknownCityName);
@@ -72,7 +72,7 @@ class AddressServiceImplTest {
         );
     }
 
-    private Collection<Address> getDefaultAddresses(){
+    private Collection<Address> getDefaultAddresses() {
         return Arrays.asList(
                 new Address(
                         "address1",
