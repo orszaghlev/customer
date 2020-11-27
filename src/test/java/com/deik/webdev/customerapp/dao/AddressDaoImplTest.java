@@ -28,7 +28,6 @@ class AddressDaoImplTest {
     @Mock
     private CountryRepository countryRepository;
 
-
     @Test
     void testCreateAddress() throws UnknownCountryException {
         doReturn(CityEntity.builder().name("Debrecen").build())
