@@ -1,6 +1,7 @@
 package com.deik.webdev.customerapp.service;
 
 import com.deik.webdev.customerapp.dao.AddressDao;
+import com.deik.webdev.customerapp.exception.UnknownAddressException;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.model.Address;
 import org.junit.jupiter.api.Test;
@@ -58,6 +59,14 @@ class AddressServiceImplTest {
         Collection<Address> actual = service.getAddressInCity(unknownCityName);
 
         assertThat(Collections.emptyList(), is(actual));
+    }
+
+    @Test
+    void testDeleteAddress() throws UnknownAddressException {
+        Address address = getAddress();
+        service.deleteAddress(address);
+
+        verify(dao, times(1)).deleteAddress(address);
     }
 
     private Address getAddress() {

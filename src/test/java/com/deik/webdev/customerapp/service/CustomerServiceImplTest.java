@@ -2,6 +2,7 @@ package com.deik.webdev.customerapp.service;
 
 import com.deik.webdev.customerapp.dao.CustomerDao;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
+import com.deik.webdev.customerapp.exception.UnknownCustomerException;
 import com.deik.webdev.customerapp.exception.UnknownStaffException;
 import com.deik.webdev.customerapp.model.Customer;
 import org.junit.jupiter.api.Test;
@@ -59,6 +60,14 @@ public class CustomerServiceImplTest {
         Collection<Customer> actual = service.getAllCustomer();
 
         assertThat(getDefaultCustomers(), is(actual));
+    }
+
+    @Test
+    void testDeleteCustomer() throws UnknownCustomerException {
+        Customer customer = getCustomer();
+        service.deleteCustomer(customer);
+
+        verify(dao, times(1)).deleteCustomer(customer);
     }
 
     private Customer getCustomer() {

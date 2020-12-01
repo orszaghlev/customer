@@ -2,6 +2,7 @@ package com.deik.webdev.customerapp.service;
 
 import com.deik.webdev.customerapp.dao.StaffDao;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
+import com.deik.webdev.customerapp.exception.UnknownStaffException;
 import com.deik.webdev.customerapp.model.Staff;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -49,6 +50,14 @@ public class StaffServiceImplTest {
         Collection<Staff> actual = service.getAllStaff();
 
         assertThat(getDefaultStaffs(), is(actual));
+    }
+
+    @Test
+    void testDeleteStaff() throws UnknownStaffException {
+        Staff staff = getStaff();
+        service.deleteStaff(staff);
+
+        verify(dao, times(1)).deleteStaff(staff);
     }
 
     private Staff getStaff() {

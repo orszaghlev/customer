@@ -1,6 +1,7 @@
 package com.deik.webdev.customerapp.service;
 
 import com.deik.webdev.customerapp.dao.CountryDao;
+import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.model.Country;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,6 +38,14 @@ public class CountryServiceImplTest {
         Collection<Country> actual = service.getAllCountry();
 
         assertThat(getDefaultCountries(), is(actual));
+    }
+
+    @Test
+    void testDeleteCountry() throws UnknownCountryException {
+        Country country = getCountry();
+        service.deleteCountry(country);
+
+        verify(dao, times(1)).deleteCountry(country);
     }
 
     private Country getCountry() {

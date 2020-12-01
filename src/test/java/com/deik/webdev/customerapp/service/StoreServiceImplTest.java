@@ -2,6 +2,7 @@ package com.deik.webdev.customerapp.service;
 
 import com.deik.webdev.customerapp.dao.StoreDao;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
+import com.deik.webdev.customerapp.exception.UnknownStoreException;
 import com.deik.webdev.customerapp.model.Store;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -49,6 +50,14 @@ public class StoreServiceImplTest {
         Collection<Store> actual = service.getAllStore();
 
         assertThat(getDefaultStores(), is(actual));
+    }
+
+    @Test
+    void testDeleteStore() throws UnknownStoreException {
+        Store store = getStore();
+        service.deleteStore(store);
+
+        verify(dao, times(1)).deleteStore(store);
     }
 
     private Store getStore() {

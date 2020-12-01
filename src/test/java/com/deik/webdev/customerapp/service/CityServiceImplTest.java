@@ -1,6 +1,7 @@
 package com.deik.webdev.customerapp.service;
 
 import com.deik.webdev.customerapp.dao.CityDao;
+import com.deik.webdev.customerapp.exception.UnknownCityException;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.model.City;
 import org.junit.jupiter.api.Test;
@@ -48,6 +49,14 @@ public class CityServiceImplTest {
         Collection<City> actual = service.getAllCity();
 
         assertThat(getDefaultCities(), is(actual));
+    }
+
+    @Test
+    void testDeleteCity() throws UnknownCityException {
+        City city = getCity();
+        service.deleteCity(city);
+
+        verify(dao, times(1)).deleteCity(city);
     }
 
     private City getCity() {
