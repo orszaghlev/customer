@@ -43,6 +43,7 @@ public class StaffDaoImpl implements StaffDao {
                 .store(queryStore(staff.getStore(), staff.getStoreAddress(), staff.getStoreCity(), staff.getStoreCountry()))
                 .username(staff.getUsername())
                 .password(staff.getPassword())
+                .lastUpdate(new Timestamp((new Date()).getTime()))
                 .build();
         log.info("StaffEntity: {}", staffEntity);
         try {
