@@ -7,6 +7,7 @@ import com.deik.webdev.customerapp.model.Customer;
 import com.deik.webdev.customerapp.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -60,7 +61,7 @@ public class CustomerController {
                     requestDto.getCity(),
                     requestDto.getCountry()
             ));
-        } catch (NumberFormatException | UnknownCountryException | UnknownStaffException e) {
+        } catch (DataAccessException | NumberFormatException | UnknownCountryException | UnknownStaffException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

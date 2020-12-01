@@ -6,6 +6,7 @@ import com.deik.webdev.customerapp.model.City;
 import com.deik.webdev.customerapp.service.CityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,7 +42,7 @@ public class CityController {
                     requestDto.getName(),
                     requestDto.getCountry()
             ));
-        } catch (UnknownCountryException e) {
+        } catch (DataAccessException | UnknownCountryException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

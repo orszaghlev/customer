@@ -5,6 +5,7 @@ import com.deik.webdev.customerapp.model.Country;
 import com.deik.webdev.customerapp.service.CountryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,7 +39,7 @@ public class CountryController {
             service.recordCountry(new Country(
                     requestDto.getName()
             ));
-        } catch (Exception e) {
+        } catch (DataAccessException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

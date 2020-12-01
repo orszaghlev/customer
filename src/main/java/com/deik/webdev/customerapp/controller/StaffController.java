@@ -6,6 +6,7 @@ import com.deik.webdev.customerapp.model.Staff;
 import com.deik.webdev.customerapp.service.StaffService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -61,7 +62,7 @@ public class StaffController {
                     requestDto.getUsername(),
                     requestDto.getPassword()
             ));
-        } catch (NumberFormatException | UnknownCountryException e) {
+        } catch (DataAccessException | NumberFormatException | UnknownCountryException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
