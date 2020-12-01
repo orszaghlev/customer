@@ -21,6 +21,7 @@ public class StoreEntity {
 
     @ManyToOne
     @JoinColumn(name = "manager_staff_id")
+    @ToString.Exclude
     private StaffEntity staff;
 
     @ManyToOne
