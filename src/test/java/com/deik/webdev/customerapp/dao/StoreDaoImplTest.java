@@ -47,6 +47,7 @@ public class StoreDaoImplTest {
 
     private Store getStore() {
         return new Store(
+                "1",
                 "staff",
                 "staffAddress",
                 "staffCity",

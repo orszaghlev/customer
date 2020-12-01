@@ -53,6 +53,7 @@ public class StoreServiceImplTest {
 
     private Store getStore() {
         return new Store(
+                "1",
                 "staff",
                 "staffAddress",
                 "staffCity",
@@ -66,6 +67,7 @@ public class StoreServiceImplTest {
     private Collection<Store> getDefaultStores() {
         return Arrays.asList(
                 new Store(
+                        "1",
                         "staff",
                         "staffAddress",
                         "staffCity",
@@ -75,6 +77,7 @@ public class StoreServiceImplTest {
                         "country"
                 ),
                 new Store(
+                        "2",
                         "staff1",
                         "staffAddress1",
                         "staffCity1",
@@ -84,6 +87,7 @@ public class StoreServiceImplTest {
                         "country1"
                 ),
                 new Store(
+                        "3",
                         "staff2",
                         "staffAddress2",
                         "staffCity2",

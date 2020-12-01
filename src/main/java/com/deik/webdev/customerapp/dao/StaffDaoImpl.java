@@ -95,6 +95,7 @@ public class StaffDaoImpl implements StaffDao {
                 }
             }
             storeEntity = Optional.ofNullable(StoreEntity.builder()
+                    .id(parseInt(store))
                     .address(storeAddressEntity.get())
                     .lastUpdate(new Timestamp((new Date()).getTime()))
                     .build());

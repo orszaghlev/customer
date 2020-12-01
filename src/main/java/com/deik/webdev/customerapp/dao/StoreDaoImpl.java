@@ -18,6 +18,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import static java.lang.Integer.parseInt;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -34,6 +36,7 @@ public class StoreDaoImpl implements StoreDao {
         StoreEntity storeEntity;
 
         storeEntity = StoreEntity.builder()
+                .id(parseInt(store.getId()))
                 .staff(queryStaff(store.getStaff(), store.getStaffAddress(), store.getStaffCity(), store.getStaffCountry()))
                 .address(queryAddress(store.getAddress(), store.getCity(), store.getCountry()))
                 .lastUpdate(new Timestamp((new Date()).getTime()))
@@ -108,6 +111,7 @@ public class StoreDaoImpl implements StoreDao {
     public Collection<Store> readAll() {
         return StreamSupport.stream(storeRepository.findAll().spliterator(),false)
                 .map(entity -> new Store(
+                        String.valueOf(entity.getId()),
                         entity.getStaff().getFirstName(),
                         entity.getStaff().getAddress().getAddress(),
                         entity.getStaff().getAddress().getCity().getName(),
@@ -123,7 +127,8 @@ public class StoreDaoImpl implements StoreDao {
     public void deleteStore(Store store) throws UnknownStoreException {
         Optional<StoreEntity> storeEntity = StreamSupport.stream(storeRepository.findAll().spliterator(),false).filter(
                 entity ->{
-                    return store.getStaff().equals(entity.getStaff().getAddress().getCity().getCountry())  &&
+                    return store.getId().equals(String.valueOf(entity.getId())) &&
+                            store.getStaff().equals(entity.getStaff().getAddress().getCity().getCountry())  &&
                             store.getAddress().equals(entity.getAddress().getCity().getCountry());
                 }
         ).findAny();

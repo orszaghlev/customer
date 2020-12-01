@@ -29,6 +29,7 @@ public class StoreController {
         return service.getAllStore()
                 .stream()
                 .map(model -> StoreDto.builder()
+                        .id(model.getId())
                         .staff(model.getStaff())
                         .staffAddress(model.getStaffAddress())
                         .staffCity(model.getStaffCity())
@@ -44,6 +45,7 @@ public class StoreController {
     public void recordStore(@RequestBody StoreDto requestDto) {
         try {
             service.recordStore(new Store(
+                    requestDto.getId(),
                     requestDto.getStaff(),
                     requestDto.getStaffAddress(),
                     requestDto.getStaffCity(),

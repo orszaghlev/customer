@@ -73,6 +73,7 @@ public class CustomerDaoImpl implements CustomerDao {
                 }
             }
             storeEntity = Optional.ofNullable(StoreEntity.builder()
+                    .id(parseInt(store))
                     .staff(staffEntity.get())
                     .address(staffAddressEntity.get())
                     .lastUpdate(new Timestamp((new Date()).getTime()))
