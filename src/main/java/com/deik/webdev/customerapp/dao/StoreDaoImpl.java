@@ -2,6 +2,7 @@ package com.deik.webdev.customerapp.dao;
 
 import com.deik.webdev.customerapp.entity.*;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
+import com.deik.webdev.customerapp.exception.UnknownStaffException;
 import com.deik.webdev.customerapp.exception.UnknownStoreException;
 import com.deik.webdev.customerapp.model.Store;
 import com.deik.webdev.customerapp.repository.*;
@@ -18,8 +19,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static java.lang.Integer.parseInt;
-
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -32,11 +31,11 @@ public class StoreDaoImpl implements StoreDao {
     private final CountryRepository countryRepository;
 
     @Override
-    public void createStore(Store store) throws UnknownCountryException {
+    public void createStore(Store store) throws UnknownStaffException, UnknownCountryException {
         StoreEntity storeEntity;
 
         storeEntity = StoreEntity.builder()
-                .id(parseInt(store.getId()))
+                .id(Integer.parseInt(store.getId()))
                 .staff(queryStaff(store.getStaff(), store.getStaffAddress(), store.getStaffCity(), store.getStaffCountry()))
                 .address(queryAddress(store.getAddress(), store.getCity(), store.getCountry()))
                 .lastUpdate(new Timestamp((new Date()).getTime()))
@@ -50,9 +49,12 @@ public class StoreDaoImpl implements StoreDao {
         }
     }
 
-    protected StaffEntity queryStaff(String staff, String staffAddress, String staffCity, String staffCountry) throws UnknownCountryException {
+    protected StaffEntity queryStaff(String staff, String staffAddress, String staffCity, String staffCountry) throws UnknownStaffException, UnknownCountryException {
         Optional<StaffEntity> staffEntity = staffRepository.findByFirstName(staff);
         if (!staffEntity.isPresent()) {
+            throw new UnknownStaffException(staff);
+        }
+        else {
             Optional<AddressEntity> staffAddressEntity = addressRepository.findByAddress(staffAddress);
             if (!staffAddressEntity.isPresent()) {
                 Optional<CityEntity> staffCityEntity = cityRepository.findByName(staffCity);
@@ -133,7 +135,7 @@ public class StoreDaoImpl implements StoreDao {
                 }
         ).findAny();
         if (!storeEntity.isPresent()) {
-            throw new UnknownStoreException(String.format("Store Not Found %s", store), store);
+            throw new UnknownStoreException(String.format("Store Not Found %s", store));
         }
         storeRepository.delete(storeEntity.get());
     }

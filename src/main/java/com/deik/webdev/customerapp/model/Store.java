@@ -12,7 +12,10 @@ import lombok.ToString;
 public class Store {
 
     private String id;
+
+    @ToString.Exclude
     private String staff;
+
     private String staffAddress;
     private String staffCity;
     private String staffCountry;

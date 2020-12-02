@@ -3,6 +3,7 @@ package com.deik.webdev.customerapp.dao;
 import com.deik.webdev.customerapp.entity.AddressEntity;
 import com.deik.webdev.customerapp.entity.StaffEntity;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
+import com.deik.webdev.customerapp.exception.UnknownStaffException;
 import com.deik.webdev.customerapp.model.Store;
 import com.deik.webdev.customerapp.repository.*;
 import org.junit.jupiter.api.Test;
@@ -35,7 +36,7 @@ public class StoreDaoImplTest {
     private CountryRepository countryRepository;
 
     @Test
-    void testCreateStore() throws UnknownCountryException {
+    void testCreateStore() throws UnknownStaffException, UnknownCountryException {
         doReturn(AddressEntity.builder().address("47 MySakila Drive").build())
                 .when(dao).queryAddress(any(),any(),any());
         doReturn(StaffEntity.builder().firstName("Mike").build())

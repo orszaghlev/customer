@@ -19,8 +19,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static java.lang.Integer.parseInt;
-
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -56,7 +54,7 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     protected StoreEntity queryStore(String store, String staff, String staffAddress, String staffCity, String staffCountry) throws UnknownStaffException, UnknownCountryException {
-        Optional<StoreEntity> storeEntity = storeRepository.findById(parseInt(store));
+        Optional<StoreEntity> storeEntity = storeRepository.findById(Integer.parseInt(store));
         if (!storeEntity.isPresent()) {
             Optional<StaffEntity> staffEntity = staffRepository.findByFirstName(staff);
             if (!staffEntity.isPresent()) {
@@ -73,7 +71,7 @@ public class CustomerDaoImpl implements CustomerDao {
                 }
             }
             storeEntity = Optional.ofNullable(StoreEntity.builder()
-                    .id(parseInt(store))
+                    .id(Integer.parseInt(store))
                     .staff(staffEntity.get())
                     .address(staffAddressEntity.get())
                     .lastUpdate(new Timestamp((new Date()).getTime()))
@@ -117,8 +115,8 @@ public class CustomerDaoImpl implements CustomerDao {
     public Collection<Customer> readAll() {
         return StreamSupport.stream(customerRepository.findAll().spliterator(),false)
                 .map(entity -> new Customer(
-                        entity.getStore().getAddress().getAddress(),
-                        entity.getStore().getStaff().getFirstName(),
+                        String.valueOf(entity.getStore().getId()),
+                        entity.getStore().getStaff().getUsername(),
                         entity.getStore().getStaff().getAddress().getAddress(),
                         entity.getStore().getStaff().getAddress().getCity().getName(),
                         entity.getStore().getStaff().getAddress().getCity().getCountry().getName(),

@@ -2,6 +2,7 @@ package com.deik.webdev.customerapp.controller;
 
 import com.deik.webdev.customerapp.dto.StaffDto;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
+import com.deik.webdev.customerapp.exception.UnknownStoreException;
 import com.deik.webdev.customerapp.model.Staff;
 import com.deik.webdev.customerapp.service.StaffService;
 import lombok.RequiredArgsConstructor;
@@ -62,7 +63,7 @@ public class StaffController {
                     requestDto.getUsername(),
                     requestDto.getPassword()
             ));
-        } catch (DataAccessException | NumberFormatException | UnknownCountryException e) {
+        } catch (DataAccessException | NumberFormatException | UnknownStoreException | UnknownCountryException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

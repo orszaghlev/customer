@@ -2,6 +2,7 @@ package com.deik.webdev.customerapp.service;
 
 import com.deik.webdev.customerapp.dao.StoreDao;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
+import com.deik.webdev.customerapp.exception.UnknownStaffException;
 import com.deik.webdev.customerapp.exception.UnknownStoreException;
 import com.deik.webdev.customerapp.model.Store;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public void recordStore(Store store) throws UnknownCountryException {
+    public void recordStore(Store store) throws UnknownStaffException, UnknownCountryException {
         storeDao.createStore(store);
     }
 

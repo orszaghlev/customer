@@ -3,6 +3,7 @@ package com.deik.webdev.customerapp.service;
 import com.deik.webdev.customerapp.dao.StaffDao;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.exception.UnknownStaffException;
+import com.deik.webdev.customerapp.exception.UnknownStoreException;
 import com.deik.webdev.customerapp.model.Staff;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,7 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public void recordStaff(Staff staff) throws UnknownCountryException {
+    public void recordStaff(Staff staff) throws UnknownStoreException, UnknownCountryException {
         staffDao.createStaff(staff);
     }
 

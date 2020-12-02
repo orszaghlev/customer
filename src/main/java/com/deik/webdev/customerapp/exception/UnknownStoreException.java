@@ -11,9 +11,8 @@ public class UnknownStoreException extends Exception {
     public UnknownStoreException() {
     }
 
-    public UnknownStoreException(String message, Store store) {
+    public UnknownStoreException(String message) {
         super(message);
-        this.store = store;
     }
 
 }

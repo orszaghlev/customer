@@ -3,6 +3,7 @@ package com.deik.webdev.customerapp.service;
 import com.deik.webdev.customerapp.dao.StaffDao;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.exception.UnknownStaffException;
+import com.deik.webdev.customerapp.exception.UnknownStoreException;
 import com.deik.webdev.customerapp.model.Staff;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,7 +29,7 @@ public class StaffServiceImplTest {
     private StaffDao dao;
 
     @Test
-    public void testRecordStaff() throws UnknownCountryException {
+    public void testRecordStaff() throws UnknownStoreException, UnknownCountryException {
         Staff staff = getStaff();
         service.recordStaff(staff);
 
@@ -36,7 +37,7 @@ public class StaffServiceImplTest {
     }
 
     @Test
-    void testRecordStaffWithUnknownCountry() throws UnknownCountryException {
+    void testRecordStaffWithUnknownCountry() throws UnknownStoreException, UnknownCountryException {
         doThrow(UnknownCountryException.class).when(dao).createStaff(any());
 
         assertThrows(UnknownCountryException.class, ()->{

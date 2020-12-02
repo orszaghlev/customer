@@ -2,6 +2,7 @@ package com.deik.webdev.customerapp.controller;
 
 import com.deik.webdev.customerapp.dto.StoreDto;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
+import com.deik.webdev.customerapp.exception.UnknownStaffException;
 import com.deik.webdev.customerapp.model.Store;
 import com.deik.webdev.customerapp.service.StoreService;
 import lombok.RequiredArgsConstructor;
@@ -54,7 +55,7 @@ public class StoreController {
                     requestDto.getCity(),
                     requestDto.getCountry()
             ));
-        } catch (DataAccessException | UnknownCountryException e) {
+        } catch (DataAccessException | UnknownStaffException | UnknownCountryException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

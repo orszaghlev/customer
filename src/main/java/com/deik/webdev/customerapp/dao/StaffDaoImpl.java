@@ -3,6 +3,7 @@ package com.deik.webdev.customerapp.dao;
 import com.deik.webdev.customerapp.entity.*;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.exception.UnknownStaffException;
+import com.deik.webdev.customerapp.exception.UnknownStoreException;
 import com.deik.webdev.customerapp.model.Staff;
 import com.deik.webdev.customerapp.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +19,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static java.lang.Integer.parseInt;
-
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -32,7 +31,7 @@ public class StaffDaoImpl implements StaffDao {
     private final CountryRepository countryRepository;
 
     @Override
-    public void createStaff(Staff staff) throws UnknownCountryException {
+    public void createStaff(Staff staff) throws UnknownStoreException, UnknownCountryException {
         StaffEntity staffEntity;
 
         staffEntity = StaffEntity.builder()
@@ -81,9 +80,12 @@ public class StaffDaoImpl implements StaffDao {
         return addressEntity.get();
     }
 
-    protected StoreEntity queryStore(String store, String storeAddress, String storeCity, String storeCountry) throws UnknownCountryException {
-        Optional<StoreEntity> storeEntity = storeRepository.findById(parseInt(store));
+    protected StoreEntity queryStore(String store, String storeAddress, String storeCity, String storeCountry) throws UnknownStoreException, UnknownCountryException {
+        Optional<StoreEntity> storeEntity = storeRepository.findById(Integer.parseInt(store));
         if (!storeEntity.isPresent()) {
+            throw new UnknownStoreException(store);
+        }
+        else {
             Optional<AddressEntity> storeAddressEntity = addressRepository.findByAddress(storeAddress);
             if (!storeAddressEntity.isPresent()) {
                 Optional<CityEntity> storeCityEntity = cityRepository.findByName(storeCity);
@@ -95,7 +97,7 @@ public class StaffDaoImpl implements StaffDao {
                 }
             }
             storeEntity = Optional.ofNullable(StoreEntity.builder()
-                    .id(parseInt(store))
+                    .id(Integer.parseInt(store))
                     .address(storeAddressEntity.get())
                     .lastUpdate(new Timestamp((new Date()).getTime()))
                     .build());
@@ -116,8 +118,8 @@ public class StaffDaoImpl implements StaffDao {
                         entity.getAddress().getCity().getName(),
                         entity.getAddress().getCity().getCountry().getName(),
                         entity.getEmail(),
-                        entity.getStore().getAddress().getAddress(),
-                        entity.getStore().getStaff().getFirstName(),
+                        String.valueOf(entity.getStore().getId()),
+                        entity.getStore().getStaff().getUsername(),
                         entity.getStore().getAddress().getCity().getName(),
                         entity.getStore().getAddress().getCity().getCountry().getName(),
                         entity.getUsername(),
