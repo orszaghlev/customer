@@ -1,6 +1,5 @@
 package com.deik.webdev.customerapp.dao;
 
-import com.deik.webdev.customerapp.exception.UnknownAddressException;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.model.Country;
 import com.deik.webdev.customerapp.repository.CountryRepository;

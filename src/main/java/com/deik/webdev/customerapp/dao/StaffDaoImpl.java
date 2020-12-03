@@ -147,4 +147,9 @@ public class StaffDaoImpl implements StaffDao {
         staffRepository.delete(staffEntity.get());
     }
 
+    @Override
+    public void updateStaff(Staff staff, Staff newStaff) throws UnknownStaffException {
+
+    }
+
 }

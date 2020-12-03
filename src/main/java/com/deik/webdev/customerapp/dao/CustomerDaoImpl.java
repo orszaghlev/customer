@@ -147,5 +147,10 @@ public class CustomerDaoImpl implements CustomerDao {
         customerRepository.delete(customerEntity.get());
     }
 
+    @Override
+    public void updateCustomer(Customer customer, Customer newCustomer) throws UnknownCustomerException {
+
+    }
+
 }
 

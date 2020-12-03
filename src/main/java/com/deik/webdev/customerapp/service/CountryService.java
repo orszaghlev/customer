@@ -11,5 +11,6 @@ public interface CountryService {
 
     void recordCountry(Country country);
     void deleteCountry(Country country) throws UnknownCountryException;
+    void updateCountry(Country country, Country newCountry) throws UnknownCountryException;
 
 }

@@ -32,4 +32,9 @@ public class CityServiceImpl implements CityService {
         cityDao.deleteCity(city);
     }
 
+    @Override
+    public void updateCity(City city, City newCity) throws UnknownCityException {
+        cityDao.updateCity(city, newCity);
+    }
+
 }

@@ -61,4 +61,9 @@ public class CountryDaoImpl implements CountryDao {
         countryRepository.delete(countryEntity.get());
     }
 
+    @Override
+    public void updateCountry(Country country, Country newCountry) throws UnknownCountryException {
+
+    }
+
 }

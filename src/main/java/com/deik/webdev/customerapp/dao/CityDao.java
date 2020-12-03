@@ -13,4 +13,6 @@ public interface CityDao {
 
     void deleteCity(City city) throws UnknownCityException;
 
+    void updateCity(City city, City newCity) throws UnknownCityException;
+
 }

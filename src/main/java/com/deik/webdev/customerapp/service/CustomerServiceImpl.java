@@ -33,4 +33,9 @@ public class CustomerServiceImpl implements CustomerService {
         customerDao.deleteCustomer(customer);
     }
 
+    @Override
+    public void updateCustomer(Customer customer, Customer newCustomer) throws UnknownCustomerException {
+        customerDao.updateCustomer(customer, newCustomer);
+    }
+
 }

@@ -13,4 +13,6 @@ public interface AddressDao {
 
     void deleteAddress(Address address) throws UnknownAddressException;
 
+    void updateAddress(Address address, Address newAddress) throws UnknownAddressException;
+
 }

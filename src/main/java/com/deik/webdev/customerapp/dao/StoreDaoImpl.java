@@ -140,4 +140,9 @@ public class StoreDaoImpl implements StoreDao {
         storeRepository.delete(storeEntity.get());
     }
 
+    @Override
+    public void updateStore(Store store, Store newStore) throws UnknownStoreException {
+
+    }
+
 }

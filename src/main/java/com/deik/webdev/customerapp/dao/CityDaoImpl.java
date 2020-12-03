@@ -82,4 +82,9 @@ public class CityDaoImpl implements CityDao {
         cityRepository.delete(cityEntity.get());
     }
 
+    @Override
+    public void updateCity(City city, City newCity) throws UnknownCityException {
+
+    }
+
 }

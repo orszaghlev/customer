@@ -106,4 +106,9 @@ public class AddressDaoImpl implements AddressDao {
         addressRepository.delete(addressEntity.get());
     }
 
+    @Override
+    public void updateAddress(Address address, Address newAddress) throws UnknownAddressException {
+
+    }
+
 }

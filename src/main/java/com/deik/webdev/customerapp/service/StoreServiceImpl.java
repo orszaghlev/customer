@@ -33,4 +33,9 @@ public class StoreServiceImpl implements StoreService {
         storeDao.deleteStore(store);
     }
 
+    @Override
+    public void updateStore(Store store, Store newStore) throws UnknownStoreException {
+        storeDao.updateStore(store, newStore);
+    }
+
 }

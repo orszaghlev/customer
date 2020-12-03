@@ -12,5 +12,6 @@ public interface CityService {
 
     void recordCity(City city) throws UnknownCountryException;
     void deleteCity(City city) throws UnknownCityException;
+    void updateCity(City city, City newCity) throws UnknownCityException;
 
 }

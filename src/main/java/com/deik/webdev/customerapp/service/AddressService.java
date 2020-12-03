@@ -13,5 +13,6 @@ public interface AddressService {
 
     void recordAddress(Address address) throws UnknownCountryException;
     void deleteAddress(Address address) throws UnknownAddressException;
+    void updateAddress(Address address, Address newAddress) throws UnknownAddressException;
 
 }

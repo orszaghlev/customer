@@ -33,4 +33,9 @@ public class StaffServiceImpl implements StaffService {
         staffDao.deleteStaff(staff);
     }
 
+    @Override
+    public void updateStaff(Staff staff, Staff newStaff) throws UnknownStaffException {
+        staffDao.updateStaff(staff, newStaff);
+    }
+
 }

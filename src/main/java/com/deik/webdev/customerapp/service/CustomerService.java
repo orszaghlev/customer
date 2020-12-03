@@ -13,5 +13,6 @@ public interface CustomerService {
 
     void recordCustomer(Customer customer) throws UnknownStaffException, UnknownCountryException;
     void deleteCustomer(Customer customer) throws UnknownCustomerException;
+    void updateCustomer(Customer customer, Customer newCustomer) throws UnknownCustomerException;
 
 }

@@ -12,4 +12,6 @@ public interface CountryDao {
 
     void deleteCountry(Country country) throws UnknownCountryException;
 
+    void updateCountry(Country country, Country newCountry) throws UnknownCountryException;
+
 }

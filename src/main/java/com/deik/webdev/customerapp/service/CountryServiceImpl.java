@@ -31,4 +31,9 @@ public class CountryServiceImpl implements CountryService {
         countryDao.deleteCountry(country);
     }
 
+    @Override
+    public void updateCountry(Country country, Country newCountry) throws UnknownCountryException {
+        countryDao.updateCountry(country, newCountry);
+    }
+
 }
