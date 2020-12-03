@@ -3,16 +3,14 @@ package com.deik.webdev.customerapp.controller;
 import com.deik.webdev.customerapp.dto.StoreDto;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.exception.UnknownStaffException;
+import com.deik.webdev.customerapp.exception.UnknownStoreException;
 import com.deik.webdev.customerapp.model.Store;
 import com.deik.webdev.customerapp.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collection;
@@ -56,6 +54,24 @@ public class StoreController {
                     requestDto.getCountry()
             ));
         } catch (DataAccessException | UnknownStaffException | UnknownCountryException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/store")
+    public void deleteStore(@RequestBody StoreDto requestDto){
+        try {
+            service.deleteStore(new Store(
+                    requestDto.getId(),
+                    requestDto.getStaff(),
+                    requestDto.getStaffAddress(),
+                    requestDto.getStaffCity(),
+                    requestDto.getStaffCountry(),
+                    requestDto.getAddress(),
+                    requestDto.getCity(),
+                    requestDto.getCountry()
+            ));
+        } catch (DataAccessException | UnknownStoreException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

@@ -119,7 +119,7 @@ public class StaffDaoImpl implements StaffDao {
                         entity.getAddress().getCity().getCountry().getName(),
                         entity.getEmail(),
                         String.valueOf(entity.getStore().getId()),
-                        entity.getStore().getStaff().getUsername(),
+                        entity.getStore().getAddress().getAddress(),
                         entity.getStore().getAddress().getCity().getName(),
                         entity.getStore().getAddress().getCity().getCountry().getName(),
                         entity.getUsername(),

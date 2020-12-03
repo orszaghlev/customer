@@ -2,6 +2,7 @@ package com.deik.webdev.customerapp.controller;
 
 import com.deik.webdev.customerapp.dto.CustomerDto;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
+import com.deik.webdev.customerapp.exception.UnknownCustomerException;
 import com.deik.webdev.customerapp.exception.UnknownStaffException;
 import com.deik.webdev.customerapp.model.Customer;
 import com.deik.webdev.customerapp.service.CustomerService;
@@ -9,10 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collection;
@@ -62,6 +60,27 @@ public class CustomerController {
                     requestDto.getCountry()
             ));
         } catch (DataAccessException | NumberFormatException | UnknownCountryException | UnknownStaffException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/customer")
+    public void deleteCustomer(@RequestBody CustomerDto requestDto){
+        try {
+            service.deleteCustomer(new Customer(
+                    requestDto.getStore(),
+                    requestDto.getStaff(),
+                    requestDto.getStaffAddress(),
+                    requestDto.getStaffCity(),
+                    requestDto.getStaffCountry(),
+                    requestDto.getFirstName(),
+                    requestDto.getLastName(),
+                    requestDto.getEmail(),
+                    requestDto.getAddress(),
+                    requestDto.getCity(),
+                    requestDto.getCountry()
+            ));
+        } catch (DataAccessException | UnknownCustomerException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
