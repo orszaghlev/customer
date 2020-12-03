@@ -8,12 +8,17 @@ public class UnknownCityException extends Exception {
 
     private City city;
 
-    public UnknownCityException() {
+    public UnknownCityException(City city) {
+        this.city = city;
     }
 
     public UnknownCityException(String message, City city) {
         super(message);
         this.city = city;
+    }
+
+    public UnknownCityException(String city) {
+        super(city);
     }
 
 }

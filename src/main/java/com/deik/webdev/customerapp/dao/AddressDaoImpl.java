@@ -56,14 +56,14 @@ public class AddressDaoImpl implements AddressDao {
     }
 
     protected CityEntity queryCity(String city, String country) throws UnknownCountryException {
-        Optional<CityEntity> cityEntity = cityRepository.findByName(city);
+        Optional<CityEntity> cityEntity = cityRepository.findByCity(city);
         if (!cityEntity.isPresent()) {
-            Optional<CountryEntity> countryEntity = countryRepository.findByName(country);
+            Optional<CountryEntity> countryEntity = countryRepository.findByCountry(country);
             if (!countryEntity.isPresent()) {
                 throw new UnknownCountryException(country);
             }
             cityEntity = Optional.ofNullable(CityEntity.builder()
-                    .name(city)
+                    .city(city)
                     .country(countryEntity.get())
                     .lastUpdate(new Timestamp((new Date()).getTime()))
                     .build());
@@ -81,8 +81,8 @@ public class AddressDaoImpl implements AddressDao {
                         entity.getAddress(),
                         entity.getAddress2(),
                         entity.getDistrict(),
-                        entity.getCity().getName(),
-                        entity.getCity().getCountry().getName(),
+                        entity.getCity().getCity(),
+                        entity.getCity().getCountry().getCountry(),
                         entity.getPostalCode(),
                         entity.getPhone()
                 ))
@@ -96,8 +96,8 @@ public class AddressDaoImpl implements AddressDao {
                     return address.getAddress().equals(entity.getAddress())  &&
                             address.getAddress2().equals(entity.getAddress2()) &&
                             address.getDistrict().equals(entity.getDistrict()) &&
-                            address.getCity().equals(entity.getCity().getName()) &&
-                            address.getCountry().equals(entity.getCity().getCountry().getName());
+                            address.getCity().equals(entity.getCity().getCity()) &&
+                            address.getCountry().equals(entity.getCity().getCountry().getCountry());
                 }
         ).findAny();
         if (!addressEntity.isPresent()) {

@@ -8,11 +8,17 @@ public class UnknownStoreException extends Exception {
 
     private Store store;
 
-    public UnknownStoreException() {
+    public UnknownStoreException(Store store) {
+        this.store = store;
     }
 
-    public UnknownStoreException(String message) {
+    public UnknownStoreException(String message, Store store) {
         super(message);
+        this.store = store;
+    }
+
+    public UnknownStoreException(String store) {
+        super(store);
     }
 
 }

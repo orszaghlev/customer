@@ -20,7 +20,7 @@ public class CountryEntity {
     private int id;
 
     @Column(name = "country")
-    private String name;
+    private String country;
 
     @Column(name = "last_update")
     private Timestamp lastUpdate;

@@ -30,7 +30,7 @@ public class CityDaoImpl implements CityDao {
         CityEntity cityEntity;
 
         cityEntity = CityEntity.builder()
-                .name(city.getName())
+                .city(city.getCity())
                 .country(queryCountry(city.getCountry()))
                 .lastUpdate(new Timestamp((new Date()).getTime()))
                 .build();
@@ -45,10 +45,10 @@ public class CityDaoImpl implements CityDao {
 
     protected CountryEntity queryCountry(String country) {
 
-        Optional<CountryEntity> countryEntity = countryRepository.findByName(country);
+        Optional<CountryEntity> countryEntity = countryRepository.findByCountry(country);
         if (!countryEntity.isPresent()) {
             countryEntity = Optional.ofNullable(CountryEntity.builder()
-                    .name(country)
+                    .country(country)
                     .lastUpdate(new Timestamp((new Date()).getTime()))
                     .build());
             countryRepository.save(countryEntity.get());
@@ -62,8 +62,8 @@ public class CityDaoImpl implements CityDao {
     public Collection<City> readAll() {
         return StreamSupport.stream(cityRepository.findAll().spliterator(),false)
                 .map(entity -> new City(
-                        entity.getName(),
-                        entity.getCountry().getName()
+                        entity.getCity(),
+                        entity.getCountry().getCountry()
                 ))
                 .collect(Collectors.toList());
     }
@@ -72,8 +72,8 @@ public class CityDaoImpl implements CityDao {
     public void deleteCity(City city) throws UnknownCityException {
         Optional<CityEntity> cityEntity = StreamSupport.stream(cityRepository.findAll().spliterator(),false).filter(
                 entity ->{
-                    return city.getName().equals(entity.getName()) &&
-                            city.getCountry().equals(entity.getCountry().getName());
+                    return city.getCity().equals(entity.getCity()) &&
+                            city.getCountry().equals(entity.getCountry().getCountry());
                 }
         ).findAny();
         if (!cityEntity.isPresent()) {

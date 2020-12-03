@@ -26,7 +26,7 @@ public class CountryController {
         return service.getAllCountry()
                 .stream()
                 .map(model -> CountryDto.builder()
-                        .name(model.getName())
+                        .country(model.getCountry())
                         .build())
                 .collect(Collectors.toList());
     }
@@ -35,7 +35,7 @@ public class CountryController {
     public void recordCountry(@RequestBody CountryDto requestDto) {
         try {
             service.recordCountry(new Country(
-                    requestDto.getName()
+                    requestDto.getCountry()
             ));
         } catch (DataAccessException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
@@ -46,7 +46,7 @@ public class CountryController {
     public void deleteCountry(@RequestBody CountryDto requestDto){
         try {
             service.deleteCountry(new Country(
-                    requestDto.getName()
+                    requestDto.getCountry()
             ));
         } catch (DataAccessException | UnknownCountryException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());

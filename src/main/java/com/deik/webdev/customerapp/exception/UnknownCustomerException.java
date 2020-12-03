@@ -8,12 +8,17 @@ public class UnknownCustomerException extends Exception {
 
     private Customer customer;
 
-    public UnknownCustomerException() {
+    public UnknownCustomerException(Customer customer) {
+        this.customer = customer;
     }
 
     public UnknownCustomerException(String message, Customer customer) {
         super(message);
         this.customer = customer;
+    }
+
+    public UnknownCustomerException(String customer) {
+        super(customer);
     }
 
 }

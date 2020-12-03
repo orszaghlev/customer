@@ -57,9 +57,9 @@ public class StoreDaoImpl implements StoreDao {
         else {
             Optional<AddressEntity> staffAddressEntity = addressRepository.findByAddress(staffAddress);
             if (!staffAddressEntity.isPresent()) {
-                Optional<CityEntity> staffCityEntity = cityRepository.findByName(staffCity);
+                Optional<CityEntity> staffCityEntity = cityRepository.findByCity(staffCity);
                 if (!staffCityEntity.isPresent()) {
-                    Optional<CountryEntity> staffCountryEntity = countryRepository.findByName(staffCountry);
+                    Optional<CountryEntity> staffCountryEntity = countryRepository.findByCountry(staffCountry);
                     if (!staffCountryEntity.isPresent()) {
                         throw new UnknownCountryException(staffCountry);
                     }
@@ -85,9 +85,9 @@ public class StoreDaoImpl implements StoreDao {
         Optional<AddressEntity> addressEntity = addressRepository.findByAddress(address);
         GeometryFactory geometryFactory = new GeometryFactory();
         if (!addressEntity.isPresent()) {
-            Optional<CityEntity> cityEntity = cityRepository.findByName(city);
+            Optional<CityEntity> cityEntity = cityRepository.findByCity(city);
             if (!cityEntity.isPresent()) {
-                Optional<CountryEntity> countryEntity = countryRepository.findByName(country);
+                Optional<CountryEntity> countryEntity = countryRepository.findByCountry(country);
                 if (!countryEntity.isPresent()) {
                     throw new UnknownCountryException(country);
                 }
@@ -116,11 +116,11 @@ public class StoreDaoImpl implements StoreDao {
                         String.valueOf(entity.getId()),
                         entity.getStaff().getFirstName(),
                         entity.getStaff().getAddress().getAddress(),
-                        entity.getStaff().getAddress().getCity().getName(),
-                        entity.getStaff().getAddress().getCity().getCountry().getName(),
+                        entity.getStaff().getAddress().getCity().getCity(),
+                        entity.getStaff().getAddress().getCity().getCountry().getCountry(),
                         entity.getAddress().getAddress(),
-                        entity.getAddress().getCity().getName(),
-                        entity.getAddress().getCity().getCountry().getName()
+                        entity.getAddress().getCity().getCity(),
+                        entity.getAddress().getCity().getCountry().getCountry()
                 ))
                 .collect(Collectors.toList());
     }

@@ -30,7 +30,7 @@ public class CityDaoImplTest {
 
     @Test
     void testCreateCity() throws UnknownCountryException {
-        doReturn(CountryEntity.builder().name("Hungary").build())
+        doReturn(CountryEntity.builder().country("Hungary").build())
                 .when(dao).queryCountry(any());
         dao.createCity(getCity());
 
@@ -48,7 +48,7 @@ public class CityDaoImplTest {
 
     private City getCity() {
         return new City(
-                "name",
+                "city",
                 "country"
         );
     }

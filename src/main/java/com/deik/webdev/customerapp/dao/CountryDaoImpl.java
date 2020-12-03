@@ -27,7 +27,7 @@ public class CountryDaoImpl implements CountryDao {
         CountryEntity countryEntity;
 
         countryEntity = CountryEntity.builder()
-                .name(country.getName())
+                .country(country.getCountry())
                 .lastUpdate(new Timestamp((new Date()).getTime()))
                 .build();
         log.info("CountryEntity: {}", countryEntity);
@@ -43,7 +43,7 @@ public class CountryDaoImpl implements CountryDao {
     public Collection<Country> readAll() {
         return StreamSupport.stream(countryRepository.findAll().spliterator(),false)
                 .map(entity -> new Country(
-                        entity.getName()
+                        entity.getCountry()
                 ))
                 .collect(Collectors.toList());
     }
@@ -52,7 +52,7 @@ public class CountryDaoImpl implements CountryDao {
     public void deleteCountry(Country country) throws UnknownCountryException {
         Optional<CountryEntity> countryEntity = StreamSupport.stream(countryRepository.findAll().spliterator(),false).filter(
                 entity ->{
-                    return country.getName().equals(entity.getName());
+                    return country.getCountry().equals(entity.getCountry());
                 }
         ).findAny();
         if (!countryEntity.isPresent()) {

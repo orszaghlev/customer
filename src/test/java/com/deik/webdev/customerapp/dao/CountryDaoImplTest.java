@@ -41,7 +41,7 @@ public class CountryDaoImplTest {
 
     private Country getCountry() {
         return new Country(
-                "name"
+                "country"
         );
     }
 

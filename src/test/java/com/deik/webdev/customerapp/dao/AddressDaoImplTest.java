@@ -32,7 +32,7 @@ class AddressDaoImplTest {
 
     @Test
     void testCreateAddress() throws UnknownCountryException {
-        doReturn(CityEntity.builder().name("Debrecen").build())
+        doReturn(CityEntity.builder().city("Debrecen").build())
                 .when(dao).queryCity(any(),any());
         dao.createAddress(getAddress());
 
