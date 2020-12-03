@@ -3,6 +3,7 @@ package com.deik.webdev.customerapp.dao;
 import com.deik.webdev.customerapp.entity.AddressEntity;
 import com.deik.webdev.customerapp.entity.StoreEntity;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
+import com.deik.webdev.customerapp.exception.UnknownStaffException;
 import com.deik.webdev.customerapp.exception.UnknownStoreException;
 import com.deik.webdev.customerapp.model.Staff;
 import com.deik.webdev.customerapp.repository.*;
@@ -14,6 +15,7 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static java.lang.Integer.parseInt;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -45,6 +47,15 @@ public class StaffDaoImplTest {
         dao.createStaff(getStaff());
 
         verify(staffRepository, times(1)).save(any());
+    }
+
+    @Test
+    public void deleteStaff() throws UnknownStaffException {
+        doThrow(UnknownStaffException.class).when(dao).deleteStaff(any());
+
+        assertThrows(UnknownStaffException.class, ()->{
+            dao.deleteStaff(getStaff());
+        });
     }
 
     private Staff getStaff() {

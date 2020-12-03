@@ -1,6 +1,7 @@
 package com.deik.webdev.customerapp.dao;
 
 import com.deik.webdev.customerapp.entity.CityEntity;
+import com.deik.webdev.customerapp.exception.UnknownAddressException;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.model.Address;
 import com.deik.webdev.customerapp.repository.AddressRepository;
@@ -13,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -35,6 +37,15 @@ class AddressDaoImplTest {
         dao.createAddress(getAddress());
 
         verify(addressRepository, times(1)).save(any());
+    }
+
+    @Test
+    public void deleteAddress() throws UnknownAddressException {
+        doThrow(UnknownAddressException.class).when(dao).deleteAddress(any());
+
+        assertThrows(UnknownAddressException.class, ()->{
+            dao.deleteAddress(getAddress());
+        });
     }
 
     private Address getAddress() {
