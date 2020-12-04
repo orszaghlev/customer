@@ -56,7 +56,7 @@ public class CustomerDaoImpl implements CustomerDao {
     protected StoreEntity queryStore(String store, String staff, String staffAddress, String staffCity, String staffCountry) throws UnknownStaffException, UnknownCountryException {
         Optional<StoreEntity> storeEntity = storeRepository.findById(Integer.parseInt(store));
         if (!storeEntity.isPresent()) {
-            Optional<StaffEntity> staffEntity = staffRepository.findByFirstName(staff);
+            Optional<StaffEntity> staffEntity = staffRepository.findByUsername(staff);
             if (!staffEntity.isPresent()) {
                 throw new UnknownStaffException(staff);
             }
@@ -149,7 +149,22 @@ public class CustomerDaoImpl implements CustomerDao {
 
     @Override
     public void updateCustomer(Customer customer, Customer newCustomer) throws UnknownCustomerException {
-
+        Optional<CustomerEntity> customerEntity = customerRepository.findByFirstNameAndLastName(customer.getFirstName(), customer.getLastName());
+        if (!customerEntity.isPresent()) {
+            throw new UnknownCustomerException(String.format("Customer Not Found %s", customer), customer);
+        }
+        log.info("Original: " + customerEntity.toString());
+        customerEntity.get().setFirstName(newCustomer.getFirstName());
+        customerEntity.get().setLastName(newCustomer.getLastName());
+        customerEntity.get().setEmail(newCustomer.getEmail());
+        //customerEntity.get().setActive(newCustomer.getActive());
+        customerEntity.get().setLastUpdate(new Timestamp((new Date()).getTime()));
+        log.info("Updated: " + customerEntity.toString());
+        try {
+            customerRepository.save(customerEntity.get());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 }

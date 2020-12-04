@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.Optional;
 
 public interface StaffRepository extends CrudRepository<StaffEntity, Integer> {
-    Optional<StaffEntity> findByFirstName(String firstName);
+    Optional<StaffEntity> findByUsername(String username);
 }

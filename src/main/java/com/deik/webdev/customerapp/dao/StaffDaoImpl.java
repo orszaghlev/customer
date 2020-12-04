@@ -149,7 +149,23 @@ public class StaffDaoImpl implements StaffDao {
 
     @Override
     public void updateStaff(Staff staff, Staff newStaff) throws UnknownStaffException {
-
+        Optional<StaffEntity> staffEntity = staffRepository.findByUsername(staff.getUsername());
+        if (!staffEntity.isPresent()) {
+            throw new UnknownStaffException(String.format("Staff Not Found %s", staff), staff);
+        }
+        log.info("Original: " + staffEntity.toString());
+        staffEntity.get().setFirstName(newStaff.getFirstName());
+        staffEntity.get().setLastName(newStaff.getLastName());
+        staffEntity.get().setEmail(newStaff.getEmail());
+        staffEntity.get().setUsername(newStaff.getUsername());
+        staffEntity.get().setPassword(newStaff.getPassword());
+        staffEntity.get().setLastUpdate(new Timestamp((new Date()).getTime()));
+        log.info("Updated: " + staffEntity.toString());
+        try {
+            staffRepository.save(staffEntity.get());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 }

@@ -50,7 +50,7 @@ public class StoreDaoImpl implements StoreDao {
     }
 
     protected StaffEntity queryStaff(String staff, String staffAddress, String staffCity, String staffCountry) throws UnknownStaffException, UnknownCountryException {
-        Optional<StaffEntity> staffEntity = staffRepository.findByFirstName(staff);
+        Optional<StaffEntity> staffEntity = staffRepository.findByUsername(staff);
         if (!staffEntity.isPresent()) {
             throw new UnknownStaffException(staff);
         }
@@ -142,7 +142,19 @@ public class StoreDaoImpl implements StoreDao {
 
     @Override
     public void updateStore(Store store, Store newStore) throws UnknownStoreException {
-
+        Optional<StoreEntity> storeEntity = storeRepository.findById(Integer.parseInt(store.getId()));
+        if (!storeEntity.isPresent()) {
+            throw new UnknownStoreException(String.format("Store Not Found %s", store), store);
+        }
+        log.info("Original: " + storeEntity.toString());
+        storeEntity.get().setId(Integer.parseInt(newStore.getId()));
+        storeEntity.get().setLastUpdate(new Timestamp((new Date()).getTime()));
+        log.info("Updated: " + storeEntity.toString());
+        try {
+            storeRepository.save(storeEntity.get());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 }
