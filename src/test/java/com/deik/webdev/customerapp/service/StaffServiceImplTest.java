@@ -63,6 +63,7 @@ public class StaffServiceImplTest {
 
     private Staff getStaff() {
         return new Staff(
+                "1",
                 "firstName",
                 "lastName",
                 "address",
@@ -70,6 +71,7 @@ public class StaffServiceImplTest {
                 "country",
                 "email",
                 "store",
+                "1",
                 "username",
                 "password"
         );
@@ -78,6 +80,7 @@ public class StaffServiceImplTest {
     private Collection<Staff> getDefaultStaffs() {
         return Arrays.asList(
                 new Staff(
+                        "1",
                         "firstName",
                         "lastName",
                         "address",
@@ -85,10 +88,12 @@ public class StaffServiceImplTest {
                         "country",
                         "email",
                         "store",
+                        "1",
                         "username",
                         "password"
                 ),
                 new Staff(
+                        "2",
                         "firstName1",
                         "lastName1",
                         "address1",
@@ -96,10 +101,12 @@ public class StaffServiceImplTest {
                         "country1",
                         "email1",
                         "store1",
+                        "2",
                         "username1",
                         "password1"
                 ),
                 new Staff(
+                        "3",
                         "firstName2",
                         "lastName2",
                         "address2",
@@ -107,6 +114,7 @@ public class StaffServiceImplTest {
                         "country2",
                         "email2",
                         "store2",
+                        "3",
                         "username2",
                         "password2"
                 ));

@@ -34,7 +34,7 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public void updateStore(Store store, Store newStore) throws UnknownStoreException {
+    public void updateStore(Store store, Store newStore) throws UnknownStaffException, UnknownCountryException, UnknownStoreException {
         storeDao.updateStore(store, newStore);
     }
 

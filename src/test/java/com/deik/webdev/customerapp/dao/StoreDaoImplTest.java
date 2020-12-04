@@ -58,7 +58,7 @@ public class StoreDaoImplTest {
     }
 
     @Test
-    public void updateStore() throws UnknownStoreException {
+    public void updateStore() throws UnknownStaffException, UnknownCountryException, UnknownStoreException {
         doThrow(UnknownStoreException.class).when(dao).updateStore(any(), any());
 
         assertThrows(UnknownStoreException.class, ()->{

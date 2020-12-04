@@ -11,6 +11,7 @@ import lombok.ToString;
 @EqualsAndHashCode
 public class Staff {
 
+    private String id;
     private String firstName;
     private String lastName;
     private String address;
@@ -18,6 +19,7 @@ public class Staff {
     private String country;
     private String email;
     private String store;
+    private String active;
     private String username;
     private String password;
 

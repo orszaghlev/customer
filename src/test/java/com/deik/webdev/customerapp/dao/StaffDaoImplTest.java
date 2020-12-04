@@ -59,7 +59,7 @@ public class StaffDaoImplTest {
     }
 
     @Test
-    public void updateStaff() throws UnknownStaffException {
+    public void updateStaff() throws UnknownStoreException, UnknownCountryException, UnknownStaffException {
         doThrow(UnknownStaffException.class).when(dao).updateStaff(any(), any());
 
         assertThrows(UnknownStaffException.class, ()->{
@@ -69,6 +69,7 @@ public class StaffDaoImplTest {
 
     private Staff getStaff() {
         return new Staff(
+                "1",
                 "firstName",
                 "lastName",
                 "address",
@@ -76,6 +77,7 @@ public class StaffDaoImplTest {
                 "country",
                 "email",
                 "store",
+                "1",
                 "username",
                 "password"
         );
@@ -83,6 +85,7 @@ public class StaffDaoImplTest {
 
     private Staff getNewStaff() {
         return new Staff(
+                "1",
                 "newFirstName",
                 "newLastName",
                 "newAddress",
@@ -90,6 +93,7 @@ public class StaffDaoImplTest {
                 "newCountry",
                 "newEmail",
                 "newStore",
+                "2",
                 "newUsername",
                 "newPassword"
         );

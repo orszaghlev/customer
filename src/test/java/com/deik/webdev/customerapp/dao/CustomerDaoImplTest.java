@@ -59,7 +59,7 @@ public class CustomerDaoImplTest {
     }
 
     @Test
-    public void updateCustomer() throws UnknownCustomerException {
+    public void updateCustomer() throws UnknownStaffException, UnknownCountryException, UnknownCustomerException {
         doThrow(UnknownCustomerException.class).when(dao).updateCustomer(any(), any());
 
         assertThrows(UnknownCustomerException.class, ()->{
@@ -76,7 +76,8 @@ public class CustomerDaoImplTest {
                 "email",
                 "address",
                 "city",
-                "country"
+                "country",
+                "1"
         );
     }
 
@@ -89,7 +90,8 @@ public class CustomerDaoImplTest {
                 "newEmail",
                 "newAddress",
                 "newCity",
-                "newCountry"
+                "newCountry",
+                "2"
         );
     }
 

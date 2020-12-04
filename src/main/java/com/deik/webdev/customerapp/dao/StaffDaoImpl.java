@@ -35,11 +35,13 @@ public class StaffDaoImpl implements StaffDao {
         StaffEntity staffEntity;
 
         staffEntity = StaffEntity.builder()
+                .id(Integer.parseInt(staff.getId()))
                 .firstName(staff.getFirstName())
                 .lastName(staff.getLastName())
                 .address(queryAddress(staff.getAddress(), staff.getCity(), staff.getCountry()))
                 .email(staff.getEmail())
                 .store(queryStore(staff.getStore()))
+                .active(Integer.parseInt(staff.getActive()))
                 .username(staff.getUsername())
                 .password(staff.getPassword())
                 .lastUpdate(new Timestamp((new Date()).getTime()))
@@ -101,6 +103,7 @@ public class StaffDaoImpl implements StaffDao {
     public Collection<Staff> readAll() {
         return StreamSupport.stream(staffRepository.findAll().spliterator(),false)
                 .map(entity -> new Staff(
+                        String.valueOf(entity.getId()),
                         entity.getFirstName(),
                         entity.getLastName(),
                         entity.getAddress().getAddress(),
@@ -108,6 +111,7 @@ public class StaffDaoImpl implements StaffDao {
                         entity.getAddress().getCity().getCountry().getCountry(),
                         entity.getEmail(),
                         String.valueOf(entity.getStore().getId()),
+                        String.valueOf(entity.getActive()),
                         entity.getUsername(),
                         entity.getPassword()
                 ))
@@ -134,15 +138,19 @@ public class StaffDaoImpl implements StaffDao {
     }
 
     @Override
-    public void updateStaff(Staff staff, Staff newStaff) throws UnknownStaffException {
+    public void updateStaff(Staff staff, Staff newStaff) throws UnknownStoreException, UnknownCountryException, UnknownStaffException {
         Optional<StaffEntity> staffEntity = staffRepository.findByUsername(staff.getUsername());
         if (!staffEntity.isPresent()) {
             throw new UnknownStaffException(String.format("Staff Not Found %s", staff), staff);
         }
         log.info("Original: " + staffEntity.toString());
+        staffEntity.get().setId(Integer.parseInt(newStaff.getId()));
         staffEntity.get().setFirstName(newStaff.getFirstName());
         staffEntity.get().setLastName(newStaff.getLastName());
+        staffEntity.get().setAddress(queryAddress(newStaff.getAddress(), newStaff.getCity(), newStaff.getCountry()));
         staffEntity.get().setEmail(newStaff.getEmail());
+        staffEntity.get().setStore(queryStore(newStaff.getStore()));
+        staffEntity.get().setActive(Integer.parseInt(newStaff.getActive()));
         staffEntity.get().setUsername(newStaff.getUsername());
         staffEntity.get().setPassword(newStaff.getPassword());
         staffEntity.get().setLastUpdate(new Timestamp((new Date()).getTime()));

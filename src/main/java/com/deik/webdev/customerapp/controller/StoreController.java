@@ -84,7 +84,7 @@ public class StoreController {
                     requestDto.getNewCity(),
                     requestDto.getNewCountry())
             );
-        } catch (DataAccessException | UnknownStoreException e) {
+        } catch (DataAccessException | UnknownStaffException | UnknownCountryException | UnknownStoreException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

@@ -14,6 +14,6 @@ public interface StoreDao {
 
     void deleteStore(Store store) throws UnknownStoreException;
 
-    void updateStore(Store store, Store newStore) throws UnknownStoreException;
+    void updateStore(Store store, Store newStore) throws UnknownStaffException, UnknownCountryException, UnknownStoreException;
 
 }

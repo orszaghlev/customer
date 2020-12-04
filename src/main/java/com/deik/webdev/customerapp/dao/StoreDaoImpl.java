@@ -127,13 +127,15 @@ public class StoreDaoImpl implements StoreDao {
     }
 
     @Override
-    public void updateStore(Store store, Store newStore) throws UnknownStoreException {
+    public void updateStore(Store store, Store newStore) throws UnknownStaffException, UnknownCountryException, UnknownStoreException {
         Optional<StoreEntity> storeEntity = storeRepository.findById(Integer.parseInt(store.getId()));
         if (!storeEntity.isPresent()) {
             throw new UnknownStoreException(String.format("Store Not Found %s", store), store);
         }
         log.info("Original: " + storeEntity.toString());
         storeEntity.get().setId(Integer.parseInt(newStore.getId()));
+        storeEntity.get().setStaff(queryStaff(newStore.getStaff()));
+        storeEntity.get().setAddress(queryAddress(newStore.getAddress(), newStore.getCity(), newStore.getCountry()));
         storeEntity.get().setLastUpdate(new Timestamp((new Date()).getTime()));
         log.info("Updated: " + storeEntity.toString());
         try {

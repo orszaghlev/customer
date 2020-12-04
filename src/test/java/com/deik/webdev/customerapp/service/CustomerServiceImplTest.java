@@ -79,7 +79,8 @@ public class CustomerServiceImplTest {
                 "email",
                 "address",
                 "city",
-                "country"
+                "country",
+                "1"
         );
     }
 
@@ -93,7 +94,8 @@ public class CustomerServiceImplTest {
                         "email",
                         "address",
                         "city",
-                        "country"
+                        "country",
+                        "1"
                 ),
                 new Customer(
                         "store1",
@@ -103,7 +105,8 @@ public class CustomerServiceImplTest {
                         "email1",
                         "address1",
                         "city1",
-                        "country1"
+                        "country1",
+                        "2"
                 ),
                 new Customer(
                         "store2",
@@ -113,7 +116,8 @@ public class CustomerServiceImplTest {
                         "email2",
                         "address2",
                         "city2",
-                        "country2"
+                        "country2",
+                        "3"
                 ));
     }
 
