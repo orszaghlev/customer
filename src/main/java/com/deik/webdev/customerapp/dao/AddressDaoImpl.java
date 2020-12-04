@@ -56,14 +56,14 @@ public class AddressDaoImpl implements AddressDao {
     }
 
     protected CityEntity queryCity(String city, String country) throws UnknownCountryException {
-        Optional<CityEntity> cityEntity = cityRepository.findByName(city);
+        Optional<CityEntity> cityEntity = cityRepository.findByCity(city);
         if (!cityEntity.isPresent()) {
-            Optional<CountryEntity> countryEntity = countryRepository.findByName(country);
+            Optional<CountryEntity> countryEntity = countryRepository.findByCountry(country);
             if (!countryEntity.isPresent()) {
                 throw new UnknownCountryException(country);
             }
             cityEntity = Optional.ofNullable(CityEntity.builder()
-                    .name(city)
+                    .city(city)
                     .country(countryEntity.get())
                     .lastUpdate(new Timestamp((new Date()).getTime()))
                     .build());
@@ -81,8 +81,8 @@ public class AddressDaoImpl implements AddressDao {
                         entity.getAddress(),
                         entity.getAddress2(),
                         entity.getDistrict(),
-                        entity.getCity().getName(),
-                        entity.getCity().getCountry().getName(),
+                        entity.getCity().getCity(),
+                        entity.getCity().getCountry().getCountry(),
                         entity.getPostalCode(),
                         entity.getPhone()
                 ))
@@ -96,19 +96,37 @@ public class AddressDaoImpl implements AddressDao {
                     return address.getAddress().equals(entity.getAddress())  &&
                             address.getAddress2().equals(entity.getAddress2()) &&
                             address.getDistrict().equals(entity.getDistrict()) &&
-                            address.getCity().equals(entity.getCity().getName()) &&
-                            address.getCountry().equals(entity.getCity().getCountry().getName());
+                            address.getCity().equals(entity.getCity().getCity()) &&
+                            address.getCountry().equals(entity.getCity().getCountry().getCountry());
                 }
         ).findAny();
         if (!addressEntity.isPresent()) {
-            throw new UnknownAddressException(String.format("Address Not Found %s",address), address);
+            throw new UnknownAddressException(String.format("Address Not Found %s", address), address);
         }
         addressRepository.delete(addressEntity.get());
     }
 
     @Override
     public void updateAddress(Address address, Address newAddress) throws UnknownAddressException {
-
+        Optional<AddressEntity> addressEntity = addressRepository.findByAddress(address.getAddress());
+        GeometryFactory geometryFactory = new GeometryFactory();
+        if (!addressEntity.isPresent()) {
+            throw new UnknownAddressException(String.format("Address Not Found %s", address), address);
+        }
+        log.info("Original: " + addressEntity.toString());
+        addressEntity.get().setAddress(newAddress.getAddress());
+        addressEntity.get().setAddress2(newAddress.getAddress2());
+        addressEntity.get().setDistrict(newAddress.getDistrict());
+        addressEntity.get().setPostalCode(newAddress.getPostalCode());
+        addressEntity.get().setPhone(newAddress.getPhone());
+        addressEntity.get().setLocation(geometryFactory.createPoint(new Coordinate()));
+        addressEntity.get().setLastUpdate(new Timestamp((new Date()).getTime()));
+        log.info("Updated: " + addressEntity.toString());
+        try {
+            addressRepository.save(addressEntity.get());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 }

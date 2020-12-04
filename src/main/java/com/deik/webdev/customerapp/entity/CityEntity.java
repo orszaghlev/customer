@@ -20,7 +20,7 @@ public class CityEntity {
     private int id;
 
     @Column(name = "city")
-    private String name;
+    private String city;
 
     @ManyToOne
     @JoinColumn(name = "country_id")

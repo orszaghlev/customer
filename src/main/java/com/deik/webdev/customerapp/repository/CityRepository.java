@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.Optional;
 
 public interface CityRepository extends CrudRepository<CityEntity, Integer> {
-    Optional<CityEntity> findByName(String name);
+    Optional<CityEntity> findByCity(String city);
 }

@@ -56,15 +56,15 @@ public class CustomerDaoImpl implements CustomerDao {
     protected StoreEntity queryStore(String store, String staff, String staffAddress, String staffCity, String staffCountry) throws UnknownStaffException, UnknownCountryException {
         Optional<StoreEntity> storeEntity = storeRepository.findById(Integer.parseInt(store));
         if (!storeEntity.isPresent()) {
-            Optional<StaffEntity> staffEntity = staffRepository.findByFirstName(staff);
+            Optional<StaffEntity> staffEntity = staffRepository.findByUsername(staff);
             if (!staffEntity.isPresent()) {
                 throw new UnknownStaffException(staff);
             }
             Optional<AddressEntity> staffAddressEntity = addressRepository.findByAddress(staffAddress);
             if (!staffAddressEntity.isPresent()) {
-                Optional<CityEntity> staffCityEntity = cityRepository.findByName(staffCity);
+                Optional<CityEntity> staffCityEntity = cityRepository.findByCity(staffCity);
                 if (!staffCityEntity.isPresent()) {
-                    Optional<CountryEntity> staffCountryEntity = countryRepository.findByName(staffCountry);
+                    Optional<CountryEntity> staffCountryEntity = countryRepository.findByCountry(staffCountry);
                     if (!staffCountryEntity.isPresent()) {
                         throw new UnknownCountryException(staffCountry);
                     }
@@ -87,9 +87,9 @@ public class CustomerDaoImpl implements CustomerDao {
         Optional<AddressEntity> addressEntity = addressRepository.findByAddress(address);
         GeometryFactory geometryFactory = new GeometryFactory();
         if (!addressEntity.isPresent()) {
-            Optional<CityEntity> cityEntity = cityRepository.findByName(city);
+            Optional<CityEntity> cityEntity = cityRepository.findByCity(city);
             if (!cityEntity.isPresent()) {
-                Optional<CountryEntity> countryEntity = countryRepository.findByName(country);
+                Optional<CountryEntity> countryEntity = countryRepository.findByCountry(country);
                 if (!countryEntity.isPresent()) {
                     throw new UnknownCountryException(country);
                 }
@@ -118,14 +118,14 @@ public class CustomerDaoImpl implements CustomerDao {
                         String.valueOf(entity.getStore().getId()),
                         entity.getStore().getStaff().getUsername(),
                         entity.getStore().getStaff().getAddress().getAddress(),
-                        entity.getStore().getStaff().getAddress().getCity().getName(),
-                        entity.getStore().getStaff().getAddress().getCity().getCountry().getName(),
+                        entity.getStore().getStaff().getAddress().getCity().getCity(),
+                        entity.getStore().getStaff().getAddress().getCity().getCountry().getCountry(),
                         entity.getFirstName(),
                         entity.getLastName(),
                         entity.getEmail(),
                         entity.getAddress().getAddress(),
-                        entity.getAddress().getCity().getName(),
-                        entity.getAddress().getCity().getCountry().getName()
+                        entity.getAddress().getCity().getCity(),
+                        entity.getAddress().getCity().getCountry().getCountry()
                 ))
                 .collect(Collectors.toList());
     }
@@ -149,7 +149,22 @@ public class CustomerDaoImpl implements CustomerDao {
 
     @Override
     public void updateCustomer(Customer customer, Customer newCustomer) throws UnknownCustomerException {
-
+        Optional<CustomerEntity> customerEntity = customerRepository.findByFirstNameAndLastName(customer.getFirstName(), customer.getLastName());
+        if (!customerEntity.isPresent()) {
+            throw new UnknownCustomerException(String.format("Customer Not Found %s", customer), customer);
+        }
+        log.info("Original: " + customerEntity.toString());
+        customerEntity.get().setFirstName(newCustomer.getFirstName());
+        customerEntity.get().setLastName(newCustomer.getLastName());
+        customerEntity.get().setEmail(newCustomer.getEmail());
+        //customerEntity.get().setActive(newCustomer.getActive());
+        customerEntity.get().setLastUpdate(new Timestamp((new Date()).getTime()));
+        log.info("Updated: " + customerEntity.toString());
+        try {
+            customerRepository.save(customerEntity.get());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 }

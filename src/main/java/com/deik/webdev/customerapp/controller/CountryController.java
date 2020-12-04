@@ -1,6 +1,7 @@
 package com.deik.webdev.customerapp.controller;
 
 import com.deik.webdev.customerapp.dto.CountryDto;
+import com.deik.webdev.customerapp.dto.CountryUpdateRequestDto;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.model.Country;
 import com.deik.webdev.customerapp.service.CountryService;
@@ -26,7 +27,7 @@ public class CountryController {
         return service.getAllCountry()
                 .stream()
                 .map(model -> CountryDto.builder()
-                        .name(model.getName())
+                        .country(model.getCountry())
                         .build())
                 .collect(Collectors.toList());
     }
@@ -35,7 +36,7 @@ public class CountryController {
     public void recordCountry(@RequestBody CountryDto requestDto) {
         try {
             service.recordCountry(new Country(
-                    requestDto.getName()
+                    requestDto.getCountry()
             ));
         } catch (DataAccessException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
@@ -43,11 +44,24 @@ public class CountryController {
     }
 
     @DeleteMapping("/country")
-    public void deleteCountry(@RequestBody CountryDto requestDto){
+    public void deleteCountry(@RequestBody CountryDto requestDto) {
         try {
             service.deleteCountry(new Country(
-                    requestDto.getName()
+                    requestDto.getCountry()
             ));
+        } catch (DataAccessException | UnknownCountryException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @PutMapping("/country")
+    public void updateCountry(@RequestBody CountryUpdateRequestDto requestDto) {
+        try {
+            service.updateCountry(new Country(
+                            requestDto.getCountry()),
+                    new Country(
+                            requestDto.getNewCountry())
+            );
         } catch (DataAccessException | UnknownCountryException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }

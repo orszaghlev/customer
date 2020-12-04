@@ -58,6 +58,15 @@ public class CustomerDaoImplTest {
         });
     }
 
+    @Test
+    public void updateCustomer() throws UnknownCustomerException {
+        doThrow(UnknownCustomerException.class).when(dao).updateCustomer(any(), any());
+
+        assertThrows(UnknownCustomerException.class, ()->{
+            dao.updateCustomer(getCustomer(), getNewCustomer());
+        });
+    }
+
     private Customer getCustomer() {
         return new Customer(
                 "store",
@@ -71,6 +80,22 @@ public class CustomerDaoImplTest {
                 "address",
                 "city",
                 "country"
+        );
+    }
+
+    private Customer getNewCustomer() {
+        return new Customer(
+                "newStore",
+                "newStaff",
+                "newStaffAddress",
+                "newStaffCity",
+                "newStaffCountry",
+                "newFirstName",
+                "newLastName",
+                "newEmail",
+                "newAddress",
+                "newCity",
+                "newCountry"
         );
     }
 

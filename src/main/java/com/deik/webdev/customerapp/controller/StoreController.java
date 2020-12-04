@@ -1,6 +1,7 @@
 package com.deik.webdev.customerapp.controller;
 
 import com.deik.webdev.customerapp.dto.StoreDto;
+import com.deik.webdev.customerapp.dto.StoreUpdateRequestDto;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.exception.UnknownStaffException;
 import com.deik.webdev.customerapp.exception.UnknownStoreException;
@@ -71,6 +72,33 @@ public class StoreController {
                     requestDto.getCity(),
                     requestDto.getCountry()
             ));
+        } catch (DataAccessException | UnknownStoreException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @PutMapping("/store")
+    public void updateStore(@RequestBody StoreUpdateRequestDto requestDto) {
+        try {
+            service.updateStore(new Store(
+                    requestDto.getId(),
+                    requestDto.getStaff(),
+                    requestDto.getStaffAddress(),
+                    requestDto.getStaffCity(),
+                    requestDto.getStaffCountry(),
+                    requestDto.getAddress(),
+                    requestDto.getCity(),
+                    requestDto.getCountry()),
+                    new Store(
+                    requestDto.getNewId(),
+                    requestDto.getNewStaff(),
+                    requestDto.getNewStaffAddress(),
+                    requestDto.getNewStaffCity(),
+                    requestDto.getNewStaffCountry(),
+                    requestDto.getNewAddress(),
+                    requestDto.getNewCity(),
+                    requestDto.getNewCountry())
+            );
         } catch (DataAccessException | UnknownStoreException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }

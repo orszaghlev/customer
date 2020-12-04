@@ -50,20 +50,20 @@ public class CountryServiceImplTest {
 
     private Country getCountry() {
         return new Country(
-                "name"
+                "country"
         );
     }
 
     private Collection<Country> getDefaultCountries() {
         return Arrays.asList(
                 new Country(
-                        "name"
+                        "country"
                 ),
                 new Country(
-                        "name1"
+                        "country1"
                 ),
                 new Country(
-                        "name2"
+                        "country2"
                 ));
     }
 

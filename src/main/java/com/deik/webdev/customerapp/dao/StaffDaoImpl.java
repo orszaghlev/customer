@@ -56,9 +56,9 @@ public class StaffDaoImpl implements StaffDao {
         Optional<AddressEntity> addressEntity = addressRepository.findByAddress(address);
         GeometryFactory geometryFactory = new GeometryFactory();
         if (!addressEntity.isPresent()) {
-            Optional<CityEntity> cityEntity = cityRepository.findByName(city);
+            Optional<CityEntity> cityEntity = cityRepository.findByCity(city);
             if (!cityEntity.isPresent()) {
-                Optional<CountryEntity> countryEntity = countryRepository.findByName(country);
+                Optional<CountryEntity> countryEntity = countryRepository.findByCountry(country);
                 if (!countryEntity.isPresent()) {
                     throw new UnknownCountryException(country);
                 }
@@ -88,9 +88,9 @@ public class StaffDaoImpl implements StaffDao {
         else {
             Optional<AddressEntity> storeAddressEntity = addressRepository.findByAddress(storeAddress);
             if (!storeAddressEntity.isPresent()) {
-                Optional<CityEntity> storeCityEntity = cityRepository.findByName(storeCity);
+                Optional<CityEntity> storeCityEntity = cityRepository.findByCity(storeCity);
                 if (!storeCityEntity.isPresent()) {
-                    Optional<CountryEntity> storeCountryEntity = countryRepository.findByName(storeCountry);
+                    Optional<CountryEntity> storeCountryEntity = countryRepository.findByCountry(storeCountry);
                     if (!storeCountryEntity.isPresent()) {
                         throw new UnknownCountryException(storeCountry);
                     }
@@ -115,13 +115,13 @@ public class StaffDaoImpl implements StaffDao {
                         entity.getFirstName(),
                         entity.getLastName(),
                         entity.getAddress().getAddress(),
-                        entity.getAddress().getCity().getName(),
-                        entity.getAddress().getCity().getCountry().getName(),
+                        entity.getAddress().getCity().getCity(),
+                        entity.getAddress().getCity().getCountry().getCountry(),
                         entity.getEmail(),
                         String.valueOf(entity.getStore().getId()),
                         entity.getStore().getAddress().getAddress(),
-                        entity.getStore().getAddress().getCity().getName(),
-                        entity.getStore().getAddress().getCity().getCountry().getName(),
+                        entity.getStore().getAddress().getCity().getCity(),
+                        entity.getStore().getAddress().getCity().getCountry().getCountry(),
                         entity.getUsername(),
                         entity.getPassword()
                 ))
@@ -149,7 +149,23 @@ public class StaffDaoImpl implements StaffDao {
 
     @Override
     public void updateStaff(Staff staff, Staff newStaff) throws UnknownStaffException {
-
+        Optional<StaffEntity> staffEntity = staffRepository.findByUsername(staff.getUsername());
+        if (!staffEntity.isPresent()) {
+            throw new UnknownStaffException(String.format("Staff Not Found %s", staff), staff);
+        }
+        log.info("Original: " + staffEntity.toString());
+        staffEntity.get().setFirstName(newStaff.getFirstName());
+        staffEntity.get().setLastName(newStaff.getLastName());
+        staffEntity.get().setEmail(newStaff.getEmail());
+        staffEntity.get().setUsername(newStaff.getUsername());
+        staffEntity.get().setPassword(newStaff.getPassword());
+        staffEntity.get().setLastUpdate(new Timestamp((new Date()).getTime()));
+        log.info("Updated: " + staffEntity.toString());
+        try {
+            staffRepository.save(staffEntity.get());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 }

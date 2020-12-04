@@ -1,6 +1,7 @@
 package com.deik.webdev.customerapp.controller;
 
 import com.deik.webdev.customerapp.dto.CustomerDto;
+import com.deik.webdev.customerapp.dto.CustomerUpdateRequestDto;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.exception.UnknownCustomerException;
 import com.deik.webdev.customerapp.exception.UnknownStaffException;
@@ -80,6 +81,39 @@ public class CustomerController {
                     requestDto.getCity(),
                     requestDto.getCountry()
             ));
+        } catch (DataAccessException | UnknownCustomerException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @PutMapping("/customer")
+    public void updateCustomer(@RequestBody CustomerUpdateRequestDto requestDto) {
+        try {
+            service.updateCustomer(new Customer(
+                    requestDto.getStore(),
+                    requestDto.getStaff(),
+                    requestDto.getStaffAddress(),
+                    requestDto.getStaffCity(),
+                    requestDto.getStaffCountry(),
+                    requestDto.getFirstName(),
+                    requestDto.getLastName(),
+                    requestDto.getEmail(),
+                    requestDto.getAddress(),
+                    requestDto.getCity(),
+                    requestDto.getCountry()),
+                    new Customer(
+                    requestDto.getNewStore(),
+                    requestDto.getNewStaff(),
+                    requestDto.getNewStaffAddress(),
+                    requestDto.getNewStaffCity(),
+                    requestDto.getNewStaffCountry(),
+                    requestDto.getNewFirstName(),
+                    requestDto.getNewLastName(),
+                    requestDto.getNewEmail(),
+                    requestDto.getNewAddress(),
+                    requestDto.getNewCity(),
+                    requestDto.getNewCountry())
+            );
         } catch (DataAccessException | UnknownCustomerException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }

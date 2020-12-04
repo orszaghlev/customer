@@ -1,5 +1,6 @@
 package com.deik.webdev.customerapp.dao;
 
+import com.deik.webdev.customerapp.entity.AddressEntity;
 import com.deik.webdev.customerapp.entity.CityEntity;
 import com.deik.webdev.customerapp.exception.UnknownAddressException;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
@@ -32,7 +33,7 @@ class AddressDaoImplTest {
 
     @Test
     void testCreateAddress() throws UnknownCountryException {
-        doReturn(CityEntity.builder().name("Debrecen").build())
+        doReturn(CityEntity.builder().city("Debrecen").build())
                 .when(dao).queryCity(any(),any());
         dao.createAddress(getAddress());
 
@@ -48,6 +49,15 @@ class AddressDaoImplTest {
         });
     }
 
+    @Test
+    public void updateAddress() throws UnknownAddressException {
+        doThrow(UnknownAddressException.class).when(dao).updateAddress(any(), any());
+
+        assertThrows(UnknownAddressException.class, ()->{
+            dao.updateAddress(getAddress(), getNewAddress());
+        });
+    }
+
     private Address getAddress() {
         return new Address(
                 "address1",
@@ -57,6 +67,18 @@ class AddressDaoImplTest {
                 "Algeria_1234",
                 "postalCode",
                 "phone"
+        );
+    }
+
+    private Address getNewAddress() {
+        return new Address(
+                "newAddress1",
+                "newAddress2",
+                "newDistrict",
+                "NewUnknownCity",
+                "NewAlgeria_1234",
+                "NewPostalCode",
+                "newPhone"
         );
     }
 

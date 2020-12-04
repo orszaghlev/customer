@@ -1,6 +1,7 @@
 package com.deik.webdev.customerapp.controller;
 
 import com.deik.webdev.customerapp.dto.StaffDto;
+import com.deik.webdev.customerapp.dto.StaffUpdateRequestDto;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.exception.UnknownStaffException;
 import com.deik.webdev.customerapp.exception.UnknownStoreException;
@@ -83,6 +84,41 @@ public class StaffController {
                     requestDto.getUsername(),
                     requestDto.getPassword()
             ));
+        } catch (DataAccessException | UnknownStaffException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @PutMapping("/staff")
+    public void updateStaff(@RequestBody StaffUpdateRequestDto requestDto) {
+        try {
+            service.updateStaff(new Staff(
+                    requestDto.getFirstName(),
+                    requestDto.getLastName(),
+                    requestDto.getAddress(),
+                    requestDto.getCity(),
+                    requestDto.getCountry(),
+                    requestDto.getEmail(),
+                    requestDto.getStore(),
+                    requestDto.getStoreAddress(),
+                    requestDto.getStoreCity(),
+                    requestDto.getStoreCountry(),
+                    requestDto.getUsername(),
+                    requestDto.getPassword()),
+                    new Staff(
+                    requestDto.getFirstName(),
+                    requestDto.getLastName(),
+                    requestDto.getAddress(),
+                    requestDto.getCity(),
+                    requestDto.getCountry(),
+                    requestDto.getEmail(),
+                    requestDto.getStore(),
+                    requestDto.getStoreAddress(),
+                    requestDto.getStoreCity(),
+                    requestDto.getStoreCountry(),
+                    requestDto.getUsername(),
+                    requestDto.getPassword())
+            );
         } catch (DataAccessException | UnknownStaffException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }

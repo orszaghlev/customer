@@ -1,5 +1,4 @@
 package com.deik.webdev.customerapp.dto;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,8 +8,9 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CountryDto {
+public class CityUpdateRequestDto extends CityDto {
 
-    private String country;
+    private String newCity;
+    private String newCountry;
 
 }

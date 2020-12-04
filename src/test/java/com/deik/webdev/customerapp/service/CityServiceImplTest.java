@@ -61,7 +61,7 @@ public class CityServiceImplTest {
 
     private City getCity() {
         return new City(
-                "name",
+                "city",
                 "country"
         );
     }
@@ -69,15 +69,15 @@ public class CityServiceImplTest {
     private Collection<City> getDefaultCities() {
         return Arrays.asList(
                 new City(
-                        "name",
+                        "city",
                         "country"
                 ),
                 new City(
-                        "name1",
+                        "city1",
                         "country1"
                 ),
                 new City(
-                        "name2",
+                        "city2",
                         "country2"
                 ));
     }
