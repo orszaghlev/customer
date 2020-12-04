@@ -49,7 +49,7 @@ class AddressDaoImplTest {
     }
 
     @Test
-    public void updateAddress() throws UnknownAddressException {
+    public void updateAddress() throws UnknownCountryException, UnknownAddressException {
         doThrow(UnknownAddressException.class).when(dao).updateAddress(any(), any());
 
         assertThrows(UnknownAddressException.class, ()->{

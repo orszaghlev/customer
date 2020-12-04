@@ -107,7 +107,7 @@ public class AddressDaoImpl implements AddressDao {
     }
 
     @Override
-    public void updateAddress(Address address, Address newAddress) throws UnknownAddressException {
+    public void updateAddress(Address address, Address newAddress) throws UnknownCountryException, UnknownAddressException {
         Optional<AddressEntity> addressEntity = addressRepository.findByAddress(address.getAddress());
         GeometryFactory geometryFactory = new GeometryFactory();
         if (!addressEntity.isPresent()) {
@@ -117,6 +117,7 @@ public class AddressDaoImpl implements AddressDao {
         addressEntity.get().setAddress(newAddress.getAddress());
         addressEntity.get().setAddress2(newAddress.getAddress2());
         addressEntity.get().setDistrict(newAddress.getDistrict());
+        addressEntity.get().setCity(queryCity(newAddress.getCity(), newAddress.getCountry()));
         addressEntity.get().setPostalCode(newAddress.getPostalCode());
         addressEntity.get().setPhone(newAddress.getPhone());
         addressEntity.get().setLocation(geometryFactory.createPoint(new Coordinate()));

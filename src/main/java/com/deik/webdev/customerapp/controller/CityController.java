@@ -56,7 +56,7 @@ public class CityController {
                             requestDto.getNewCity(),
                             requestDto.getNewCountry())
             );
-        } catch (DataAccessException | UnknownCityException e) {
+        } catch (DataAccessException | UnknownCountryException | UnknownCityException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

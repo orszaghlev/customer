@@ -3,6 +3,7 @@ package com.deik.webdev.customerapp.dao;
 import com.deik.webdev.customerapp.entity.CityEntity;
 import com.deik.webdev.customerapp.entity.CountryEntity;
 import com.deik.webdev.customerapp.exception.UnknownCityException;
+import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.model.City;
 import com.deik.webdev.customerapp.repository.CityRepository;
 import com.deik.webdev.customerapp.repository.CountryRepository;
@@ -26,7 +27,7 @@ public class CityDaoImpl implements CityDao {
     private final CountryRepository countryRepository;
 
     @Override
-    public void createCity(City city) {
+    public void createCity(City city) throws UnknownCountryException {
         CityEntity cityEntity;
 
         cityEntity = CityEntity.builder()
@@ -43,10 +44,12 @@ public class CityDaoImpl implements CityDao {
         }
     }
 
-    protected CountryEntity queryCountry(String country) {
-
+    protected CountryEntity queryCountry(String country) throws UnknownCountryException {
         Optional<CountryEntity> countryEntity = countryRepository.findByCountry(country);
         if (!countryEntity.isPresent()) {
+            throw new UnknownCountryException(country);
+        }
+        else {
             countryEntity = Optional.ofNullable(CountryEntity.builder()
                     .country(country)
                     .lastUpdate(new Timestamp((new Date()).getTime()))
@@ -83,13 +86,14 @@ public class CityDaoImpl implements CityDao {
     }
 
     @Override
-    public void updateCity(City city, City newCity) throws UnknownCityException {
+    public void updateCity(City city, City newCity) throws UnknownCountryException, UnknownCityException {
         Optional<CityEntity> cityEntity = cityRepository.findByCity(city.getCity());
         if (!cityEntity.isPresent()) {
             throw new UnknownCityException(String.format("City Not Found %s", city), city);
         }
         log.info("Original: " + cityEntity.toString());
         cityEntity.get().setCity(newCity.getCity());
+        cityEntity.get().setCountry(queryCountry(newCity.getCountry()));
         cityEntity.get().setLastUpdate(new Timestamp((new Date()).getTime()));
         log.info("Updated: " + cityEntity.toString());
         try {

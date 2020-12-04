@@ -41,7 +41,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public void updateAddress(Address address, Address newAddress) throws UnknownAddressException {
+    public void updateAddress(Address address, Address newAddress) throws UnknownCountryException, UnknownAddressException {
         addressDao.updateAddress(address, newAddress);
     }
 
