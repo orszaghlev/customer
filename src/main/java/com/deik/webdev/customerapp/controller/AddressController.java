@@ -2,6 +2,7 @@ package com.deik.webdev.customerapp.controller;
 
 import com.deik.webdev.customerapp.dto.AddressDto;
 import com.deik.webdev.customerapp.dto.AddressRecordRequestDto;
+import com.deik.webdev.customerapp.dto.AddressUpdateRequestDto;
 import com.deik.webdev.customerapp.exception.UnknownAddressException;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.model.Address;
@@ -27,12 +28,14 @@ public class AddressController {
     public Collection<AddressDto> listAddresses() {
         return service.getAllAddress()
                 .stream()
-                .map(model -> AddressDto.builder()
+                .map(model -> AddressRecordRequestDto.builder()
                         .address(model.getAddress())
                         .address2(model.getAddress2())
                         .district(model.getDistrict())
                         .city(model.getCity())
                         .country(model.getCountry())
+                        .postalCode(model.getPostalCode())
+                        .phone(model.getPhone())
                         .build())
                 .collect(Collectors.toList());
     }
@@ -55,7 +58,7 @@ public class AddressController {
     }
 
     @DeleteMapping("/address")
-    public void deleteAddress(@RequestBody AddressRecordRequestDto requestDto){
+    public void deleteAddress(@RequestBody AddressRecordRequestDto requestDto) {
         try {
             service.deleteAddress(new Address(
                     requestDto.getAddress(),
@@ -66,6 +69,31 @@ public class AddressController {
                     requestDto.getPostalCode(),
                     requestDto.getPhone()
             ));
+        } catch (DataAccessException | UnknownAddressException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @PutMapping("/address")
+    public void updateAddress(@RequestBody AddressUpdateRequestDto requestDto) {
+        try {
+            service.updateAddress(new Address(
+                    requestDto.getAddress(),
+                    requestDto.getAddress2(),
+                    requestDto.getDistrict(),
+                    requestDto.getCity(),
+                    requestDto.getCountry(),
+                    requestDto.getPostalCode(),
+                    requestDto.getPhone()),
+                    new Address(
+                    requestDto.getNewAddress(),
+                    requestDto.getNewAddress2(),
+                    requestDto.getNewDistrict(),
+                    requestDto.getNewCity(),
+                    requestDto.getNewCountry(),
+                    requestDto.getNewPostalCode(),
+                    requestDto.getNewPhone())
+            );
         } catch (DataAccessException | UnknownAddressException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }

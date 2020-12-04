@@ -101,14 +101,32 @@ public class AddressDaoImpl implements AddressDao {
                 }
         ).findAny();
         if (!addressEntity.isPresent()) {
-            throw new UnknownAddressException(String.format("Address Not Found %s",address), address);
+            throw new UnknownAddressException(String.format("Address Not Found %s", address), address);
         }
         addressRepository.delete(addressEntity.get());
     }
 
     @Override
     public void updateAddress(Address address, Address newAddress) throws UnknownAddressException {
-
+        Optional<AddressEntity> addressEntity = addressRepository.findByAddress(address.getAddress());
+        GeometryFactory geometryFactory = new GeometryFactory();
+        if (!addressEntity.isPresent()) {
+            throw new UnknownAddressException(String.format("Address Not Found %s", address), address);
+        }
+        log.info("Original: " + addressEntity.toString());
+        addressEntity.get().setAddress(newAddress.getAddress());
+        addressEntity.get().setAddress2(newAddress.getAddress2());
+        addressEntity.get().setDistrict(newAddress.getDistrict());
+        addressEntity.get().setPostalCode(newAddress.getPostalCode());
+        addressEntity.get().setPhone(newAddress.getPhone());
+        addressEntity.get().setLocation(geometryFactory.createPoint(new Coordinate()));
+        addressEntity.get().setLastUpdate(new Timestamp((new Date()).getTime()));
+        log.info("Updated: " + addressEntity.toString());
+        try {
+            addressRepository.save(addressEntity.get());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 }

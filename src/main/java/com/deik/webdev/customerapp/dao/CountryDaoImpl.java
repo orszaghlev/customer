@@ -63,7 +63,19 @@ public class CountryDaoImpl implements CountryDao {
 
     @Override
     public void updateCountry(Country country, Country newCountry) throws UnknownCountryException {
-
+        Optional<CountryEntity> countryEntity = countryRepository.findByCountry(country.getCountry());
+        if (!countryEntity.isPresent()) {
+            throw new UnknownCountryException(String.format("Country Not Found %s", country), country);
+        }
+        log.info("Original: " + countryEntity.toString());
+        countryEntity.get().setCountry(newCountry.getCountry());
+        countryEntity.get().setLastUpdate(new Timestamp((new Date()).getTime()));
+        log.info("Updated: " + countryEntity.toString());
+        try {
+            countryRepository.save(countryEntity.get());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 }

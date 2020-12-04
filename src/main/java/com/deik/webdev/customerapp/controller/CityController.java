@@ -1,6 +1,7 @@
 package com.deik.webdev.customerapp.controller;
 
 import com.deik.webdev.customerapp.dto.CityDto;
+import com.deik.webdev.customerapp.dto.CityUpdateRequestDto;
 import com.deik.webdev.customerapp.exception.UnknownCityException;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.model.City;
@@ -46,12 +47,27 @@ public class CityController {
     }
 
     @DeleteMapping("/city")
-    public void deleteCity(@RequestBody CityDto requestDto){
+    public void deleteCity(@RequestBody CityDto requestDto) {
         try {
             service.deleteCity(new City(
                     requestDto.getCity(),
                     requestDto.getCountry()
             ));
+        } catch (DataAccessException | UnknownCityException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @PutMapping("/city")
+    public void updateCity(@RequestBody CityUpdateRequestDto requestDto) {
+        try {
+            service.updateCity(new City(
+                            requestDto.getCity(),
+                            requestDto.getCountry()),
+                    new City(
+                            requestDto.getNewCity(),
+                            requestDto.getNewCountry())
+            );
         } catch (DataAccessException | UnknownCityException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
