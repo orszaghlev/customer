@@ -57,6 +57,15 @@ public class StoreDaoImplTest {
         });
     }
 
+    @Test
+    public void updateStore() throws UnknownStoreException {
+        doThrow(UnknownStoreException.class).when(dao).updateStore(any(), any());
+
+        assertThrows(UnknownStoreException.class, ()->{
+            dao.updateStore(getStore(), getNewStore());
+        });
+    }
+
     private Store getStore() {
         return new Store(
                 "1",
@@ -67,6 +76,19 @@ public class StoreDaoImplTest {
                 "address",
                 "city",
                 "country"
+        );
+    }
+
+    private Store getNewStore() {
+        return new Store(
+                "2",
+                "newStaff",
+                "newStaffAddress",
+                "newStaffCity",
+                "newStaffCountry",
+                "newAddress",
+                "newCity",
+                "newCountry"
         );
     }
 

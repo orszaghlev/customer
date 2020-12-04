@@ -46,10 +46,26 @@ public class CityDaoImplTest {
         });
     }
 
+    @Test
+    public void updateCity() throws UnknownCityException {
+        doThrow(UnknownCityException.class).when(dao).updateCity(any(), any());
+
+        assertThrows(UnknownCityException.class, ()->{
+            dao.updateCity(getCity(), getNewCity());
+        });
+    }
+
     private City getCity() {
         return new City(
                 "city",
                 "country"
+        );
+    }
+
+    private City getNewCity() {
+        return new City(
+                "newCity",
+                "newCountry"
         );
     }
 

@@ -39,9 +39,24 @@ public class CountryDaoImplTest {
         });
     }
 
+    @Test
+    public void updateCountry() throws UnknownCountryException {
+        doThrow(UnknownCountryException.class).when(dao).updateCountry(any(), any());
+
+        assertThrows(UnknownCountryException.class, ()->{
+            dao.updateCountry(getCountry(), getNewCountry());
+        });
+    }
+
     private Country getCountry() {
         return new Country(
                 "country"
+        );
+    }
+
+    private Country getNewCountry() {
+        return new Country(
+                "newCountry"
         );
     }
 

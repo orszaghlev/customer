@@ -58,6 +58,15 @@ public class StaffDaoImplTest {
         });
     }
 
+    @Test
+    public void updateStaff() throws UnknownStaffException {
+        doThrow(UnknownStaffException.class).when(dao).updateStaff(any(), any());
+
+        assertThrows(UnknownStaffException.class, ()->{
+            dao.updateStaff(getStaff(), getNewStaff());
+        });
+    }
+
     private Staff getStaff() {
         return new Staff(
                 "firstName",
@@ -72,6 +81,23 @@ public class StaffDaoImplTest {
                 "storeCountry",
                 "username",
                 "password"
+        );
+    }
+
+    private Staff getNewStaff() {
+        return new Staff(
+                "newFirstName",
+                "newLastName",
+                "newAddress",
+                "newCity",
+                "newCountry",
+                "newEmail",
+                "newStore",
+                "newStoreAddress",
+                "newStoreCity",
+                "newStoreCountry",
+                "newUsername",
+                "newPassword"
         );
     }
 
