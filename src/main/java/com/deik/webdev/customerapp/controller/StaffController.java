@@ -36,9 +36,6 @@ public class StaffController {
                         .country(model.getCountry())
                         .email(model.getEmail())
                         .store(model.getStore())
-                        .storeAddress(model.getStoreAddress())
-                        .storeCity(model.getStoreCity())
-                        .storeCountry(model.getStoreCountry())
                         .username(model.getUsername())
                         .password(model.getPassword())
                         .build())
@@ -56,9 +53,6 @@ public class StaffController {
                     requestDto.getCountry(),
                     requestDto.getEmail(),
                     requestDto.getStore(),
-                    requestDto.getStoreAddress(),
-                    requestDto.getStoreCity(),
-                    requestDto.getStoreCountry(),
                     requestDto.getUsername(),
                     requestDto.getPassword()
             ));
@@ -78,9 +72,6 @@ public class StaffController {
                     requestDto.getCountry(),
                     requestDto.getEmail(),
                     requestDto.getStore(),
-                    requestDto.getStoreAddress(),
-                    requestDto.getStoreCity(),
-                    requestDto.getStoreCountry(),
                     requestDto.getUsername(),
                     requestDto.getPassword()
             ));
@@ -100,9 +91,6 @@ public class StaffController {
                     requestDto.getCountry(),
                     requestDto.getEmail(),
                     requestDto.getStore(),
-                    requestDto.getStoreAddress(),
-                    requestDto.getStoreCity(),
-                    requestDto.getStoreCountry(),
                     requestDto.getUsername(),
                     requestDto.getPassword()),
                     new Staff(
@@ -113,9 +101,6 @@ public class StaffController {
                     requestDto.getCountry(),
                     requestDto.getEmail(),
                     requestDto.getStore(),
-                    requestDto.getStoreAddress(),
-                    requestDto.getStoreCity(),
-                    requestDto.getStoreCountry(),
                     requestDto.getUsername(),
                     requestDto.getPassword())
             );

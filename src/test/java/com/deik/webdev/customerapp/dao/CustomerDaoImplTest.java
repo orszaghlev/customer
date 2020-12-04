@@ -43,7 +43,7 @@ public class CustomerDaoImplTest {
         doReturn(AddressEntity.builder().address("47 MySakila Drive").build())
                 .when(dao).queryAddress(any(),any(),any());
         doReturn(StoreEntity.builder().id(parseInt("1")).build())
-                .when(dao).queryStore(any(),any(),any(),any(),any());
+                .when(dao).queryStore(any(),any());
         dao.createCustomer(getCustomer());
 
         verify(customerRepository, times(1)).save(any());
@@ -71,9 +71,6 @@ public class CustomerDaoImplTest {
         return new Customer(
                 "store",
                 "staff",
-                "staffAddress",
-                "staffCity",
-                "staffCountry",
                 "firstName",
                 "lastName",
                 "email",
@@ -87,9 +84,6 @@ public class CustomerDaoImplTest {
         return new Customer(
                 "newStore",
                 "newStaff",
-                "newStaffAddress",
-                "newStaffCity",
-                "newStaffCountry",
                 "newFirstName",
                 "newLastName",
                 "newEmail",

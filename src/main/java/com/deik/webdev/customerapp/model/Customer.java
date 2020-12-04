@@ -13,9 +13,6 @@ public class Customer {
 
     private String store;
     private String staff;
-    private String staffAddress;
-    private String staffCity;
-    private String staffCountry;
     private String firstName;
     private String lastName;
     private String email;

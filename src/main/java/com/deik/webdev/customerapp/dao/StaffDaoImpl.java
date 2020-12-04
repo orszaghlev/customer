@@ -39,7 +39,7 @@ public class StaffDaoImpl implements StaffDao {
                 .lastName(staff.getLastName())
                 .address(queryAddress(staff.getAddress(), staff.getCity(), staff.getCountry()))
                 .email(staff.getEmail())
-                .store(queryStore(staff.getStore(), staff.getStoreAddress(), staff.getStoreCity(), staff.getStoreCountry()))
+                .store(queryStore(staff.getStore()))
                 .username(staff.getUsername())
                 .password(staff.getPassword())
                 .lastUpdate(new Timestamp((new Date()).getTime()))
@@ -80,29 +80,18 @@ public class StaffDaoImpl implements StaffDao {
         return addressEntity.get();
     }
 
-    protected StoreEntity queryStore(String store, String storeAddress, String storeCity, String storeCountry) throws UnknownStoreException, UnknownCountryException {
+    protected StoreEntity queryStore(String store) throws UnknownStoreException {
         Optional<StoreEntity> storeEntity = storeRepository.findById(Integer.parseInt(store));
         if (!storeEntity.isPresent()) {
             throw new UnknownStoreException(store);
         }
         else {
-            Optional<AddressEntity> storeAddressEntity = addressRepository.findByAddress(storeAddress);
-            if (!storeAddressEntity.isPresent()) {
-                Optional<CityEntity> storeCityEntity = cityRepository.findByCity(storeCity);
-                if (!storeCityEntity.isPresent()) {
-                    Optional<CountryEntity> storeCountryEntity = countryRepository.findByCountry(storeCountry);
-                    if (!storeCountryEntity.isPresent()) {
-                        throw new UnknownCountryException(storeCountry);
-                    }
-                }
-            }
             storeEntity = Optional.ofNullable(StoreEntity.builder()
                     .id(Integer.parseInt(store))
-                    .address(storeAddressEntity.get())
                     .lastUpdate(new Timestamp((new Date()).getTime()))
                     .build());
             storeRepository.save(storeEntity.get());
-            log.info("Recorded new Store: {}, {}, {}, {}", store, storeAddress, storeCity, storeCountry);
+            log.info("Recorded new Store: {}", store);
         }
         log.trace("Store Entity: {}", storeEntity);
         return storeEntity.get();
@@ -119,9 +108,6 @@ public class StaffDaoImpl implements StaffDao {
                         entity.getAddress().getCity().getCountry().getCountry(),
                         entity.getEmail(),
                         String.valueOf(entity.getStore().getId()),
-                        entity.getStore().getAddress().getAddress(),
-                        entity.getStore().getAddress().getCity().getCity(),
-                        entity.getStore().getAddress().getCity().getCountry().getCountry(),
                         entity.getUsername(),
                         entity.getPassword()
                 ))
@@ -164,7 +150,7 @@ public class StaffDaoImpl implements StaffDao {
         try {
             staffRepository.save(staffEntity.get());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 

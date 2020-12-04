@@ -42,7 +42,7 @@ public class StoreDaoImplTest {
         doReturn(AddressEntity.builder().address("47 MySakila Drive").build())
                 .when(dao).queryAddress(any(),any(),any());
         doReturn(StaffEntity.builder().firstName("Mike").build())
-                .when(dao).queryStaff(any(),any(),any(),any());
+                .when(dao).queryStaff(any());
         dao.createStore(getStore());
 
         verify(storeRepository, times(1)).save(any());
@@ -70,9 +70,6 @@ public class StoreDaoImplTest {
         return new Store(
                 "1",
                 "staff",
-                "staffAddress",
-                "staffCity",
-                "staffCountry",
                 "address",
                 "city",
                 "country"
@@ -83,9 +80,6 @@ public class StoreDaoImplTest {
         return new Store(
                 "2",
                 "newStaff",
-                "newStaffAddress",
-                "newStaffCity",
-                "newStaffCountry",
                 "newAddress",
                 "newCity",
                 "newCountry"

@@ -125,7 +125,7 @@ public class AddressDaoImpl implements AddressDao {
         try {
             addressRepository.save(addressEntity.get());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 

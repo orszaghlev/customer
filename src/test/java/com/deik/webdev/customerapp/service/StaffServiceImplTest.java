@@ -70,9 +70,6 @@ public class StaffServiceImplTest {
                 "country",
                 "email",
                 "store",
-                "storeAddress",
-                "storeCity",
-                "storeCountry",
                 "username",
                 "password"
         );
@@ -88,9 +85,6 @@ public class StaffServiceImplTest {
                         "country",
                         "email",
                         "store",
-                        "storeAddress",
-                        "storeCity",
-                        "storeCountry",
                         "username",
                         "password"
                 ),
@@ -102,9 +96,6 @@ public class StaffServiceImplTest {
                         "country1",
                         "email1",
                         "store1",
-                        "storeAddress1",
-                        "storeCity1",
-                        "storeCountry1",
                         "username1",
                         "password1"
                 ),
@@ -116,9 +107,6 @@ public class StaffServiceImplTest {
                         "country2",
                         "email2",
                         "store2",
-                        "storeAddress2",
-                        "storeCity2",
-                        "storeCountry2",
                         "username2",
                         "password2"
                 ));

@@ -16,9 +16,6 @@ public class Store {
     @ToString.Exclude
     private String staff;
 
-    private String staffAddress;
-    private String staffCity;
-    private String staffCountry;
     private String address;
     private String city;
     private String country;

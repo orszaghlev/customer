@@ -18,9 +18,6 @@ public class StaffUpdateRequestDto extends StaffDto {
     private String newCountry;
     private String newEmail;
     private String newStore;
-    private String newStoreAddress;
-    private String newStoreCity;
-    private String newStoreCountry;
     private String newUsername;
     private String newPassword;
 

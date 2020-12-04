@@ -43,7 +43,7 @@ public class StaffDaoImplTest {
         doReturn(AddressEntity.builder().address("47 MySakila Drive").build())
                 .when(dao).queryAddress(any(),any(),any());
         doReturn(StoreEntity.builder().id(parseInt("1")).build())
-                .when(dao).queryStore(any(),any(),any(),any());
+                .when(dao).queryStore(any());
         dao.createStaff(getStaff());
 
         verify(staffRepository, times(1)).save(any());
@@ -76,9 +76,6 @@ public class StaffDaoImplTest {
                 "country",
                 "email",
                 "store",
-                "storeAddress",
-                "storeCity",
-                "storeCountry",
                 "username",
                 "password"
         );
@@ -93,9 +90,6 @@ public class StaffDaoImplTest {
                 "newCountry",
                 "newEmail",
                 "newStore",
-                "newStoreAddress",
-                "newStoreCity",
-                "newStoreCountry",
                 "newUsername",
                 "newPassword"
         );

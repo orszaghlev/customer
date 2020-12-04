@@ -36,7 +36,7 @@ public class CustomerDaoImpl implements CustomerDao {
         CustomerEntity customerEntity;
 
         customerEntity = CustomerEntity.builder()
-                .store(queryStore(customer.getStore(), customer.getStaff(), customer.getStaffAddress(), customer.getStaffCity(), customer.getStaffCountry()))
+                .store(queryStore(customer.getStore(), customer.getStaff()))
                 .firstName(customer.getFirstName())
                 .lastName(customer.getLastName())
                 .email(customer.getEmail())
@@ -53,31 +53,20 @@ public class CustomerDaoImpl implements CustomerDao {
         }
     }
 
-    protected StoreEntity queryStore(String store, String staff, String staffAddress, String staffCity, String staffCountry) throws UnknownStaffException, UnknownCountryException {
+    protected StoreEntity queryStore(String store, String staff) throws UnknownStaffException {
         Optional<StoreEntity> storeEntity = storeRepository.findById(Integer.parseInt(store));
         if (!storeEntity.isPresent()) {
             Optional<StaffEntity> staffEntity = staffRepository.findByUsername(staff);
             if (!staffEntity.isPresent()) {
                 throw new UnknownStaffException(staff);
             }
-            Optional<AddressEntity> staffAddressEntity = addressRepository.findByAddress(staffAddress);
-            if (!staffAddressEntity.isPresent()) {
-                Optional<CityEntity> staffCityEntity = cityRepository.findByCity(staffCity);
-                if (!staffCityEntity.isPresent()) {
-                    Optional<CountryEntity> staffCountryEntity = countryRepository.findByCountry(staffCountry);
-                    if (!staffCountryEntity.isPresent()) {
-                        throw new UnknownCountryException(staffCountry);
-                    }
-                }
-            }
             storeEntity = Optional.ofNullable(StoreEntity.builder()
                     .id(Integer.parseInt(store))
                     .staff(staffEntity.get())
-                    .address(staffAddressEntity.get())
                     .lastUpdate(new Timestamp((new Date()).getTime()))
                     .build());
             storeRepository.save(storeEntity.get());
-            log.info("Recorded new Store: {}, {}, {}, {}, {}", store, staff, staffAddress, staffCity, staffCountry);
+            log.info("Recorded new Store: {}, {}", store, staff);
         }
         log.trace("Store Entity: {}", storeEntity);
         return storeEntity.get();
@@ -117,9 +106,6 @@ public class CustomerDaoImpl implements CustomerDao {
                 .map(entity -> new Customer(
                         String.valueOf(entity.getStore().getId()),
                         entity.getStore().getStaff().getUsername(),
-                        entity.getStore().getStaff().getAddress().getAddress(),
-                        entity.getStore().getStaff().getAddress().getCity().getCity(),
-                        entity.getStore().getStaff().getAddress().getCity().getCountry().getCountry(),
                         entity.getFirstName(),
                         entity.getLastName(),
                         entity.getEmail(),
@@ -163,7 +149,7 @@ public class CustomerDaoImpl implements CustomerDao {
         try {
             customerRepository.save(customerEntity.get());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 

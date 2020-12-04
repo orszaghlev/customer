@@ -74,9 +74,6 @@ public class CustomerServiceImplTest {
         return new Customer(
                 "store",
                 "staff",
-                "staffAddress",
-                "staffCity",
-                "staffCountry",
                 "firstName",
                 "lastName",
                 "email",
@@ -91,9 +88,6 @@ public class CustomerServiceImplTest {
                 new Customer(
                         "store",
                         "staff",
-                        "staffAddress",
-                        "staffCity",
-                        "staffCountry",
                         "firstName",
                         "lastName",
                         "email",
@@ -104,9 +98,6 @@ public class CustomerServiceImplTest {
                 new Customer(
                         "store1",
                         "staff1",
-                        "staffAddress1",
-                        "staffCity1",
-                        "staffCountry1",
                         "firstName1",
                         "lastName1",
                         "email1",
@@ -117,9 +108,6 @@ public class CustomerServiceImplTest {
                 new Customer(
                         "store2",
                         "staff2",
-                        "staffAddress2",
-                        "staffCity2",
-                        "staffCountry2",
                         "firstName2",
                         "lastName2",
                         "email2",

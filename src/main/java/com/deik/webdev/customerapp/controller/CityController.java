@@ -46,18 +46,6 @@ public class CityController {
         }
     }
 
-    @DeleteMapping("/city")
-    public void deleteCity(@RequestBody CityDto requestDto) {
-        try {
-            service.deleteCity(new City(
-                    requestDto.getCity(),
-                    requestDto.getCountry()
-            ));
-        } catch (DataAccessException | UnknownCityException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
-    }
-
     @PutMapping("/city")
     public void updateCity(@RequestBody CityUpdateRequestDto requestDto) {
         try {

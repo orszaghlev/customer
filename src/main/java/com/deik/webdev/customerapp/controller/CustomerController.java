@@ -31,9 +31,6 @@ public class CustomerController {
                 .map(model -> CustomerDto.builder()
                         .store(model.getStore())
                         .staff(model.getStaff())
-                        .staffAddress(model.getStaffAddress())
-                        .staffCity(model.getStaffCity())
-                        .staffCountry(model.getStaffCountry())
                         .firstName(model.getFirstName())
                         .lastName(model.getLastName())
                         .email(model.getEmail())
@@ -50,9 +47,6 @@ public class CustomerController {
             service.recordCustomer(new Customer(
                     requestDto.getStore(),
                     requestDto.getStaff(),
-                    requestDto.getStaffAddress(),
-                    requestDto.getStaffCity(),
-                    requestDto.getStaffCountry(),
                     requestDto.getFirstName(),
                     requestDto.getLastName(),
                     requestDto.getEmail(),
@@ -71,9 +65,6 @@ public class CustomerController {
             service.deleteCustomer(new Customer(
                     requestDto.getStore(),
                     requestDto.getStaff(),
-                    requestDto.getStaffAddress(),
-                    requestDto.getStaffCity(),
-                    requestDto.getStaffCountry(),
                     requestDto.getFirstName(),
                     requestDto.getLastName(),
                     requestDto.getEmail(),
@@ -92,9 +83,6 @@ public class CustomerController {
             service.updateCustomer(new Customer(
                     requestDto.getStore(),
                     requestDto.getStaff(),
-                    requestDto.getStaffAddress(),
-                    requestDto.getStaffCity(),
-                    requestDto.getStaffCountry(),
                     requestDto.getFirstName(),
                     requestDto.getLastName(),
                     requestDto.getEmail(),
@@ -104,9 +92,6 @@ public class CustomerController {
                     new Customer(
                     requestDto.getNewStore(),
                     requestDto.getNewStaff(),
-                    requestDto.getNewStaffAddress(),
-                    requestDto.getNewStaffCity(),
-                    requestDto.getNewStaffCountry(),
                     requestDto.getNewFirstName(),
                     requestDto.getNewLastName(),
                     requestDto.getNewEmail(),

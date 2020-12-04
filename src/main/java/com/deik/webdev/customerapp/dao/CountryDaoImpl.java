@@ -74,7 +74,7 @@ public class CountryDaoImpl implements CountryDao {
         try {
             countryRepository.save(countryEntity.get());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 

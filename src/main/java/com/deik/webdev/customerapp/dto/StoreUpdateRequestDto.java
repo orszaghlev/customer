@@ -13,9 +13,6 @@ public class StoreUpdateRequestDto extends StoreDto {
 
     private String newId;
     private String newStaff;
-    private String newStaffAddress;
-    private String newStaffCity;
-    private String newStaffCountry;
     private String newAddress;
     private String newCity;
     private String newCountry;

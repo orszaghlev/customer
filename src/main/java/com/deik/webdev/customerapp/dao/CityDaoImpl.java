@@ -95,7 +95,7 @@ public class CityDaoImpl implements CityDao {
         try {
             cityRepository.save(cityEntity.get());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 

@@ -1,6 +1,5 @@
 package com.deik.webdev.customerapp.dao;
 
-import com.deik.webdev.customerapp.entity.AddressEntity;
 import com.deik.webdev.customerapp.entity.CityEntity;
 import com.deik.webdev.customerapp.exception.UnknownAddressException;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;

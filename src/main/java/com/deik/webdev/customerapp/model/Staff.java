@@ -18,9 +18,6 @@ public class Staff {
     private String country;
     private String email;
     private String store;
-    private String storeAddress;
-    private String storeCity;
-    private String storeCountry;
     private String username;
     private String password;
 

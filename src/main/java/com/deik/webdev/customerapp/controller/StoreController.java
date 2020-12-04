@@ -31,9 +31,6 @@ public class StoreController {
                 .map(model -> StoreDto.builder()
                         .id(model.getId())
                         .staff(model.getStaff())
-                        .staffAddress(model.getStaffAddress())
-                        .staffCity(model.getStaffCity())
-                        .staffCountry(model.getStaffCountry())
                         .address(model.getAddress())
                         .city(model.getCity())
                         .country(model.getCountry())
@@ -47,14 +44,11 @@ public class StoreController {
             service.recordStore(new Store(
                     requestDto.getId(),
                     requestDto.getStaff(),
-                    requestDto.getStaffAddress(),
-                    requestDto.getStaffCity(),
-                    requestDto.getStaffCountry(),
                     requestDto.getAddress(),
                     requestDto.getCity(),
                     requestDto.getCountry()
             ));
-        } catch (DataAccessException | UnknownStaffException | UnknownCountryException e) {
+        } catch (DataAccessException | NumberFormatException | UnknownStaffException | UnknownCountryException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
@@ -65,9 +59,6 @@ public class StoreController {
             service.deleteStore(new Store(
                     requestDto.getId(),
                     requestDto.getStaff(),
-                    requestDto.getStaffAddress(),
-                    requestDto.getStaffCity(),
-                    requestDto.getStaffCountry(),
                     requestDto.getAddress(),
                     requestDto.getCity(),
                     requestDto.getCountry()
@@ -83,18 +74,12 @@ public class StoreController {
             service.updateStore(new Store(
                     requestDto.getId(),
                     requestDto.getStaff(),
-                    requestDto.getStaffAddress(),
-                    requestDto.getStaffCity(),
-                    requestDto.getStaffCountry(),
                     requestDto.getAddress(),
                     requestDto.getCity(),
                     requestDto.getCountry()),
                     new Store(
                     requestDto.getNewId(),
                     requestDto.getNewStaff(),
-                    requestDto.getNewStaffAddress(),
-                    requestDto.getNewStaffCity(),
-                    requestDto.getNewStaffCountry(),
                     requestDto.getNewAddress(),
                     requestDto.getNewCity(),
                     requestDto.getNewCountry())
