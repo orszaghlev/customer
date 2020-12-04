@@ -34,7 +34,7 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public void updateStaff(Staff staff, Staff newStaff) throws UnknownStaffException {
+    public void updateStaff(Staff staff, Staff newStaff) throws UnknownStoreException, UnknownCountryException, UnknownStaffException {
         staffDao.updateStaff(staff, newStaff);
     }
 

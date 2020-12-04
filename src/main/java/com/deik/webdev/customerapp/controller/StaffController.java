@@ -29,6 +29,7 @@ public class StaffController {
         return service.getAllStaff()
                 .stream()
                 .map(model -> StaffDto.builder()
+                        .id(model.getId())
                         .firstName(model.getFirstName())
                         .lastName(model.getLastName())
                         .address(model.getAddress())
@@ -36,9 +37,7 @@ public class StaffController {
                         .country(model.getCountry())
                         .email(model.getEmail())
                         .store(model.getStore())
-                        .storeAddress(model.getStoreAddress())
-                        .storeCity(model.getStoreCity())
-                        .storeCountry(model.getStoreCountry())
+                        .active(model.getActive())
                         .username(model.getUsername())
                         .password(model.getPassword())
                         .build())
@@ -49,6 +48,7 @@ public class StaffController {
     public void recordStaff(@RequestBody StaffDto requestDto) {
         try {
             service.recordStaff(new Staff(
+                    requestDto.getId(),
                     requestDto.getFirstName(),
                     requestDto.getLastName(),
                     requestDto.getAddress(),
@@ -56,9 +56,7 @@ public class StaffController {
                     requestDto.getCountry(),
                     requestDto.getEmail(),
                     requestDto.getStore(),
-                    requestDto.getStoreAddress(),
-                    requestDto.getStoreCity(),
-                    requestDto.getStoreCountry(),
+                    requestDto.getActive(),
                     requestDto.getUsername(),
                     requestDto.getPassword()
             ));
@@ -71,6 +69,7 @@ public class StaffController {
     public void deleteStaff(@RequestBody StaffDto requestDto){
         try {
             service.deleteStaff(new Staff(
+                    requestDto.getId(),
                     requestDto.getFirstName(),
                     requestDto.getLastName(),
                     requestDto.getAddress(),
@@ -78,9 +77,7 @@ public class StaffController {
                     requestDto.getCountry(),
                     requestDto.getEmail(),
                     requestDto.getStore(),
-                    requestDto.getStoreAddress(),
-                    requestDto.getStoreCity(),
-                    requestDto.getStoreCountry(),
+                    requestDto.getActive(),
                     requestDto.getUsername(),
                     requestDto.getPassword()
             ));
@@ -93,6 +90,7 @@ public class StaffController {
     public void updateStaff(@RequestBody StaffUpdateRequestDto requestDto) {
         try {
             service.updateStaff(new Staff(
+                    requestDto.getId(),
                     requestDto.getFirstName(),
                     requestDto.getLastName(),
                     requestDto.getAddress(),
@@ -100,12 +98,11 @@ public class StaffController {
                     requestDto.getCountry(),
                     requestDto.getEmail(),
                     requestDto.getStore(),
-                    requestDto.getStoreAddress(),
-                    requestDto.getStoreCity(),
-                    requestDto.getStoreCountry(),
+                    requestDto.getActive(),
                     requestDto.getUsername(),
                     requestDto.getPassword()),
                     new Staff(
+                    requestDto.getNewId(),
                     requestDto.getFirstName(),
                     requestDto.getLastName(),
                     requestDto.getAddress(),
@@ -113,13 +110,11 @@ public class StaffController {
                     requestDto.getCountry(),
                     requestDto.getEmail(),
                     requestDto.getStore(),
-                    requestDto.getStoreAddress(),
-                    requestDto.getStoreCity(),
-                    requestDto.getStoreCountry(),
+                    requestDto.getNewActive(),
                     requestDto.getUsername(),
                     requestDto.getPassword())
             );
-        } catch (DataAccessException | UnknownStaffException e) {
+        } catch (DataAccessException | UnknownStoreException | UnknownCountryException | UnknownStaffException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

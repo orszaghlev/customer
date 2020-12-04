@@ -14,6 +14,6 @@ public interface StaffDao {
 
     void deleteStaff(Staff staff) throws UnknownStaffException;
 
-    void updateStaff(Staff staff, Staff newStaff) throws UnknownStaffException;
+    void updateStaff(Staff staff, Staff newStaff) throws UnknownStoreException, UnknownCountryException, UnknownStaffException;
 
 }

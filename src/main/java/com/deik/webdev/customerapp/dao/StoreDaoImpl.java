@@ -36,7 +36,7 @@ public class StoreDaoImpl implements StoreDao {
 
         storeEntity = StoreEntity.builder()
                 .id(Integer.parseInt(store.getId()))
-                .staff(queryStaff(store.getStaff(), store.getStaffAddress(), store.getStaffCity(), store.getStaffCountry()))
+                .staff(queryStaff(store.getStaff()))
                 .address(queryAddress(store.getAddress(), store.getCity(), store.getCountry()))
                 .lastUpdate(new Timestamp((new Date()).getTime()))
                 .build();
@@ -49,33 +49,22 @@ public class StoreDaoImpl implements StoreDao {
         }
     }
 
-    protected StaffEntity queryStaff(String staff, String staffAddress, String staffCity, String staffCountry) throws UnknownStaffException, UnknownCountryException {
+    protected StaffEntity queryStaff(String staff) throws UnknownStaffException {
         Optional<StaffEntity> staffEntity = staffRepository.findByUsername(staff);
         if (!staffEntity.isPresent()) {
             throw new UnknownStaffException(staff);
         }
         else {
-            Optional<AddressEntity> staffAddressEntity = addressRepository.findByAddress(staffAddress);
-            if (!staffAddressEntity.isPresent()) {
-                Optional<CityEntity> staffCityEntity = cityRepository.findByCity(staffCity);
-                if (!staffCityEntity.isPresent()) {
-                    Optional<CountryEntity> staffCountryEntity = countryRepository.findByCountry(staffCountry);
-                    if (!staffCountryEntity.isPresent()) {
-                        throw new UnknownCountryException(staffCountry);
-                    }
-                }
-            }
             staffEntity = Optional.ofNullable(StaffEntity.builder()
                     .firstName(staff)
                     .lastName(staff)
-                    .address(staffAddressEntity.get())
                     .email(staff)
                     .username(staff)
                     .password(staff)
                     .lastUpdate(new Timestamp((new Date()).getTime()))
                     .build());
             staffRepository.save(staffEntity.get());
-            log.info("Recorded new Staff: {}, {}, {}, {}", staff, staffAddress, staffCity, staffCountry);
+            log.info("Recorded new Staff: {}", staff);
         }
         log.trace("Staff Entity: {}", staffEntity);
         return staffEntity.get();
@@ -114,10 +103,7 @@ public class StoreDaoImpl implements StoreDao {
         return StreamSupport.stream(storeRepository.findAll().spliterator(),false)
                 .map(entity -> new Store(
                         String.valueOf(entity.getId()),
-                        entity.getStaff().getFirstName(),
-                        entity.getStaff().getAddress().getAddress(),
-                        entity.getStaff().getAddress().getCity().getCity(),
-                        entity.getStaff().getAddress().getCity().getCountry().getCountry(),
+                        entity.getStaff().getUsername(),
                         entity.getAddress().getAddress(),
                         entity.getAddress().getCity().getCity(),
                         entity.getAddress().getCity().getCountry().getCountry()
@@ -141,19 +127,21 @@ public class StoreDaoImpl implements StoreDao {
     }
 
     @Override
-    public void updateStore(Store store, Store newStore) throws UnknownStoreException {
+    public void updateStore(Store store, Store newStore) throws UnknownStaffException, UnknownCountryException, UnknownStoreException {
         Optional<StoreEntity> storeEntity = storeRepository.findById(Integer.parseInt(store.getId()));
         if (!storeEntity.isPresent()) {
             throw new UnknownStoreException(String.format("Store Not Found %s", store), store);
         }
         log.info("Original: " + storeEntity.toString());
         storeEntity.get().setId(Integer.parseInt(newStore.getId()));
+        storeEntity.get().setStaff(queryStaff(newStore.getStaff()));
+        storeEntity.get().setAddress(queryAddress(newStore.getAddress(), newStore.getCity(), newStore.getCountry()));
         storeEntity.get().setLastUpdate(new Timestamp((new Date()).getTime()));
         log.info("Updated: " + storeEntity.toString());
         try {
             storeRepository.save(storeEntity.get());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 

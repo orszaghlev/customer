@@ -33,7 +33,7 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public void updateCity(City city, City newCity) throws UnknownCityException {
+    public void updateCity(City city, City newCity) throws UnknownCountryException, UnknownCityException {
         cityDao.updateCity(city, newCity);
     }
 

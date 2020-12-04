@@ -11,6 +11,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class StaffDto {
 
+    private String id;
     private String firstName;
     private String lastName;
     private String address;
@@ -18,9 +19,7 @@ public class StaffDto {
     private String country;
     private String email;
     private String store;
-    private String storeAddress;
-    private String storeCity;
-    private String storeCountry;
+    private String active;
     private String username;
     private String password;
 

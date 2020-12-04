@@ -47,7 +47,7 @@ public class CityDaoImplTest {
     }
 
     @Test
-    public void updateCity() throws UnknownCityException {
+    public void updateCity() throws UnknownCountryException, UnknownCityException {
         doThrow(UnknownCityException.class).when(dao).updateCity(any(), any());
 
         assertThrows(UnknownCityException.class, ()->{

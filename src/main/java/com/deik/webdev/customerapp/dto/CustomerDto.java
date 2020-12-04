@@ -13,14 +13,12 @@ public class CustomerDto {
 
     private String store;
     private String staff;
-    private String staffAddress;
-    private String staffCity;
-    private String staffCountry;
     private String firstName;
     private String lastName;
     private String email;
     private String address;
     private String city;
     private String country;
+    private String active;
 
 }

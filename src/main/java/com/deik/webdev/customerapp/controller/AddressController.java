@@ -94,7 +94,7 @@ public class AddressController {
                     requestDto.getNewPostalCode(),
                     requestDto.getNewPhone())
             );
-        } catch (DataAccessException | UnknownAddressException e) {
+        } catch (DataAccessException | UnknownCountryException | UnknownAddressException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

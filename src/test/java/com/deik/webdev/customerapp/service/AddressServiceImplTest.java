@@ -69,6 +69,15 @@ class AddressServiceImplTest {
         verify(dao, times(1)).deleteAddress(address);
     }
 
+    @Test
+    void testUpdateAddress() throws UnknownCountryException, UnknownAddressException {
+        Address address = getAddress();
+        Address newAddress = getNewAddress();
+        service.updateAddress(address, newAddress);
+
+        verify(dao, times(1)).updateAddress(address, newAddress);
+    }
+
     private Address getAddress() {
         return new Address(
                 "address1",
@@ -76,8 +85,20 @@ class AddressServiceImplTest {
                 "district",
                 "UnknownCity",
                 "Algeria_1234",
-                "postalCode",
-                "phone"
+                "1234",
+                "061234567"
+        );
+    }
+
+    private Address getNewAddress() {
+        return new Address(
+                "newAddress1",
+                "newAddress2",
+                "newDistrict",
+                "newUnknownCity",
+                "newAlgeria_1234",
+                "2345",
+                "062345678"
         );
     }
 
@@ -89,8 +110,8 @@ class AddressServiceImplTest {
                         "district",
                         "Atlantis",
                         "Greece",
-                        "postalCode",
-                        "phone"
+                        "1234",
+                        "061234567"
                 ),
                 new Address(
                         "address10",
@@ -98,8 +119,8 @@ class AddressServiceImplTest {
                         "district",
                         "Atlantis",
                         "Greece",
-                        "postalCode",
-                        "phone"
+                        "2345",
+                        "062345678"
                 ),
                 new Address(
                         "address1",
@@ -107,8 +128,8 @@ class AddressServiceImplTest {
                         "district",
                         "Debrecen",
                         "Hungary",
-                        "postalCode",
-                        "phone"
+                        "3456",
+                        "063456789"
                 ));
     }
 }

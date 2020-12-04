@@ -35,11 +35,13 @@ public class StaffDaoImpl implements StaffDao {
         StaffEntity staffEntity;
 
         staffEntity = StaffEntity.builder()
+                .id(Integer.parseInt(staff.getId()))
                 .firstName(staff.getFirstName())
                 .lastName(staff.getLastName())
                 .address(queryAddress(staff.getAddress(), staff.getCity(), staff.getCountry()))
                 .email(staff.getEmail())
-                .store(queryStore(staff.getStore(), staff.getStoreAddress(), staff.getStoreCity(), staff.getStoreCountry()))
+                .store(queryStore(staff.getStore()))
+                .active(Integer.parseInt(staff.getActive()))
                 .username(staff.getUsername())
                 .password(staff.getPassword())
                 .lastUpdate(new Timestamp((new Date()).getTime()))
@@ -80,29 +82,18 @@ public class StaffDaoImpl implements StaffDao {
         return addressEntity.get();
     }
 
-    protected StoreEntity queryStore(String store, String storeAddress, String storeCity, String storeCountry) throws UnknownStoreException, UnknownCountryException {
+    protected StoreEntity queryStore(String store) throws UnknownStoreException {
         Optional<StoreEntity> storeEntity = storeRepository.findById(Integer.parseInt(store));
         if (!storeEntity.isPresent()) {
             throw new UnknownStoreException(store);
         }
         else {
-            Optional<AddressEntity> storeAddressEntity = addressRepository.findByAddress(storeAddress);
-            if (!storeAddressEntity.isPresent()) {
-                Optional<CityEntity> storeCityEntity = cityRepository.findByCity(storeCity);
-                if (!storeCityEntity.isPresent()) {
-                    Optional<CountryEntity> storeCountryEntity = countryRepository.findByCountry(storeCountry);
-                    if (!storeCountryEntity.isPresent()) {
-                        throw new UnknownCountryException(storeCountry);
-                    }
-                }
-            }
             storeEntity = Optional.ofNullable(StoreEntity.builder()
                     .id(Integer.parseInt(store))
-                    .address(storeAddressEntity.get())
                     .lastUpdate(new Timestamp((new Date()).getTime()))
                     .build());
             storeRepository.save(storeEntity.get());
-            log.info("Recorded new Store: {}, {}, {}, {}", store, storeAddress, storeCity, storeCountry);
+            log.info("Recorded new Store: {}", store);
         }
         log.trace("Store Entity: {}", storeEntity);
         return storeEntity.get();
@@ -112,6 +103,7 @@ public class StaffDaoImpl implements StaffDao {
     public Collection<Staff> readAll() {
         return StreamSupport.stream(staffRepository.findAll().spliterator(),false)
                 .map(entity -> new Staff(
+                        String.valueOf(entity.getId()),
                         entity.getFirstName(),
                         entity.getLastName(),
                         entity.getAddress().getAddress(),
@@ -119,9 +111,7 @@ public class StaffDaoImpl implements StaffDao {
                         entity.getAddress().getCity().getCountry().getCountry(),
                         entity.getEmail(),
                         String.valueOf(entity.getStore().getId()),
-                        entity.getStore().getAddress().getAddress(),
-                        entity.getStore().getAddress().getCity().getCity(),
-                        entity.getStore().getAddress().getCity().getCountry().getCountry(),
+                        String.valueOf(entity.getActive()),
                         entity.getUsername(),
                         entity.getPassword()
                 ))
@@ -148,15 +138,19 @@ public class StaffDaoImpl implements StaffDao {
     }
 
     @Override
-    public void updateStaff(Staff staff, Staff newStaff) throws UnknownStaffException {
+    public void updateStaff(Staff staff, Staff newStaff) throws UnknownStoreException, UnknownCountryException, UnknownStaffException {
         Optional<StaffEntity> staffEntity = staffRepository.findByUsername(staff.getUsername());
         if (!staffEntity.isPresent()) {
             throw new UnknownStaffException(String.format("Staff Not Found %s", staff), staff);
         }
         log.info("Original: " + staffEntity.toString());
+        staffEntity.get().setId(Integer.parseInt(newStaff.getId()));
         staffEntity.get().setFirstName(newStaff.getFirstName());
         staffEntity.get().setLastName(newStaff.getLastName());
+        staffEntity.get().setAddress(queryAddress(newStaff.getAddress(), newStaff.getCity(), newStaff.getCountry()));
         staffEntity.get().setEmail(newStaff.getEmail());
+        staffEntity.get().setStore(queryStore(newStaff.getStore()));
+        staffEntity.get().setActive(Integer.parseInt(newStaff.getActive()));
         staffEntity.get().setUsername(newStaff.getUsername());
         staffEntity.get().setPassword(newStaff.getPassword());
         staffEntity.get().setLastUpdate(new Timestamp((new Date()).getTime()));
@@ -164,7 +158,7 @@ public class StaffDaoImpl implements StaffDao {
         try {
             staffRepository.save(staffEntity.get());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 

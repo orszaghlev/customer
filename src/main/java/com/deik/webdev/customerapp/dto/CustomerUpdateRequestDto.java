@@ -13,14 +13,12 @@ public class CustomerUpdateRequestDto extends CustomerDto {
 
     private String newStore;
     private String newStaff;
-    private String newStaffAddress;
-    private String newStaffCity;
-    private String newStaffCountry;
     private String newFirstName;
     private String newLastName;
     private String newEmail;
     private String newAddress;
     private String newCity;
     private String newCountry;
+    private String newActive;
 
 }

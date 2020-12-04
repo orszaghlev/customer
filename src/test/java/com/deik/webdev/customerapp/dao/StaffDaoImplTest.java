@@ -43,7 +43,7 @@ public class StaffDaoImplTest {
         doReturn(AddressEntity.builder().address("47 MySakila Drive").build())
                 .when(dao).queryAddress(any(),any(),any());
         doReturn(StoreEntity.builder().id(parseInt("1")).build())
-                .when(dao).queryStore(any(),any(),any(),any());
+                .when(dao).queryStore(any());
         dao.createStaff(getStaff());
 
         verify(staffRepository, times(1)).save(any());
@@ -59,7 +59,7 @@ public class StaffDaoImplTest {
     }
 
     @Test
-    public void updateStaff() throws UnknownStaffException {
+    public void updateStaff() throws UnknownStoreException, UnknownCountryException, UnknownStaffException {
         doThrow(UnknownStaffException.class).when(dao).updateStaff(any(), any());
 
         assertThrows(UnknownStaffException.class, ()->{
@@ -69,6 +69,7 @@ public class StaffDaoImplTest {
 
     private Staff getStaff() {
         return new Staff(
+                "1",
                 "firstName",
                 "lastName",
                 "address",
@@ -76,9 +77,7 @@ public class StaffDaoImplTest {
                 "country",
                 "email",
                 "store",
-                "storeAddress",
-                "storeCity",
-                "storeCountry",
+                "1",
                 "username",
                 "password"
         );
@@ -86,6 +85,7 @@ public class StaffDaoImplTest {
 
     private Staff getNewStaff() {
         return new Staff(
+                "1",
                 "newFirstName",
                 "newLastName",
                 "newAddress",
@@ -93,9 +93,7 @@ public class StaffDaoImplTest {
                 "newCountry",
                 "newEmail",
                 "newStore",
-                "newStoreAddress",
-                "newStoreCity",
-                "newStoreCountry",
+                "2",
                 "newUsername",
                 "newPassword"
         );

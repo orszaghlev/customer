@@ -61,8 +61,18 @@ public class StaffServiceImplTest {
         verify(dao, times(1)).deleteStaff(staff);
     }
 
+    @Test
+    void testUpdateStaff() throws UnknownStoreException, UnknownCountryException, UnknownStaffException {
+        Staff staff = getStaff();
+        Staff newStaff = getNewStaff();
+        service.updateStaff(staff, newStaff);
+
+        verify(dao, times(1)).updateStaff(staff, newStaff);
+    }
+
     private Staff getStaff() {
         return new Staff(
+                "1",
                 "firstName",
                 "lastName",
                 "address",
@@ -70,17 +80,32 @@ public class StaffServiceImplTest {
                 "country",
                 "email",
                 "store",
-                "storeAddress",
-                "storeCity",
-                "storeCountry",
+                "1",
                 "username",
                 "password"
+        );
+    }
+
+    private Staff getNewStaff() {
+        return new Staff(
+                "1",
+                "newFirstName",
+                "newLastName",
+                "newAddress",
+                "newCity",
+                "newCountry",
+                "newEmail",
+                "newStore",
+                "2",
+                "newUsername",
+                "newPassword"
         );
     }
 
     private Collection<Staff> getDefaultStaffs() {
         return Arrays.asList(
                 new Staff(
+                        "1",
                         "firstName",
                         "lastName",
                         "address",
@@ -88,13 +113,12 @@ public class StaffServiceImplTest {
                         "country",
                         "email",
                         "store",
-                        "storeAddress",
-                        "storeCity",
-                        "storeCountry",
+                        "1",
                         "username",
                         "password"
                 ),
                 new Staff(
+                        "2",
                         "firstName1",
                         "lastName1",
                         "address1",
@@ -102,13 +126,12 @@ public class StaffServiceImplTest {
                         "country1",
                         "email1",
                         "store1",
-                        "storeAddress1",
-                        "storeCity1",
-                        "storeCountry1",
+                        "2",
                         "username1",
                         "password1"
                 ),
                 new Staff(
+                        "3",
                         "firstName2",
                         "lastName2",
                         "address2",
@@ -116,9 +139,7 @@ public class StaffServiceImplTest {
                         "country2",
                         "email2",
                         "store2",
-                        "storeAddress2",
-                        "storeCity2",
-                        "storeCountry2",
+                        "3",
                         "username2",
                         "password2"
                 ));

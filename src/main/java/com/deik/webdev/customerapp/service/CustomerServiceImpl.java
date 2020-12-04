@@ -34,7 +34,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void updateCustomer(Customer customer, Customer newCustomer) throws UnknownCustomerException {
+    public void updateCustomer(Customer customer, Customer newCustomer) throws UnknownStaffException, UnknownCountryException, UnknownCustomerException {
         customerDao.updateCustomer(customer, newCustomer);
     }
 

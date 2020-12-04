@@ -31,15 +31,13 @@ public class CustomerController {
                 .map(model -> CustomerDto.builder()
                         .store(model.getStore())
                         .staff(model.getStaff())
-                        .staffAddress(model.getStaffAddress())
-                        .staffCity(model.getStaffCity())
-                        .staffCountry(model.getStaffCountry())
                         .firstName(model.getFirstName())
                         .lastName(model.getLastName())
                         .email(model.getEmail())
                         .address(model.getAddress())
                         .city(model.getCity())
                         .country(model.getCountry())
+                        .active(model.getActive())
                         .build())
                 .collect(Collectors.toList());
     }
@@ -50,15 +48,13 @@ public class CustomerController {
             service.recordCustomer(new Customer(
                     requestDto.getStore(),
                     requestDto.getStaff(),
-                    requestDto.getStaffAddress(),
-                    requestDto.getStaffCity(),
-                    requestDto.getStaffCountry(),
                     requestDto.getFirstName(),
                     requestDto.getLastName(),
                     requestDto.getEmail(),
                     requestDto.getAddress(),
                     requestDto.getCity(),
-                    requestDto.getCountry()
+                    requestDto.getCountry(),
+                    requestDto.getActive()
             ));
         } catch (DataAccessException | NumberFormatException | UnknownCountryException | UnknownStaffException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
@@ -71,15 +67,13 @@ public class CustomerController {
             service.deleteCustomer(new Customer(
                     requestDto.getStore(),
                     requestDto.getStaff(),
-                    requestDto.getStaffAddress(),
-                    requestDto.getStaffCity(),
-                    requestDto.getStaffCountry(),
                     requestDto.getFirstName(),
                     requestDto.getLastName(),
                     requestDto.getEmail(),
                     requestDto.getAddress(),
                     requestDto.getCity(),
-                    requestDto.getCountry()
+                    requestDto.getCountry(),
+                    requestDto.getActive()
             ));
         } catch (DataAccessException | UnknownCustomerException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
@@ -92,29 +86,25 @@ public class CustomerController {
             service.updateCustomer(new Customer(
                     requestDto.getStore(),
                     requestDto.getStaff(),
-                    requestDto.getStaffAddress(),
-                    requestDto.getStaffCity(),
-                    requestDto.getStaffCountry(),
                     requestDto.getFirstName(),
                     requestDto.getLastName(),
                     requestDto.getEmail(),
                     requestDto.getAddress(),
                     requestDto.getCity(),
-                    requestDto.getCountry()),
+                    requestDto.getCountry(),
+                    requestDto.getActive()),
                     new Customer(
                     requestDto.getNewStore(),
                     requestDto.getNewStaff(),
-                    requestDto.getNewStaffAddress(),
-                    requestDto.getNewStaffCity(),
-                    requestDto.getNewStaffCountry(),
                     requestDto.getNewFirstName(),
                     requestDto.getNewLastName(),
                     requestDto.getNewEmail(),
                     requestDto.getNewAddress(),
                     requestDto.getNewCity(),
-                    requestDto.getNewCountry())
+                    requestDto.getNewCountry(),
+                    requestDto.getNewActive())
             );
-        } catch (DataAccessException | UnknownCustomerException e) {
+        } catch (DataAccessException | UnknownStaffException | UnknownCountryException | UnknownCustomerException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

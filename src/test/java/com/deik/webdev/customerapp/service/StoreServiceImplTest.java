@@ -61,16 +61,32 @@ public class StoreServiceImplTest {
         verify(dao, times(1)).deleteStore(store);
     }
 
+    @Test
+    void testUpdateStore() throws UnknownStaffException, UnknownCountryException, UnknownStoreException {
+        Store store = getStore();
+        Store newStore = getNewStore();
+        service.updateStore(store, newStore);
+
+        verify(dao, times(1)).updateStore(store, newStore);
+    }
+
     private Store getStore() {
         return new Store(
                 "1",
                 "staff",
-                "staffAddress",
-                "staffCity",
-                "staffCountry",
                 "address",
                 "city",
                 "country"
+        );
+    }
+
+    private Store getNewStore() {
+        return new Store(
+                "2",
+                "newStaff",
+                "newAddress",
+                "newCity",
+                "newCountry"
         );
     }
 
@@ -79,9 +95,6 @@ public class StoreServiceImplTest {
                 new Store(
                         "1",
                         "staff",
-                        "staffAddress",
-                        "staffCity",
-                        "staffCountry",
                         "address",
                         "city",
                         "country"
@@ -89,9 +102,6 @@ public class StoreServiceImplTest {
                 new Store(
                         "2",
                         "staff1",
-                        "staffAddress1",
-                        "staffCity1",
-                        "staffCountry1",
                         "address1",
                         "city1",
                         "country1"
@@ -99,9 +109,6 @@ public class StoreServiceImplTest {
                 new Store(
                         "3",
                         "staff2",
-                        "staffAddress2",
-                        "staffCity2",
-                        "staffCountry2",
                         "address2",
                         "city2",
                         "country2"

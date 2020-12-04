@@ -36,11 +36,12 @@ public class CustomerDaoImpl implements CustomerDao {
         CustomerEntity customerEntity;
 
         customerEntity = CustomerEntity.builder()
-                .store(queryStore(customer.getStore(), customer.getStaff(), customer.getStaffAddress(), customer.getStaffCity(), customer.getStaffCountry()))
+                .store(queryStore(customer.getStore(), customer.getStaff()))
                 .firstName(customer.getFirstName())
                 .lastName(customer.getLastName())
                 .email(customer.getEmail())
                 .address(queryAddress(customer.getAddress(), customer.getCity(), customer.getCountry()))
+                .active(Integer.parseInt(customer.getActive()))
                 .createDate(new Timestamp((new Date()).getTime()))
                 .lastUpdate(new Timestamp((new Date()).getTime()))
                 .build();
@@ -53,31 +54,20 @@ public class CustomerDaoImpl implements CustomerDao {
         }
     }
 
-    protected StoreEntity queryStore(String store, String staff, String staffAddress, String staffCity, String staffCountry) throws UnknownStaffException, UnknownCountryException {
+    protected StoreEntity queryStore(String store, String staff) throws UnknownStaffException {
         Optional<StoreEntity> storeEntity = storeRepository.findById(Integer.parseInt(store));
         if (!storeEntity.isPresent()) {
             Optional<StaffEntity> staffEntity = staffRepository.findByUsername(staff);
             if (!staffEntity.isPresent()) {
                 throw new UnknownStaffException(staff);
             }
-            Optional<AddressEntity> staffAddressEntity = addressRepository.findByAddress(staffAddress);
-            if (!staffAddressEntity.isPresent()) {
-                Optional<CityEntity> staffCityEntity = cityRepository.findByCity(staffCity);
-                if (!staffCityEntity.isPresent()) {
-                    Optional<CountryEntity> staffCountryEntity = countryRepository.findByCountry(staffCountry);
-                    if (!staffCountryEntity.isPresent()) {
-                        throw new UnknownCountryException(staffCountry);
-                    }
-                }
-            }
             storeEntity = Optional.ofNullable(StoreEntity.builder()
                     .id(Integer.parseInt(store))
                     .staff(staffEntity.get())
-                    .address(staffAddressEntity.get())
                     .lastUpdate(new Timestamp((new Date()).getTime()))
                     .build());
             storeRepository.save(storeEntity.get());
-            log.info("Recorded new Store: {}, {}, {}, {}, {}", store, staff, staffAddress, staffCity, staffCountry);
+            log.info("Recorded new Store: {}, {}", store, staff);
         }
         log.trace("Store Entity: {}", storeEntity);
         return storeEntity.get();
@@ -117,15 +107,13 @@ public class CustomerDaoImpl implements CustomerDao {
                 .map(entity -> new Customer(
                         String.valueOf(entity.getStore().getId()),
                         entity.getStore().getStaff().getUsername(),
-                        entity.getStore().getStaff().getAddress().getAddress(),
-                        entity.getStore().getStaff().getAddress().getCity().getCity(),
-                        entity.getStore().getStaff().getAddress().getCity().getCountry().getCountry(),
                         entity.getFirstName(),
                         entity.getLastName(),
                         entity.getEmail(),
                         entity.getAddress().getAddress(),
                         entity.getAddress().getCity().getCity(),
-                        entity.getAddress().getCity().getCountry().getCountry()
+                        entity.getAddress().getCity().getCountry().getCountry(),
+                        String.valueOf(entity.getActive())
                 ))
                 .collect(Collectors.toList());
     }
@@ -139,6 +127,7 @@ public class CustomerDaoImpl implements CustomerDao {
                             customer.getLastName().equals(entity.getLastName()) &&
                             customer.getEmail().equals(entity.getEmail()) &&
                             customer.getAddress().equals(entity.getAddress().getCity().getCountry());
+                            //customer.getActive().equals(entity.getActive());
                 }
         ).findAny();
         if (!customerEntity.isPresent()) {
@@ -148,22 +137,24 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
-    public void updateCustomer(Customer customer, Customer newCustomer) throws UnknownCustomerException {
+    public void updateCustomer(Customer customer, Customer newCustomer) throws UnknownStaffException, UnknownCountryException, UnknownCustomerException {
         Optional<CustomerEntity> customerEntity = customerRepository.findByFirstNameAndLastName(customer.getFirstName(), customer.getLastName());
         if (!customerEntity.isPresent()) {
             throw new UnknownCustomerException(String.format("Customer Not Found %s", customer), customer);
         }
         log.info("Original: " + customerEntity.toString());
+        customerEntity.get().setStore(queryStore(newCustomer.getStore(), newCustomer.getStaff()));
         customerEntity.get().setFirstName(newCustomer.getFirstName());
         customerEntity.get().setLastName(newCustomer.getLastName());
         customerEntity.get().setEmail(newCustomer.getEmail());
-        //customerEntity.get().setActive(newCustomer.getActive());
+        customerEntity.get().setAddress(queryAddress(newCustomer.getAddress(), newCustomer.getCity(), newCustomer.getCountry()));
+        customerEntity.get().setActive(Integer.parseInt(newCustomer.getActive()));
         customerEntity.get().setLastUpdate(new Timestamp((new Date()).getTime()));
         log.info("Updated: " + customerEntity.toString());
         try {
             customerRepository.save(customerEntity.get());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 

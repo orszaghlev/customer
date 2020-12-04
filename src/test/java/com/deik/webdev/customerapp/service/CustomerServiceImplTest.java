@@ -70,19 +70,40 @@ public class CustomerServiceImplTest {
         verify(dao, times(1)).deleteCustomer(customer);
     }
 
+    @Test
+    void testUpdateCustomer() throws UnknownStaffException, UnknownCountryException, UnknownCustomerException {
+        Customer customer = getCustomer();
+        Customer newCustomer = getNewCustomer();
+        service.updateCustomer(customer, newCustomer);
+
+        verify(dao, times(1)).updateCustomer(customer, newCustomer);
+    }
+
     private Customer getCustomer() {
         return new Customer(
                 "store",
                 "staff",
-                "staffAddress",
-                "staffCity",
-                "staffCountry",
                 "firstName",
                 "lastName",
                 "email",
                 "address",
                 "city",
-                "country"
+                "country",
+                "1"
+        );
+    }
+
+    private Customer getNewCustomer() {
+        return new Customer(
+                "newStore",
+                "newStaff",
+                "newFirstName",
+                "newLastName",
+                "newEmail",
+                "newAddress",
+                "newCity",
+                "newCountry",
+                "2"
         );
     }
 
@@ -91,41 +112,35 @@ public class CustomerServiceImplTest {
                 new Customer(
                         "store",
                         "staff",
-                        "staffAddress",
-                        "staffCity",
-                        "staffCountry",
                         "firstName",
                         "lastName",
                         "email",
                         "address",
                         "city",
-                        "country"
+                        "country",
+                        "1"
                 ),
                 new Customer(
                         "store1",
                         "staff1",
-                        "staffAddress1",
-                        "staffCity1",
-                        "staffCountry1",
                         "firstName1",
                         "lastName1",
                         "email1",
                         "address1",
                         "city1",
-                        "country1"
+                        "country1",
+                        "2"
                 ),
                 new Customer(
                         "store2",
                         "staff2",
-                        "staffAddress2",
-                        "staffCity2",
-                        "staffCountry2",
                         "firstName2",
                         "lastName2",
                         "email2",
                         "address2",
                         "city2",
-                        "country2"
+                        "country2",
+                        "3"
                 ));
     }
 
