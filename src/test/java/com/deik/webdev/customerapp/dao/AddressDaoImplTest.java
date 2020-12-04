@@ -64,8 +64,8 @@ class AddressDaoImplTest {
                 "district",
                 "UnknownCity",
                 "Algeria_1234",
-                "postalCode",
-                "phone"
+                "1234",
+                "061234567"
         );
     }
 
@@ -74,10 +74,10 @@ class AddressDaoImplTest {
                 "newAddress1",
                 "newAddress2",
                 "newDistrict",
-                "NewUnknownCity",
-                "NewAlgeria_1234",
-                "NewPostalCode",
-                "newPhone"
+                "newUnknownCity",
+                "newAlgeria_1234",
+                "2345",
+                "062345678"
         );
     }
 

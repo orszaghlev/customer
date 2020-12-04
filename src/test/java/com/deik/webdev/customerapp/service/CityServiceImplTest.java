@@ -59,10 +59,26 @@ public class CityServiceImplTest {
         verify(dao, times(1)).deleteCity(city);
     }
 
+    @Test
+    void testUpdateCity() throws UnknownCountryException, UnknownCityException {
+        City city = getCity();
+        City newCity = getNewCity();
+        service.updateCity(city, newCity);
+
+        verify(dao, times(1)).updateCity(city, newCity);
+    }
+
     private City getCity() {
         return new City(
                 "city",
                 "country"
+        );
+    }
+
+    private City getNewCity() {
+        return new City(
+                "newCity",
+                "newCountry"
         );
     }
 

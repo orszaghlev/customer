@@ -104,6 +104,7 @@ public class AddressDaoImpl implements AddressDao {
             throw new UnknownAddressException(String.format("Address Not Found %s", address), address);
         }
         addressRepository.delete(addressEntity.get());
+        log.info("Deleted address: " + addressEntity.toString());
     }
 
     @Override

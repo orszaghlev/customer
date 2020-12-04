@@ -48,9 +48,24 @@ public class CountryServiceImplTest {
         verify(dao, times(1)).deleteCountry(country);
     }
 
+    @Test
+    void testUpdateCountry() throws UnknownCountryException {
+        Country country = getCountry();
+        Country newCountry = getNewCountry();
+        service.updateCountry(country, newCountry);
+
+        verify(dao, times(1)).updateCountry(country, newCountry);
+    }
+
     private Country getCountry() {
         return new Country(
                 "country"
+        );
+    }
+
+    private Country getNewCountry() {
+        return new Country(
+                "newCountry"
         );
     }
 

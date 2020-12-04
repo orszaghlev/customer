@@ -61,6 +61,15 @@ public class StaffServiceImplTest {
         verify(dao, times(1)).deleteStaff(staff);
     }
 
+    @Test
+    void testUpdateStaff() throws UnknownStoreException, UnknownCountryException, UnknownStaffException {
+        Staff staff = getStaff();
+        Staff newStaff = getNewStaff();
+        service.updateStaff(staff, newStaff);
+
+        verify(dao, times(1)).updateStaff(staff, newStaff);
+    }
+
     private Staff getStaff() {
         return new Staff(
                 "1",
@@ -74,6 +83,22 @@ public class StaffServiceImplTest {
                 "1",
                 "username",
                 "password"
+        );
+    }
+
+    private Staff getNewStaff() {
+        return new Staff(
+                "1",
+                "newFirstName",
+                "newLastName",
+                "newAddress",
+                "newCity",
+                "newCountry",
+                "newEmail",
+                "newStore",
+                "2",
+                "newUsername",
+                "newPassword"
         );
     }
 

@@ -61,6 +61,15 @@ public class StoreServiceImplTest {
         verify(dao, times(1)).deleteStore(store);
     }
 
+    @Test
+    void testUpdateStore() throws UnknownStaffException, UnknownCountryException, UnknownStoreException {
+        Store store = getStore();
+        Store newStore = getNewStore();
+        service.updateStore(store, newStore);
+
+        verify(dao, times(1)).updateStore(store, newStore);
+    }
+
     private Store getStore() {
         return new Store(
                 "1",
@@ -68,6 +77,16 @@ public class StoreServiceImplTest {
                 "address",
                 "city",
                 "country"
+        );
+    }
+
+    private Store getNewStore() {
+        return new Store(
+                "2",
+                "newStaff",
+                "newAddress",
+                "newCity",
+                "newCountry"
         );
     }
 

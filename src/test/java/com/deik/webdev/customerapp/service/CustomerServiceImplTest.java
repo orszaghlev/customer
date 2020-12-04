@@ -70,6 +70,15 @@ public class CustomerServiceImplTest {
         verify(dao, times(1)).deleteCustomer(customer);
     }
 
+    @Test
+    void testUpdateCustomer() throws UnknownStaffException, UnknownCountryException, UnknownCustomerException {
+        Customer customer = getCustomer();
+        Customer newCustomer = getNewCustomer();
+        service.updateCustomer(customer, newCustomer);
+
+        verify(dao, times(1)).updateCustomer(customer, newCustomer);
+    }
+
     private Customer getCustomer() {
         return new Customer(
                 "store",
@@ -81,6 +90,20 @@ public class CustomerServiceImplTest {
                 "city",
                 "country",
                 "1"
+        );
+    }
+
+    private Customer getNewCustomer() {
+        return new Customer(
+                "newStore",
+                "newStaff",
+                "newFirstName",
+                "newLastName",
+                "newEmail",
+                "newAddress",
+                "newCity",
+                "newCountry",
+                "2"
         );
     }
 
