@@ -49,7 +49,7 @@ public class StaffDaoImplTest {
     }
 
     @Test
-    public void updateStaff() throws UnknownStoreException, UnknownAddressException, UnknownStaffException {
+    public void updateStaff() throws UnknownStoreException, UnknownAddressException, UnknownStaffException, OutOfBoundsException {
         doThrow(UnknownStaffException.class).when(dao).updateStaff(any(), any());
 
         assertThrows(UnknownStaffException.class, ()->{

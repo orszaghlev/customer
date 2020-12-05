@@ -110,11 +110,12 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
-    public void updateCustomer(Customer customer, Customer newCustomer) throws UnknownStoreException, UnknownAddressException, UnknownCustomerException {
+    public void updateCustomer(Customer customer, Customer newCustomer) throws UnknownStoreException, UnknownAddressException, UnknownCustomerException, OutOfBoundsException {
         Optional<CustomerEntity> customerEntity = customerRepository.findById(customer.getId());
         if (!customerEntity.isPresent()) {
             throw new UnknownCustomerException(String.format("Customer Not Found %s", customer), customer);
         }
+        activeValue(newCustomer.getActive());
         log.info("Original: " + customerEntity.toString());
         customerEntity.get().setId(newCustomer.getId());
         customerEntity.get().setStore(queryStore(newCustomer.getStoreId()));

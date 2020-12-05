@@ -63,7 +63,7 @@ public class StaffServiceImplTest {
     }
 
     @Test
-    void testUpdateStaff() throws UnknownStoreException, UnknownAddressException, UnknownStaffException {
+    void testUpdateStaff() throws UnknownStoreException, UnknownAddressException, UnknownStaffException, OutOfBoundsException {
         Staff staff = getStaff();
         Staff newStaff = getNewStaff();
         service.updateStaff(staff, newStaff);

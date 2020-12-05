@@ -46,7 +46,7 @@ public class CustomerDaoImplTest {
     }
 
     @Test
-    public void updateCustomer() throws UnknownStoreException, UnknownAddressException, UnknownCustomerException {
+    public void updateCustomer() throws UnknownStoreException, UnknownAddressException, UnknownCustomerException, OutOfBoundsException {
         doThrow(UnknownCustomerException.class).when(dao).updateCustomer(any(), any());
 
         assertThrows(UnknownCustomerException.class, ()->{

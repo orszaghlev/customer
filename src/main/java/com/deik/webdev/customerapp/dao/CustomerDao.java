@@ -15,6 +15,6 @@ public interface CustomerDao {
 
     void deleteCustomer(Customer customer) throws UnknownCustomerException;
 
-    void updateCustomer(Customer customer, Customer newCustomer) throws UnknownStoreException, UnknownAddressException, UnknownCustomerException;
+    void updateCustomer(Customer customer, Customer newCustomer) throws UnknownStoreException, UnknownAddressException, UnknownCustomerException, OutOfBoundsException;
 
 }

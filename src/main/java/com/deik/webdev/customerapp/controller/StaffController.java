@@ -105,7 +105,7 @@ public class StaffController {
                     requestDto.getNewUsername(),
                     requestDto.getNewPassword())
             );
-        } catch (DataAccessException | NumberFormatException | UnknownStoreException | UnknownAddressException | UnknownStaffException e) {
+        } catch (DataAccessException | NumberFormatException | OutOfBoundsException | UnknownStoreException | UnknownAddressException | UnknownStaffException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

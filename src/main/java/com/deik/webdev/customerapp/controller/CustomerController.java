@@ -92,7 +92,7 @@ public class CustomerController {
                     requestDto.getNewAddressId(),
                     requestDto.getNewActive())
             );
-        } catch (DataAccessException | NumberFormatException | UnknownStoreException | UnknownAddressException | UnknownCustomerException e) {
+        } catch (DataAccessException | NumberFormatException | OutOfBoundsException | UnknownStoreException | UnknownAddressException | UnknownCustomerException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

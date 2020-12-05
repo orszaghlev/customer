@@ -119,11 +119,12 @@ public class StaffDaoImpl implements StaffDao {
     }
 
     @Override
-    public void updateStaff(Staff staff, Staff newStaff) throws UnknownStoreException, UnknownAddressException, UnknownStaffException {
+    public void updateStaff(Staff staff, Staff newStaff) throws UnknownStoreException, UnknownAddressException, UnknownStaffException, OutOfBoundsException {
         Optional<StaffEntity> staffEntity = staffRepository.findByUsername(staff.getUsername());
         if (!staffEntity.isPresent()) {
             throw new UnknownStaffException(String.format("Staff Not Found %s", staff), staff);
         }
+        activeValue(newStaff.getActive());
         log.info("Original: " + staffEntity.toString());
         staffEntity.get().setId(newStaff.getId());
         staffEntity.get().setFirstName(newStaff.getFirstName());

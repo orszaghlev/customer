@@ -14,6 +14,6 @@ public interface StaffService {
 
     void recordStaff(Staff staff) throws UnknownStoreException, UnknownAddressException, OutOfBoundsException;
     void deleteStaff(Staff staff) throws UnknownStaffException;
-    void updateStaff(Staff staff, Staff newStaff) throws UnknownStoreException, UnknownAddressException, UnknownStaffException;
+    void updateStaff(Staff staff, Staff newStaff) throws UnknownStoreException, UnknownAddressException, UnknownStaffException, OutOfBoundsException;
 
 }

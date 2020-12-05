@@ -69,7 +69,7 @@ public class CustomerServiceImplTest {
     }
 
     @Test
-    void testUpdateCustomer() throws UnknownStoreException, UnknownAddressException, UnknownCustomerException {
+    void testUpdateCustomer() throws UnknownStoreException, UnknownAddressException, UnknownCustomerException, OutOfBoundsException {
         Customer customer = getCustomer();
         Customer newCustomer = getNewCustomer();
         service.updateCustomer(customer, newCustomer);
