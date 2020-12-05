@@ -27,7 +27,7 @@ public class CustomerServiceImplTest {
     private CustomerDao dao;
 
     @Test
-    public void testRecordCustomer() throws UnknownStoreException, UnknownAddressException {
+    public void testRecordCustomer() throws UnknownStoreException, UnknownAddressException, OutOfBoundsException {
         Customer customer = getCustomer();
         service.recordCustomer(customer);
 
@@ -35,7 +35,7 @@ public class CustomerServiceImplTest {
     }
 
     @Test
-    void testRecordCustomerWithUnknownStore() throws UnknownStoreException, UnknownAddressException {
+    void testRecordCustomerWithUnknownStore() throws UnknownStoreException, UnknownAddressException, OutOfBoundsException {
         doThrow(UnknownStoreException.class).when(dao).createCustomer(any());
 
         assertThrows(UnknownStoreException.class, ()->{
@@ -44,7 +44,7 @@ public class CustomerServiceImplTest {
     }
 
     @Test
-    void testRecordCustomerWithUnknownAddress() throws UnknownStoreException, UnknownAddressException {
+    void testRecordCustomerWithUnknownAddress() throws UnknownStoreException, UnknownAddressException, OutOfBoundsException {
         doThrow(UnknownAddressException.class).when(dao).createCustomer(any());
 
         assertThrows(UnknownAddressException.class, ()->{
@@ -69,7 +69,7 @@ public class CustomerServiceImplTest {
     }
 
     @Test
-    void testUpdateCustomer() throws UnknownStoreException, UnknownAddressException, UnknownCustomerException {
+    void testUpdateCustomer() throws UnknownStoreException, UnknownAddressException, UnknownCustomerException, OutOfBoundsException {
         Customer customer = getCustomer();
         Customer newCustomer = getNewCustomer();
         service.updateCustomer(customer, newCustomer);

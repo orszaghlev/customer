@@ -9,8 +9,8 @@ public interface CustomerService {
 
     Collection<Customer> getAllCustomer();
 
-    void recordCustomer(Customer customer) throws UnknownStoreException, UnknownAddressException;
+    void recordCustomer(Customer customer) throws UnknownStoreException, UnknownAddressException, OutOfBoundsException;
     void deleteCustomer(Customer customer) throws UnknownCustomerException;
-    void updateCustomer(Customer customer, Customer newCustomer) throws UnknownStoreException, UnknownAddressException, UnknownCustomerException;
+    void updateCustomer(Customer customer, Customer newCustomer) throws UnknownStoreException, UnknownAddressException, UnknownCustomerException, OutOfBoundsException;
 
 }

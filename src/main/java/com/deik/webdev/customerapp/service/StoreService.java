@@ -1,5 +1,6 @@
 package com.deik.webdev.customerapp.service;
 
+import com.deik.webdev.customerapp.exception.OutOfBoundsException;
 import com.deik.webdev.customerapp.exception.UnknownAddressException;
 import com.deik.webdev.customerapp.exception.UnknownStaffException;
 import com.deik.webdev.customerapp.exception.UnknownStoreException;
@@ -11,8 +12,8 @@ public interface StoreService {
 
     Collection<Store> getAllStore();
 
-    void recordStore(Store store) throws UnknownStaffException, UnknownAddressException;
+    void recordStore(Store store) throws UnknownStaffException, UnknownAddressException, OutOfBoundsException;
     void deleteStore(Store store) throws UnknownStoreException;
-    void updateStore(Store store, Store newStore) throws UnknownStaffException, UnknownAddressException, UnknownStoreException;
+    void updateStore(Store store, Store newStore) throws UnknownStaffException, UnknownAddressException, UnknownStoreException, OutOfBoundsException;
 
 }

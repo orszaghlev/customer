@@ -1,6 +1,7 @@
 package com.deik.webdev.customerapp.dao;
 
 import com.deik.webdev.customerapp.entity.*;
+import com.deik.webdev.customerapp.exception.OutOfBoundsException;
 import com.deik.webdev.customerapp.exception.UnknownAddressException;
 import com.deik.webdev.customerapp.exception.UnknownStaffException;
 import com.deik.webdev.customerapp.exception.UnknownStoreException;
@@ -27,8 +28,12 @@ public class StaffDaoImpl implements StaffDao {
     private final StoreRepository storeRepository;
 
     @Override
-    public void createStaff(Staff staff) throws UnknownStoreException, UnknownAddressException {
+    public void createStaff(Staff staff) throws UnknownStoreException, UnknownAddressException, OutOfBoundsException {
         StaffEntity staffEntity;
+        activeValue(staff.getActive());
+        correctValue(staff.getId());
+        correctValue(staff.getStoreId());
+        correctValue(staff.getAddressId());
 
         staffEntity = StaffEntity.builder()
                 .id(staff.getId())
@@ -72,6 +77,18 @@ public class StaffDaoImpl implements StaffDao {
         }
     }
 
+    private void activeValue(int active) throws OutOfBoundsException {
+        if (active != 0 && active != 1) {
+            throw new OutOfBoundsException("Value of 'active' must be 0 or 1!");
+        }
+    }
+
+    private void correctValue(int value) throws OutOfBoundsException {
+        if (value < 0) {
+            throw new OutOfBoundsException("Value can't be smaller than 0!");
+        }
+    }
+
     @Override
     public Collection<Staff> readAll() {
         return StreamSupport.stream(staffRepository.findAll().spliterator(),false)
@@ -111,11 +128,15 @@ public class StaffDaoImpl implements StaffDao {
     }
 
     @Override
-    public void updateStaff(Staff staff, Staff newStaff) throws UnknownStoreException, UnknownAddressException, UnknownStaffException {
+    public void updateStaff(Staff staff, Staff newStaff) throws UnknownStoreException, UnknownAddressException, UnknownStaffException, OutOfBoundsException {
         Optional<StaffEntity> staffEntity = staffRepository.findByUsername(staff.getUsername());
         if (!staffEntity.isPresent()) {
             throw new UnknownStaffException(String.format("Staff Not Found %s", staff), staff);
         }
+        activeValue(newStaff.getActive());
+        correctValue(newStaff.getId());
+        correctValue(newStaff.getStoreId());
+        correctValue(newStaff.getAddressId());
         log.info("Original: " + staffEntity.toString());
         staffEntity.get().setId(newStaff.getId());
         staffEntity.get().setFirstName(newStaff.getFirstName());

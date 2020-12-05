@@ -1,6 +1,7 @@
 package com.deik.webdev.customerapp.dao;
 
 import com.deik.webdev.customerapp.entity.*;
+import com.deik.webdev.customerapp.exception.OutOfBoundsException;
 import com.deik.webdev.customerapp.exception.UnknownAddressException;
 import com.deik.webdev.customerapp.exception.UnknownStaffException;
 import com.deik.webdev.customerapp.exception.UnknownStoreException;
@@ -27,8 +28,11 @@ public class StoreDaoImpl implements StoreDao {
     private final StaffRepository staffRepository;
 
     @Override
-    public void createStore(Store store) throws UnknownStaffException, UnknownAddressException {
+    public void createStore(Store store) throws UnknownStaffException, UnknownAddressException, OutOfBoundsException {
         StoreEntity storeEntity;
+        correctValue(store.getId());
+        correctValue(store.getStaffId());
+        correctValue(store.getAddressId());
 
         storeEntity = StoreEntity.builder()
                 .id(store.getId())
@@ -67,6 +71,12 @@ public class StoreDaoImpl implements StoreDao {
         }
     }
 
+    private void correctValue(int value) throws OutOfBoundsException {
+        if (value < 0) {
+            throw new OutOfBoundsException("Value can't be smaller than 0!");
+        }
+    }
+
     @Override
     public Collection<Store> readAll() {
         return StreamSupport.stream(storeRepository.findAll().spliterator(),false)
@@ -94,11 +104,14 @@ public class StoreDaoImpl implements StoreDao {
     }
 
     @Override
-    public void updateStore(Store store, Store newStore) throws UnknownStaffException, UnknownAddressException, UnknownStoreException {
+    public void updateStore(Store store, Store newStore) throws UnknownStaffException, UnknownAddressException, UnknownStoreException, OutOfBoundsException {
         Optional<StoreEntity> storeEntity = storeRepository.findById(store.getId());
         if (!storeEntity.isPresent()) {
             throw new UnknownStoreException(String.format("Store Not Found %s", store), store);
         }
+        correctValue(newStore.getId());
+        correctValue(newStore.getStaffId());
+        correctValue(newStore.getAddressId());
         log.info("Original: " + storeEntity.toString());
         storeEntity.get().setId(newStore.getId());
         storeEntity.get().setStaff(queryStaff(newStore.getStaffId()));
