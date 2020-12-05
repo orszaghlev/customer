@@ -2,9 +2,7 @@ package com.deik.webdev.customerapp.dao;
 
 import com.deik.webdev.customerapp.entity.AddressEntity;
 import com.deik.webdev.customerapp.entity.StoreEntity;
-import com.deik.webdev.customerapp.exception.UnknownCountryException;
-import com.deik.webdev.customerapp.exception.UnknownCustomerException;
-import com.deik.webdev.customerapp.exception.UnknownStaffException;
+import com.deik.webdev.customerapp.exception.*;
 import com.deik.webdev.customerapp.model.Customer;
 import com.deik.webdev.customerapp.repository.*;
 import org.junit.jupiter.api.Test;
@@ -14,7 +12,6 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static java.lang.Integer.parseInt;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -27,23 +24,13 @@ public class CustomerDaoImplTest {
     private CustomerDaoImpl dao;
     @Mock
     private CustomerRepository customerRepository;
-    @Mock
-    private AddressRepository addressRepository;
-    @Mock
-    private CityRepository cityRepository;
-    @Mock
-    private CountryRepository countryRepository;
-    @Mock
-    private StaffRepository staffRepository;
-    @Mock
-    private StoreRepository storeRepository;
 
     @Test
-    void testCreateCustomer() throws UnknownStaffException, UnknownCountryException {
-        doReturn(AddressEntity.builder().address("47 MySakila Drive").build())
-                .when(dao).queryAddress(any(),any(),any());
-        doReturn(StoreEntity.builder().id(parseInt("1")).build())
-                .when(dao).queryStore(any(),any());
+    void testCreateCustomer() throws UnknownStoreException, UnknownAddressException {
+        doReturn(AddressEntity.builder().id(1).build())
+                .when(dao).queryAddress(anyInt());
+        doReturn(StoreEntity.builder().id(1).build())
+                .when(dao).queryStore(anyInt());
         dao.createCustomer(getCustomer());
 
         verify(customerRepository, times(1)).save(any());
@@ -59,7 +46,7 @@ public class CustomerDaoImplTest {
     }
 
     @Test
-    public void updateCustomer() throws UnknownStaffException, UnknownCountryException, UnknownCustomerException {
+    public void updateCustomer() throws UnknownStoreException, UnknownAddressException, UnknownCustomerException {
         doThrow(UnknownCustomerException.class).when(dao).updateCustomer(any(), any());
 
         assertThrows(UnknownCustomerException.class, ()->{
@@ -69,29 +56,25 @@ public class CustomerDaoImplTest {
 
     private Customer getCustomer() {
         return new Customer(
-                "store",
-                "staff",
+                1,
+                1,
                 "firstName",
                 "lastName",
                 "email",
-                "address",
-                "city",
-                "country",
-                "1"
+                1,
+                0
         );
     }
 
     private Customer getNewCustomer() {
         return new Customer(
-                "newStore",
-                "newStaff",
+                2,
+                2,
                 "newFirstName",
                 "newLastName",
                 "newEmail",
-                "newAddress",
-                "newCity",
-                "newCountry",
-                "2"
+                2,
+                1
         );
     }
 

@@ -1,6 +1,7 @@
 package com.deik.webdev.customerapp.service;
 
 import com.deik.webdev.customerapp.dao.StoreDao;
+import com.deik.webdev.customerapp.exception.UnknownAddressException;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.exception.UnknownStaffException;
 import com.deik.webdev.customerapp.exception.UnknownStoreException;
@@ -29,7 +30,7 @@ public class StoreServiceImplTest {
     private StoreDao dao;
 
     @Test
-    public void testRecordStore() throws UnknownStaffException, UnknownCountryException {
+    public void testRecordStore() throws UnknownStaffException, UnknownAddressException {
         Store store = getStore();
         service.recordStore(store);
 
@@ -37,10 +38,10 @@ public class StoreServiceImplTest {
     }
 
     @Test
-    void testRecordStoreWithUnknownCountry() throws UnknownStaffException, UnknownCountryException {
-        doThrow(UnknownCountryException.class).when(dao).createStore(any());
+    void testRecordStoreWithUnknownAddress() throws UnknownStaffException, UnknownAddressException {
+        doThrow(UnknownAddressException.class).when(dao).createStore(any());
 
-        assertThrows(UnknownCountryException.class, ()->{
+        assertThrows(UnknownAddressException.class, ()->{
             service.recordStore(getStore());
         });
     }
@@ -62,7 +63,7 @@ public class StoreServiceImplTest {
     }
 
     @Test
-    void testUpdateStore() throws UnknownStaffException, UnknownCountryException, UnknownStoreException {
+    void testUpdateStore() throws UnknownStaffException, UnknownAddressException, UnknownStoreException {
         Store store = getStore();
         Store newStore = getNewStore();
         service.updateStore(store, newStore);
@@ -72,46 +73,36 @@ public class StoreServiceImplTest {
 
     private Store getStore() {
         return new Store(
-                "1",
-                "staff",
-                "address",
-                "city",
-                "country"
+                1,
+                1,
+                1
         );
     }
 
     private Store getNewStore() {
         return new Store(
-                "2",
-                "newStaff",
-                "newAddress",
-                "newCity",
-                "newCountry"
+                2,
+                2,
+                2
         );
     }
 
     private Collection<Store> getDefaultStores() {
         return Arrays.asList(
                 new Store(
-                        "1",
-                        "staff",
-                        "address",
-                        "city",
-                        "country"
+                        1,
+                        1,
+                        1
                 ),
                 new Store(
-                        "2",
-                        "staff1",
-                        "address1",
-                        "city1",
-                        "country1"
+                        2,
+                        2,
+                        2
                 ),
                 new Store(
-                        "3",
-                        "staff2",
-                        "address2",
-                        "city2",
-                        "country2"
+                        3,
+                        3,
+                        3
                 ));
     }
 

@@ -11,14 +11,12 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class CustomerUpdateRequestDto extends CustomerDto {
 
-    private String newStore;
-    private String newStaff;
+    private int newId;
+    private int newStoreId;
     private String newFirstName;
     private String newLastName;
     private String newEmail;
-    private String newAddress;
-    private String newCity;
-    private String newCountry;
-    private String newActive;
+    private int newAddressId;
+    private int newActive;
 
 }

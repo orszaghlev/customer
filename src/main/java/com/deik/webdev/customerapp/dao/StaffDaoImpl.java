@@ -1,15 +1,13 @@
 package com.deik.webdev.customerapp.dao;
 
 import com.deik.webdev.customerapp.entity.*;
-import com.deik.webdev.customerapp.exception.UnknownCountryException;
+import com.deik.webdev.customerapp.exception.UnknownAddressException;
 import com.deik.webdev.customerapp.exception.UnknownStaffException;
 import com.deik.webdev.customerapp.exception.UnknownStoreException;
 import com.deik.webdev.customerapp.model.Staff;
 import com.deik.webdev.customerapp.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.GeometryFactory;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -27,21 +25,19 @@ public class StaffDaoImpl implements StaffDao {
     private final StaffRepository staffRepository;
     private final AddressRepository addressRepository;
     private final StoreRepository storeRepository;
-    private final CityRepository cityRepository;
-    private final CountryRepository countryRepository;
 
     @Override
-    public void createStaff(Staff staff) throws UnknownStoreException, UnknownCountryException {
+    public void createStaff(Staff staff) throws UnknownStoreException, UnknownAddressException {
         StaffEntity staffEntity;
 
         staffEntity = StaffEntity.builder()
-                .id(Integer.parseInt(staff.getId()))
+                .id(staff.getId())
                 .firstName(staff.getFirstName())
                 .lastName(staff.getLastName())
-                .address(queryAddress(staff.getAddress(), staff.getCity(), staff.getCountry()))
+                .address(queryAddress(staff.getAddressId()))
                 .email(staff.getEmail())
-                .store(queryStore(staff.getStore()))
-                .active(Integer.parseInt(staff.getActive()))
+                .store(queryStore(staff.getStoreId()))
+                .active(staff.getActive())
                 .username(staff.getUsername())
                 .password(staff.getPassword())
                 .lastUpdate(new Timestamp((new Date()).getTime()))
@@ -54,64 +50,39 @@ public class StaffDaoImpl implements StaffDao {
         }
     }
 
-    protected AddressEntity queryAddress(String address, String city, String country) throws UnknownCountryException {
-        Optional<AddressEntity> addressEntity = addressRepository.findByAddress(address);
-        GeometryFactory geometryFactory = new GeometryFactory();
+    protected AddressEntity queryAddress(int addressId) throws UnknownAddressException {
+        Optional<AddressEntity> addressEntity = addressRepository.findById(addressId);
         if (!addressEntity.isPresent()) {
-            Optional<CityEntity> cityEntity = cityRepository.findByCity(city);
-            if (!cityEntity.isPresent()) {
-                Optional<CountryEntity> countryEntity = countryRepository.findByCountry(country);
-                if (!countryEntity.isPresent()) {
-                    throw new UnknownCountryException(country);
-                }
-            }
-            addressEntity = Optional.ofNullable(AddressEntity.builder()
-                    .address(address)
-                    .address2(address)
-                    .district(address)
-                    .city(cityEntity.get())
-                    .postalCode(address)
-                    .phone(address)
-                    .location(geometryFactory.createPoint(new Coordinate()))
-                    .lastUpdate(new Timestamp((new Date()).getTime()))
-                    .build());
-            addressRepository.save(addressEntity.get());
-            log.info("Recorded new Address: {}, {}, {}", address, city, country);
-        }
-        log.trace("Address Entity: {}", addressEntity);
-        return addressEntity.get();
-    }
-
-    protected StoreEntity queryStore(String store) throws UnknownStoreException {
-        Optional<StoreEntity> storeEntity = storeRepository.findById(Integer.parseInt(store));
-        if (!storeEntity.isPresent()) {
-            throw new UnknownStoreException(store);
+            throw new UnknownAddressException(String.valueOf(addressId));
         }
         else {
-            storeEntity = Optional.ofNullable(StoreEntity.builder()
-                    .id(Integer.parseInt(store))
-                    .lastUpdate(new Timestamp((new Date()).getTime()))
-                    .build());
-            storeRepository.save(storeEntity.get());
-            log.info("Recorded new Store: {}", store);
+            log.trace("AddressEntity: {}", addressEntity);
+            return addressEntity.get();
         }
-        log.trace("Store Entity: {}", storeEntity);
-        return storeEntity.get();
+    }
+
+    protected StoreEntity queryStore(int storeId) throws UnknownStoreException {
+        Optional<StoreEntity> storeEntity = storeRepository.findById(storeId);
+        if (!storeEntity.isPresent()) {
+            throw new UnknownStoreException(String.valueOf(storeId));
+        }
+        else {
+            log.trace("StoreEntity: {}", storeEntity);
+            return storeEntity.get();
+        }
     }
 
     @Override
     public Collection<Staff> readAll() {
         return StreamSupport.stream(staffRepository.findAll().spliterator(),false)
                 .map(entity -> new Staff(
-                        String.valueOf(entity.getId()),
+                        entity.getId(),
                         entity.getFirstName(),
                         entity.getLastName(),
-                        entity.getAddress().getAddress(),
-                        entity.getAddress().getCity().getCity(),
-                        entity.getAddress().getCity().getCountry().getCountry(),
+                        entity.getAddress().getId(),
                         entity.getEmail(),
-                        String.valueOf(entity.getStore().getId()),
-                        String.valueOf(entity.getActive()),
+                        entity.getStore().getId(),
+                        entity.getActive(),
                         entity.getUsername(),
                         entity.getPassword()
                 ))
@@ -122,11 +93,13 @@ public class StaffDaoImpl implements StaffDao {
     public void deleteStaff(Staff staff) throws UnknownStaffException {
         Optional<StaffEntity> staffEntity = StreamSupport.stream(staffRepository.findAll().spliterator(),false).filter(
                 entity ->{
-                    return staff.getFirstName().equals(entity.getFirstName()) &&
+                    return staff.getId() == entity.getId() &&
+                            staff.getFirstName().equals(entity.getFirstName()) &&
                             staff.getLastName().equals(entity.getLastName()) &&
-                            staff.getAddress().equals(entity.getAddress().getCity().getCountry()) &&
+                            staff.getAddressId() == entity.getAddress().getId() &&
                             staff.getEmail().equals(entity.getEmail()) &&
-                            staff.getStore().equals(entity.getStore().getAddress().getCity().getCountry()) &&
+                            staff.getStoreId() == entity.getStore().getId() &&
+                            staff.getActive() == entity.getActive() &&
                             staff.getUsername().equals(entity.getUsername()) &&
                             staff.getPassword().equals(entity.getPassword());
                 }
@@ -138,19 +111,19 @@ public class StaffDaoImpl implements StaffDao {
     }
 
     @Override
-    public void updateStaff(Staff staff, Staff newStaff) throws UnknownStoreException, UnknownCountryException, UnknownStaffException {
+    public void updateStaff(Staff staff, Staff newStaff) throws UnknownStoreException, UnknownAddressException, UnknownStaffException {
         Optional<StaffEntity> staffEntity = staffRepository.findByUsername(staff.getUsername());
         if (!staffEntity.isPresent()) {
             throw new UnknownStaffException(String.format("Staff Not Found %s", staff), staff);
         }
         log.info("Original: " + staffEntity.toString());
-        staffEntity.get().setId(Integer.parseInt(newStaff.getId()));
+        staffEntity.get().setId(newStaff.getId());
         staffEntity.get().setFirstName(newStaff.getFirstName());
         staffEntity.get().setLastName(newStaff.getLastName());
-        staffEntity.get().setAddress(queryAddress(newStaff.getAddress(), newStaff.getCity(), newStaff.getCountry()));
+        staffEntity.get().setAddress(queryAddress(newStaff.getAddressId()));
         staffEntity.get().setEmail(newStaff.getEmail());
-        staffEntity.get().setStore(queryStore(newStaff.getStore()));
-        staffEntity.get().setActive(Integer.parseInt(newStaff.getActive()));
+        staffEntity.get().setStore(queryStore(newStaff.getStoreId()));
+        staffEntity.get().setActive(newStaff.getActive());
         staffEntity.get().setUsername(newStaff.getUsername());
         staffEntity.get().setPassword(newStaff.getPassword());
         staffEntity.get().setLastUpdate(new Timestamp((new Date()).getTime()));

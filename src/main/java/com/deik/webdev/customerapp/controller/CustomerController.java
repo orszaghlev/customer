@@ -2,9 +2,7 @@ package com.deik.webdev.customerapp.controller;
 
 import com.deik.webdev.customerapp.dto.CustomerDto;
 import com.deik.webdev.customerapp.dto.CustomerUpdateRequestDto;
-import com.deik.webdev.customerapp.exception.UnknownCountryException;
-import com.deik.webdev.customerapp.exception.UnknownCustomerException;
-import com.deik.webdev.customerapp.exception.UnknownStaffException;
+import com.deik.webdev.customerapp.exception.*;
 import com.deik.webdev.customerapp.model.Customer;
 import com.deik.webdev.customerapp.service.CustomerService;
 import lombok.RequiredArgsConstructor;
@@ -29,14 +27,12 @@ public class CustomerController {
         return service.getAllCustomer()
                 .stream()
                 .map(model -> CustomerDto.builder()
-                        .store(model.getStore())
-                        .staff(model.getStaff())
+                        .id(model.getId())
+                        .storeId(model.getStoreId())
                         .firstName(model.getFirstName())
                         .lastName(model.getLastName())
                         .email(model.getEmail())
-                        .address(model.getAddress())
-                        .city(model.getCity())
-                        .country(model.getCountry())
+                        .addressId(model.getAddressId())
                         .active(model.getActive())
                         .build())
                 .collect(Collectors.toList());
@@ -46,17 +42,15 @@ public class CustomerController {
     public void recordCustomer(@RequestBody CustomerDto requestDto) {
         try {
             service.recordCustomer(new Customer(
-                    requestDto.getStore(),
-                    requestDto.getStaff(),
+                    requestDto.getId(),
+                    requestDto.getStoreId(),
                     requestDto.getFirstName(),
                     requestDto.getLastName(),
                     requestDto.getEmail(),
-                    requestDto.getAddress(),
-                    requestDto.getCity(),
-                    requestDto.getCountry(),
+                    requestDto.getAddressId(),
                     requestDto.getActive()
             ));
-        } catch (DataAccessException | NumberFormatException | UnknownCountryException | UnknownStaffException e) {
+        } catch (DataAccessException | NumberFormatException | UnknownStoreException | UnknownAddressException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
@@ -65,14 +59,12 @@ public class CustomerController {
     public void deleteCustomer(@RequestBody CustomerDto requestDto){
         try {
             service.deleteCustomer(new Customer(
-                    requestDto.getStore(),
-                    requestDto.getStaff(),
+                    requestDto.getId(),
+                    requestDto.getStoreId(),
                     requestDto.getFirstName(),
                     requestDto.getLastName(),
                     requestDto.getEmail(),
-                    requestDto.getAddress(),
-                    requestDto.getCity(),
-                    requestDto.getCountry(),
+                    requestDto.getAddressId(),
                     requestDto.getActive()
             ));
         } catch (DataAccessException | UnknownCustomerException e) {
@@ -84,27 +76,23 @@ public class CustomerController {
     public void updateCustomer(@RequestBody CustomerUpdateRequestDto requestDto) {
         try {
             service.updateCustomer(new Customer(
-                    requestDto.getStore(),
-                    requestDto.getStaff(),
+                    requestDto.getId(),
+                    requestDto.getStoreId(),
                     requestDto.getFirstName(),
                     requestDto.getLastName(),
                     requestDto.getEmail(),
-                    requestDto.getAddress(),
-                    requestDto.getCity(),
-                    requestDto.getCountry(),
+                    requestDto.getAddressId(),
                     requestDto.getActive()),
                     new Customer(
-                    requestDto.getNewStore(),
-                    requestDto.getNewStaff(),
+                    requestDto.getNewId(),
+                    requestDto.getNewStoreId(),
                     requestDto.getNewFirstName(),
                     requestDto.getNewLastName(),
                     requestDto.getNewEmail(),
-                    requestDto.getNewAddress(),
-                    requestDto.getNewCity(),
-                    requestDto.getNewCountry(),
+                    requestDto.getNewAddressId(),
                     requestDto.getNewActive())
             );
-        } catch (DataAccessException | UnknownStaffException | UnknownCountryException | UnknownCustomerException e) {
+        } catch (DataAccessException | NumberFormatException | UnknownStoreException | UnknownAddressException | UnknownCustomerException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

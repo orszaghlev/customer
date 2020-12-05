@@ -1,7 +1,7 @@
 package com.deik.webdev.customerapp.service;
 
 import com.deik.webdev.customerapp.dao.StaffDao;
-import com.deik.webdev.customerapp.exception.UnknownCountryException;
+import com.deik.webdev.customerapp.exception.UnknownAddressException;
 import com.deik.webdev.customerapp.exception.UnknownStaffException;
 import com.deik.webdev.customerapp.exception.UnknownStoreException;
 import com.deik.webdev.customerapp.model.Staff;
@@ -29,7 +29,7 @@ public class StaffServiceImplTest {
     private StaffDao dao;
 
     @Test
-    public void testRecordStaff() throws UnknownStoreException, UnknownCountryException {
+    public void testRecordStaff() throws UnknownStoreException, UnknownAddressException {
         Staff staff = getStaff();
         service.recordStaff(staff);
 
@@ -37,10 +37,10 @@ public class StaffServiceImplTest {
     }
 
     @Test
-    void testRecordStaffWithUnknownCountry() throws UnknownStoreException, UnknownCountryException {
-        doThrow(UnknownCountryException.class).when(dao).createStaff(any());
+    void testRecordStaffWithUnknownAddress() throws UnknownStoreException, UnknownAddressException {
+        doThrow(UnknownAddressException.class).when(dao).createStaff(any());
 
-        assertThrows(UnknownCountryException.class, ()->{
+        assertThrows(UnknownAddressException.class, ()->{
             service.recordStaff(getStaff());
         });
     }
@@ -62,7 +62,7 @@ public class StaffServiceImplTest {
     }
 
     @Test
-    void testUpdateStaff() throws UnknownStoreException, UnknownCountryException, UnknownStaffException {
+    void testUpdateStaff() throws UnknownStoreException, UnknownAddressException, UnknownStaffException {
         Staff staff = getStaff();
         Staff newStaff = getNewStaff();
         service.updateStaff(staff, newStaff);
@@ -72,15 +72,13 @@ public class StaffServiceImplTest {
 
     private Staff getStaff() {
         return new Staff(
-                "1",
+                1,
                 "firstName",
                 "lastName",
-                "address",
-                "city",
-                "country",
+                1,
                 "email",
-                "store",
-                "1",
+                1,
+                0,
                 "username",
                 "password"
         );
@@ -88,15 +86,13 @@ public class StaffServiceImplTest {
 
     private Staff getNewStaff() {
         return new Staff(
-                "1",
+                2,
                 "newFirstName",
                 "newLastName",
-                "newAddress",
-                "newCity",
-                "newCountry",
+                2,
                 "newEmail",
-                "newStore",
-                "2",
+                2,
+                1,
                 "newUsername",
                 "newPassword"
         );
@@ -105,43 +101,37 @@ public class StaffServiceImplTest {
     private Collection<Staff> getDefaultStaffs() {
         return Arrays.asList(
                 new Staff(
-                        "1",
+                        1,
                         "firstName",
                         "lastName",
-                        "address",
-                        "city",
-                        "country",
+                        1,
                         "email",
-                        "store",
-                        "1",
+                        1,
+                        0,
                         "username",
                         "password"
                 ),
                 new Staff(
-                        "2",
-                        "firstName1",
-                        "lastName1",
-                        "address1",
-                        "city1",
-                        "country1",
-                        "email1",
-                        "store1",
-                        "2",
-                        "username1",
-                        "password1"
+                        2,
+                        "firstName",
+                        "lastName",
+                        2,
+                        "email",
+                        2,
+                        1,
+                        "username",
+                        "password"
                 ),
                 new Staff(
-                        "3",
-                        "firstName2",
-                        "lastName2",
-                        "address2",
-                        "city2",
-                        "country2",
-                        "email2",
-                        "store2",
-                        "3",
-                        "username2",
-                        "password2"
+                        3,
+                        "firstName",
+                        "lastName",
+                        3,
+                        "email",
+                        3,
+                        0,
+                        "username",
+                        "password"
                 ));
     }
 

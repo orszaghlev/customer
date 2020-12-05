@@ -2,7 +2,7 @@ package com.deik.webdev.customerapp.dao;
 
 import com.deik.webdev.customerapp.entity.AddressEntity;
 import com.deik.webdev.customerapp.entity.StaffEntity;
-import com.deik.webdev.customerapp.exception.UnknownCountryException;
+import com.deik.webdev.customerapp.exception.UnknownAddressException;
 import com.deik.webdev.customerapp.exception.UnknownStaffException;
 import com.deik.webdev.customerapp.exception.UnknownStoreException;
 import com.deik.webdev.customerapp.model.Store;
@@ -26,23 +26,13 @@ public class StoreDaoImplTest {
     private StoreDaoImpl dao;
     @Mock
     private StoreRepository storeRepository;
-    @Mock
-    private StaffRepository staffRepository;
-    @Mock
-    private CustomerRepository customerRepository;
-    @Mock
-    private AddressRepository addressRepository;
-    @Mock
-    private CityRepository cityRepository;
-    @Mock
-    private CountryRepository countryRepository;
 
     @Test
-    void testCreateStore() throws UnknownStaffException, UnknownCountryException {
-        doReturn(AddressEntity.builder().address("47 MySakila Drive").build())
-                .when(dao).queryAddress(any(),any(),any());
-        doReturn(StaffEntity.builder().firstName("Mike").build())
-                .when(dao).queryStaff(any());
+    void testCreateStore() throws UnknownStaffException, UnknownAddressException {
+        doReturn(AddressEntity.builder().id(1).build())
+                .when(dao).queryAddress(anyInt());
+        doReturn(StaffEntity.builder().id(1).build())
+                .when(dao).queryStaff(anyInt());
         dao.createStore(getStore());
 
         verify(storeRepository, times(1)).save(any());
@@ -58,7 +48,7 @@ public class StoreDaoImplTest {
     }
 
     @Test
-    public void updateStore() throws UnknownStaffException, UnknownCountryException, UnknownStoreException {
+    public void updateStore() throws UnknownStaffException, UnknownAddressException, UnknownStoreException {
         doThrow(UnknownStoreException.class).when(dao).updateStore(any(), any());
 
         assertThrows(UnknownStoreException.class, ()->{
@@ -68,21 +58,17 @@ public class StoreDaoImplTest {
 
     private Store getStore() {
         return new Store(
-                "1",
-                "staff",
-                "address",
-                "city",
-                "country"
+                1,
+                1,
+                1
         );
     }
 
     private Store getNewStore() {
         return new Store(
-                "2",
-                "newStaff",
-                "newAddress",
-                "newCity",
-                "newCountry"
+                2,
+                2,
+                2
         );
     }
 

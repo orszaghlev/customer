@@ -11,15 +11,13 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class StaffDto {
 
-    private String id;
+    private int id;
     private String firstName;
     private String lastName;
-    private String address;
-    private String city;
-    private String country;
+    private int addressId;
     private String email;
-    private String store;
-    private String active;
+    private int storeId;
+    private int active;
     private String username;
     private String password;
 
