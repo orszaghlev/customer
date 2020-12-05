@@ -2,7 +2,7 @@ package com.deik.webdev.customerapp.controller;
 
 import com.deik.webdev.customerapp.dto.StoreDto;
 import com.deik.webdev.customerapp.dto.StoreUpdateRequestDto;
-import com.deik.webdev.customerapp.exception.UnknownCountryException;
+import com.deik.webdev.customerapp.exception.UnknownAddressException;
 import com.deik.webdev.customerapp.exception.UnknownStaffException;
 import com.deik.webdev.customerapp.exception.UnknownStoreException;
 import com.deik.webdev.customerapp.model.Store;
@@ -30,10 +30,8 @@ public class StoreController {
                 .stream()
                 .map(model -> StoreDto.builder()
                         .id(model.getId())
-                        .staff(model.getStaff())
-                        .address(model.getAddress())
-                        .city(model.getCity())
-                        .country(model.getCountry())
+                        .staffId(model.getStaffId())
+                        .addressId(model.getAddressId())
                         .build())
                 .collect(Collectors.toList());
     }
@@ -43,12 +41,10 @@ public class StoreController {
         try {
             service.recordStore(new Store(
                     requestDto.getId(),
-                    requestDto.getStaff(),
-                    requestDto.getAddress(),
-                    requestDto.getCity(),
-                    requestDto.getCountry()
+                    requestDto.getStaffId(),
+                    requestDto.getAddressId()
             ));
-        } catch (DataAccessException | NumberFormatException | UnknownStaffException | UnknownCountryException e) {
+        } catch (DataAccessException | NumberFormatException | UnknownStaffException | UnknownAddressException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
@@ -58,10 +54,8 @@ public class StoreController {
         try {
             service.deleteStore(new Store(
                     requestDto.getId(),
-                    requestDto.getStaff(),
-                    requestDto.getAddress(),
-                    requestDto.getCity(),
-                    requestDto.getCountry()
+                    requestDto.getStaffId(),
+                    requestDto.getAddressId()
             ));
         } catch (DataAccessException | UnknownStoreException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
@@ -73,18 +67,14 @@ public class StoreController {
         try {
             service.updateStore(new Store(
                     requestDto.getId(),
-                    requestDto.getStaff(),
-                    requestDto.getAddress(),
-                    requestDto.getCity(),
-                    requestDto.getCountry()),
+                    requestDto.getStaffId(),
+                    requestDto.getAddressId()),
                     new Store(
                     requestDto.getNewId(),
-                    requestDto.getNewStaff(),
-                    requestDto.getNewAddress(),
-                    requestDto.getNewCity(),
-                    requestDto.getNewCountry())
+                    requestDto.getNewStaffId(),
+                    requestDto.getNewAddressId())
             );
-        } catch (DataAccessException | UnknownStaffException | UnknownCountryException | UnknownStoreException e) {
+        } catch (DataAccessException | NumberFormatException | UnknownStaffException | UnknownAddressException | UnknownStoreException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

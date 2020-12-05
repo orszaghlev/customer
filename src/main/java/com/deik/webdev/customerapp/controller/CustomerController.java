@@ -104,7 +104,7 @@ public class CustomerController {
                     requestDto.getNewCountry(),
                     requestDto.getNewActive())
             );
-        } catch (DataAccessException | UnknownStaffException | UnknownCountryException | UnknownCustomerException e) {
+        } catch (DataAccessException | NumberFormatException | UnknownStaffException | UnknownCountryException | UnknownCustomerException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

@@ -11,15 +11,13 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class StaffUpdateRequestDto extends StaffDto {
 
-    private String newId;
+    private int newId;
     private String newFirstName;
     private String newLastName;
-    private String newAddress;
-    private String newCity;
-    private String newCountry;
+    private int newAddressId;
     private String newEmail;
-    private String newStore;
-    private String newActive;
+    private int newStoreId;
+    private int newActive;
     private String newUsername;
     private String newPassword;
 

@@ -11,10 +11,8 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class StoreDto {
 
-    private String id;
-    private String staff;
-    private String address;
-    private String city;
-    private String country;
+    private int id;
+    private int staffId;
+    private int addressId;
 
 }

@@ -11,10 +11,8 @@ import lombok.ToString;
 @EqualsAndHashCode
 public class Store {
 
-    private String id;
-    private String staff;
-    private String address;
-    private String city;
-    private String country;
+    private int id;
+    private int staffId;
+    private int addressId;
 
 }
