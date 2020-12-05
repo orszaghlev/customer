@@ -1,6 +1,7 @@
 package com.deik.webdev.customerapp.service;
 
 import com.deik.webdev.customerapp.dao.StoreDao;
+import com.deik.webdev.customerapp.exception.OutOfBoundsException;
 import com.deik.webdev.customerapp.exception.UnknownAddressException;
 import com.deik.webdev.customerapp.exception.UnknownStaffException;
 import com.deik.webdev.customerapp.exception.UnknownStoreException;
@@ -24,7 +25,7 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public void recordStore(Store store) throws UnknownStaffException, UnknownAddressException {
+    public void recordStore(Store store) throws UnknownStaffException, UnknownAddressException, OutOfBoundsException {
         storeDao.createStore(store);
     }
 
@@ -34,7 +35,7 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public void updateStore(Store store, Store newStore) throws UnknownStaffException, UnknownAddressException, UnknownStoreException {
+    public void updateStore(Store store, Store newStore) throws UnknownStaffException, UnknownAddressException, UnknownStoreException, OutOfBoundsException {
         storeDao.updateStore(store, newStore);
     }
 

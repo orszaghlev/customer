@@ -28,6 +28,9 @@ public class CustomerDaoImpl implements CustomerDao {
     public void createCustomer(Customer customer) throws UnknownStoreException, UnknownAddressException, OutOfBoundsException {
         CustomerEntity customerEntity;
         activeValue(customer.getActive());
+        correctValue(customer.getId());
+        correctValue(customer.getStoreId());
+        correctValue(customer.getAddressId());
 
         customerEntity = CustomerEntity.builder()
                 .id(customer.getId())
@@ -75,6 +78,12 @@ public class CustomerDaoImpl implements CustomerDao {
         }
     }
 
+    private void correctValue(int value) throws OutOfBoundsException {
+        if (value < 0) {
+            throw new OutOfBoundsException("Value can't be smaller than 0!");
+        }
+    }
+
     @Override
     public Collection<Customer> readAll() {
         return StreamSupport.stream(customerRepository.findAll().spliterator(),false)
@@ -116,6 +125,9 @@ public class CustomerDaoImpl implements CustomerDao {
             throw new UnknownCustomerException(String.format("Customer Not Found %s", customer), customer);
         }
         activeValue(newCustomer.getActive());
+        correctValue(newCustomer.getId());
+        correctValue(newCustomer.getStoreId());
+        correctValue(newCustomer.getAddressId());
         log.info("Original: " + customerEntity.toString());
         customerEntity.get().setId(newCustomer.getId());
         customerEntity.get().setStore(queryStore(newCustomer.getStoreId()));

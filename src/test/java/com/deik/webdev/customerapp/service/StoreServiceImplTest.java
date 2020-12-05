@@ -1,10 +1,7 @@
 package com.deik.webdev.customerapp.service;
 
 import com.deik.webdev.customerapp.dao.StoreDao;
-import com.deik.webdev.customerapp.exception.UnknownAddressException;
-import com.deik.webdev.customerapp.exception.UnknownCountryException;
-import com.deik.webdev.customerapp.exception.UnknownStaffException;
-import com.deik.webdev.customerapp.exception.UnknownStoreException;
+import com.deik.webdev.customerapp.exception.*;
 import com.deik.webdev.customerapp.model.Store;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,7 +27,7 @@ public class StoreServiceImplTest {
     private StoreDao dao;
 
     @Test
-    public void testRecordStore() throws UnknownStaffException, UnknownAddressException {
+    public void testRecordStore() throws UnknownStaffException, UnknownAddressException, OutOfBoundsException {
         Store store = getStore();
         service.recordStore(store);
 
@@ -38,7 +35,7 @@ public class StoreServiceImplTest {
     }
 
     @Test
-    void testRecordStoreWithUnknownAddress() throws UnknownStaffException, UnknownAddressException {
+    void testRecordStoreWithUnknownAddress() throws UnknownStaffException, UnknownAddressException, OutOfBoundsException {
         doThrow(UnknownAddressException.class).when(dao).createStore(any());
 
         assertThrows(UnknownAddressException.class, ()->{
@@ -63,7 +60,7 @@ public class StoreServiceImplTest {
     }
 
     @Test
-    void testUpdateStore() throws UnknownStaffException, UnknownAddressException, UnknownStoreException {
+    void testUpdateStore() throws UnknownStaffException, UnknownAddressException, UnknownStoreException, OutOfBoundsException {
         Store store = getStore();
         Store newStore = getNewStore();
         service.updateStore(store, newStore);

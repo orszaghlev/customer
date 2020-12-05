@@ -31,6 +31,9 @@ public class StaffDaoImpl implements StaffDao {
     public void createStaff(Staff staff) throws UnknownStoreException, UnknownAddressException, OutOfBoundsException {
         StaffEntity staffEntity;
         activeValue(staff.getActive());
+        correctValue(staff.getId());
+        correctValue(staff.getStoreId());
+        correctValue(staff.getAddressId());
 
         staffEntity = StaffEntity.builder()
                 .id(staff.getId())
@@ -80,6 +83,12 @@ public class StaffDaoImpl implements StaffDao {
         }
     }
 
+    private void correctValue(int value) throws OutOfBoundsException {
+        if (value < 0) {
+            throw new OutOfBoundsException("Value can't be smaller than 0!");
+        }
+    }
+
     @Override
     public Collection<Staff> readAll() {
         return StreamSupport.stream(staffRepository.findAll().spliterator(),false)
@@ -125,6 +134,9 @@ public class StaffDaoImpl implements StaffDao {
             throw new UnknownStaffException(String.format("Staff Not Found %s", staff), staff);
         }
         activeValue(newStaff.getActive());
+        correctValue(newStaff.getId());
+        correctValue(newStaff.getStoreId());
+        correctValue(newStaff.getAddressId());
         log.info("Original: " + staffEntity.toString());
         staffEntity.get().setId(newStaff.getId());
         staffEntity.get().setFirstName(newStaff.getFirstName());

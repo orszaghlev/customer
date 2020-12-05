@@ -2,6 +2,7 @@ package com.deik.webdev.customerapp.controller;
 
 import com.deik.webdev.customerapp.dto.StoreDto;
 import com.deik.webdev.customerapp.dto.StoreUpdateRequestDto;
+import com.deik.webdev.customerapp.exception.OutOfBoundsException;
 import com.deik.webdev.customerapp.exception.UnknownAddressException;
 import com.deik.webdev.customerapp.exception.UnknownStaffException;
 import com.deik.webdev.customerapp.exception.UnknownStoreException;
@@ -44,7 +45,7 @@ public class StoreController {
                     requestDto.getStaffId(),
                     requestDto.getAddressId()
             ));
-        } catch (DataAccessException | NumberFormatException | UnknownStaffException | UnknownAddressException e) {
+        } catch (DataAccessException | NumberFormatException | OutOfBoundsException | UnknownStaffException | UnknownAddressException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
@@ -61,7 +62,7 @@ public class StoreController {
                     requestDto.getNewStaffId(),
                     requestDto.getNewAddressId())
             );
-        } catch (DataAccessException | NumberFormatException | UnknownStaffException | UnknownAddressException | UnknownStoreException e) {
+        } catch (DataAccessException | NumberFormatException | OutOfBoundsException | UnknownStaffException | UnknownAddressException | UnknownStoreException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

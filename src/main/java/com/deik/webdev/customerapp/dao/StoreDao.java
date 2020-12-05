@@ -1,5 +1,6 @@
 package com.deik.webdev.customerapp.dao;
 
+import com.deik.webdev.customerapp.exception.OutOfBoundsException;
 import com.deik.webdev.customerapp.exception.UnknownAddressException;
 import com.deik.webdev.customerapp.exception.UnknownStaffException;
 import com.deik.webdev.customerapp.exception.UnknownStoreException;
@@ -9,11 +10,11 @@ import java.util.Collection;
 
 public interface StoreDao {
 
-    void createStore(Store store) throws UnknownStaffException, UnknownAddressException;
+    void createStore(Store store) throws UnknownStaffException, UnknownAddressException, OutOfBoundsException;
     Collection<Store> readAll();
 
     void deleteStore(Store store) throws UnknownStoreException;
 
-    void updateStore(Store store, Store newStore) throws UnknownStaffException, UnknownAddressException, UnknownStoreException;
+    void updateStore(Store store, Store newStore) throws UnknownStaffException, UnknownAddressException, UnknownStoreException, OutOfBoundsException;
 
 }
