@@ -11,6 +11,7 @@ import lombok.ToString;
 @EqualsAndHashCode
 public class Customer {
 
+    private int id;
     private int storeId;
     private String firstName;
     private String lastName;

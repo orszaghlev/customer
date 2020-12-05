@@ -38,10 +38,10 @@ public class StoreServiceImplTest {
     }
 
     @Test
-    void testRecordStoreWithUnknownCountry() throws UnknownStaffException, UnknownAddressException {
-        doThrow(UnknownCountryException.class).when(dao).createStore(any());
+    void testRecordStoreWithUnknownAddress() throws UnknownStaffException, UnknownAddressException {
+        doThrow(UnknownAddressException.class).when(dao).createStore(any());
 
-        assertThrows(UnknownCountryException.class, ()->{
+        assertThrows(UnknownAddressException.class, ()->{
             service.recordStore(getStore());
         });
     }

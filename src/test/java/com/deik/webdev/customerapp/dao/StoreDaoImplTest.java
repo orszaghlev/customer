@@ -26,23 +26,13 @@ public class StoreDaoImplTest {
     private StoreDaoImpl dao;
     @Mock
     private StoreRepository storeRepository;
-    @Mock
-    private StaffRepository staffRepository;
-    @Mock
-    private CustomerRepository customerRepository;
-    @Mock
-    private AddressRepository addressRepository;
-    @Mock
-    private CityRepository cityRepository;
-    @Mock
-    private CountryRepository countryRepository;
 
     @Test
     void testCreateStore() throws UnknownStaffException, UnknownAddressException {
-        doReturn(AddressEntity.builder().address("47 MySakila Drive").build())
-                .when(dao).queryAddress(any());
-        doReturn(StaffEntity.builder().firstName("Mike").build())
-                .when(dao).queryStaff(any());
+        doReturn(AddressEntity.builder().id(1).build())
+                .when(dao).queryAddress(anyInt());
+        doReturn(StaffEntity.builder().id(1).build())
+                .when(dao).queryStaff(anyInt());
         dao.createStore(getStore());
 
         verify(storeRepository, times(1)).save(any());

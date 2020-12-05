@@ -2,7 +2,6 @@ package com.deik.webdev.customerapp.service;
 
 import com.deik.webdev.customerapp.dao.StaffDao;
 import com.deik.webdev.customerapp.exception.UnknownAddressException;
-import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.exception.UnknownStaffException;
 import com.deik.webdev.customerapp.exception.UnknownStoreException;
 import com.deik.webdev.customerapp.model.Staff;
@@ -38,10 +37,10 @@ public class StaffServiceImplTest {
     }
 
     @Test
-    void testRecordStaffWithUnknownCountry() throws UnknownStoreException, UnknownAddressException {
-        doThrow(UnknownCountryException.class).when(dao).createStaff(any());
+    void testRecordStaffWithUnknownAddress() throws UnknownStoreException, UnknownAddressException {
+        doThrow(UnknownAddressException.class).when(dao).createStaff(any());
 
-        assertThrows(UnknownCountryException.class, ()->{
+        assertThrows(UnknownAddressException.class, ()->{
             service.recordStaff(getStaff());
         });
     }

@@ -1,9 +1,7 @@
 package com.deik.webdev.customerapp.service;
 
 import com.deik.webdev.customerapp.dao.CustomerDao;
-import com.deik.webdev.customerapp.exception.UnknownCountryException;
-import com.deik.webdev.customerapp.exception.UnknownCustomerException;
-import com.deik.webdev.customerapp.exception.UnknownStaffException;
+import com.deik.webdev.customerapp.exception.*;
 import com.deik.webdev.customerapp.model.Customer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +22,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void recordCustomer(Customer customer) throws UnknownStaffException, UnknownCountryException {
+    public void recordCustomer(Customer customer) throws UnknownStoreException, UnknownAddressException {
         customerDao.createCustomer(customer);
     }
 
@@ -34,7 +32,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void updateCustomer(Customer customer, Customer newCustomer) throws UnknownStaffException, UnknownCountryException, UnknownCustomerException {
+    public void updateCustomer(Customer customer, Customer newCustomer) throws UnknownStoreException, UnknownAddressException, UnknownCustomerException {
         customerDao.updateCustomer(customer, newCustomer);
     }
 

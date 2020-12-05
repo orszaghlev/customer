@@ -11,6 +11,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class CustomerDto {
 
+    private int id;
     private int storeId;
     private String firstName;
     private String lastName;

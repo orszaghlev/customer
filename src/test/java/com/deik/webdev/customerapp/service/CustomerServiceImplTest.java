@@ -1,9 +1,7 @@
 package com.deik.webdev.customerapp.service;
 
 import com.deik.webdev.customerapp.dao.CustomerDao;
-import com.deik.webdev.customerapp.exception.UnknownCountryException;
-import com.deik.webdev.customerapp.exception.UnknownCustomerException;
-import com.deik.webdev.customerapp.exception.UnknownStaffException;
+import com.deik.webdev.customerapp.exception.*;
 import com.deik.webdev.customerapp.model.Customer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,7 +27,7 @@ public class CustomerServiceImplTest {
     private CustomerDao dao;
 
     @Test
-    public void testRecordCustomer() throws UnknownStaffException, UnknownCountryException {
+    public void testRecordCustomer() throws UnknownStoreException, UnknownAddressException {
         Customer customer = getCustomer();
         service.recordCustomer(customer);
 
@@ -37,19 +35,19 @@ public class CustomerServiceImplTest {
     }
 
     @Test
-    void testRecordCustomerWithUnknownStaff() throws UnknownStaffException, UnknownCountryException {
-        doThrow(UnknownStaffException.class).when(dao).createCustomer(any());
+    void testRecordCustomerWithUnknownStore() throws UnknownStoreException, UnknownAddressException {
+        doThrow(UnknownStoreException.class).when(dao).createCustomer(any());
 
-        assertThrows(UnknownStaffException.class, ()->{
+        assertThrows(UnknownStoreException.class, ()->{
             service.recordCustomer(getCustomer());
         });
     }
 
     @Test
-    void testRecordCustomerWithUnknownCountry() throws UnknownStaffException, UnknownCountryException {
-        doThrow(UnknownCountryException.class).when(dao).createCustomer(any());
+    void testRecordCustomerWithUnknownAddress() throws UnknownStoreException, UnknownAddressException {
+        doThrow(UnknownAddressException.class).when(dao).createCustomer(any());
 
-        assertThrows(UnknownCountryException.class, ()->{
+        assertThrows(UnknownAddressException.class, ()->{
             service.recordCustomer(getCustomer());
         });
     }
@@ -71,7 +69,7 @@ public class CustomerServiceImplTest {
     }
 
     @Test
-    void testUpdateCustomer() throws UnknownStaffException, UnknownCountryException, UnknownCustomerException {
+    void testUpdateCustomer() throws UnknownStoreException, UnknownAddressException, UnknownCustomerException {
         Customer customer = getCustomer();
         Customer newCustomer = getNewCustomer();
         service.updateCustomer(customer, newCustomer);
@@ -81,66 +79,56 @@ public class CustomerServiceImplTest {
 
     private Customer getCustomer() {
         return new Customer(
-                "store",
-                "staff",
+                1,
+                1,
                 "firstName",
                 "lastName",
                 "email",
-                "address",
-                "city",
-                "country",
-                "1"
+                1,
+                0
         );
     }
 
     private Customer getNewCustomer() {
         return new Customer(
-                "newStore",
-                "newStaff",
+                2,
+                2,
                 "newFirstName",
                 "newLastName",
                 "newEmail",
-                "newAddress",
-                "newCity",
-                "newCountry",
-                "2"
+                2,
+                1
         );
     }
 
     private Collection<Customer> getDefaultCustomers() {
         return Arrays.asList(
                 new Customer(
-                        "store",
-                        "staff",
+                        1,
+                        1,
                         "firstName",
                         "lastName",
                         "email",
-                        "address",
-                        "city",
-                        "country",
-                        "1"
+                        1,
+                        0
                 ),
                 new Customer(
-                        "store1",
-                        "staff1",
-                        "firstName1",
-                        "lastName1",
-                        "email1",
-                        "address1",
-                        "city1",
-                        "country1",
-                        "2"
+                        2,
+                        2,
+                        "firstName",
+                        "lastName",
+                        "email",
+                        2,
+                        1
                 ),
                 new Customer(
-                        "store2",
-                        "staff2",
-                        "firstName2",
-                        "lastName2",
-                        "email2",
-                        "address2",
-                        "city2",
-                        "country2",
-                        "3"
+                        3,
+                        3,
+                        "firstName",
+                        "lastName",
+                        "email",
+                        3,
+                        0
                 ));
     }
 

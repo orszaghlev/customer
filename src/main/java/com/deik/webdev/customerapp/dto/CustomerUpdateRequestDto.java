@@ -11,6 +11,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class CustomerUpdateRequestDto extends CustomerDto {
 
+    private int newId;
     private int newStoreId;
     private String newFirstName;
     private String newLastName;

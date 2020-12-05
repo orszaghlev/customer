@@ -14,7 +14,6 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static java.lang.Integer.parseInt;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -30,10 +29,10 @@ public class StaffDaoImplTest {
 
     @Test
     void testCreateStaff() throws UnknownStoreException, UnknownAddressException {
-        doReturn(AddressEntity.builder().address("47 MySakila Drive").build())
-                .when(dao).queryAddress(any());
-        doReturn(StoreEntity.builder().id(parseInt("1")).build())
-                .when(dao).queryStore(any());
+        doReturn(AddressEntity.builder().id(1).build())
+                .when(dao).queryAddress(anyInt());
+        doReturn(StoreEntity.builder().id(1).build())
+                .when(dao).queryStore(anyInt());
         dao.createStaff(getStaff());
 
         verify(staffRepository, times(1)).save(any());
