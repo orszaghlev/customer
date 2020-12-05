@@ -1,7 +1,7 @@
 package com.deik.webdev.customerapp.service;
 
 import com.deik.webdev.customerapp.dao.StaffDao;
-import com.deik.webdev.customerapp.exception.UnknownCountryException;
+import com.deik.webdev.customerapp.exception.UnknownAddressException;
 import com.deik.webdev.customerapp.exception.UnknownStaffException;
 import com.deik.webdev.customerapp.exception.UnknownStoreException;
 import com.deik.webdev.customerapp.model.Staff;
@@ -24,7 +24,7 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public void recordStaff(Staff staff) throws UnknownStoreException, UnknownCountryException {
+    public void recordStaff(Staff staff) throws UnknownStoreException, UnknownAddressException {
         staffDao.createStaff(staff);
     }
 
@@ -34,7 +34,7 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public void updateStaff(Staff staff, Staff newStaff) throws UnknownStoreException, UnknownCountryException, UnknownStaffException {
+    public void updateStaff(Staff staff, Staff newStaff) throws UnknownStoreException, UnknownAddressException, UnknownStaffException {
         staffDao.updateStaff(staff, newStaff);
     }
 

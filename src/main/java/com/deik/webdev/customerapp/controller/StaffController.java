@@ -2,7 +2,7 @@ package com.deik.webdev.customerapp.controller;
 
 import com.deik.webdev.customerapp.dto.StaffDto;
 import com.deik.webdev.customerapp.dto.StaffUpdateRequestDto;
-import com.deik.webdev.customerapp.exception.UnknownCountryException;
+import com.deik.webdev.customerapp.exception.UnknownAddressException;
 import com.deik.webdev.customerapp.exception.UnknownStaffException;
 import com.deik.webdev.customerapp.exception.UnknownStoreException;
 import com.deik.webdev.customerapp.model.Staff;
@@ -32,11 +32,9 @@ public class StaffController {
                         .id(model.getId())
                         .firstName(model.getFirstName())
                         .lastName(model.getLastName())
-                        .address(model.getAddress())
-                        .city(model.getCity())
-                        .country(model.getCountry())
+                        .addressId(model.getAddressId())
                         .email(model.getEmail())
-                        .store(model.getStore())
+                        .storeId(model.getStoreId())
                         .active(model.getActive())
                         .username(model.getUsername())
                         .password(model.getPassword())
@@ -51,16 +49,14 @@ public class StaffController {
                     requestDto.getId(),
                     requestDto.getFirstName(),
                     requestDto.getLastName(),
-                    requestDto.getAddress(),
-                    requestDto.getCity(),
-                    requestDto.getCountry(),
+                    requestDto.getAddressId(),
                     requestDto.getEmail(),
-                    requestDto.getStore(),
+                    requestDto.getStoreId(),
                     requestDto.getActive(),
                     requestDto.getUsername(),
                     requestDto.getPassword()
             ));
-        } catch (DataAccessException | NumberFormatException | UnknownStoreException | UnknownCountryException e) {
+        } catch (DataAccessException | NumberFormatException | UnknownStoreException | UnknownAddressException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
@@ -72,11 +68,9 @@ public class StaffController {
                     requestDto.getId(),
                     requestDto.getFirstName(),
                     requestDto.getLastName(),
-                    requestDto.getAddress(),
-                    requestDto.getCity(),
-                    requestDto.getCountry(),
+                    requestDto.getAddressId(),
                     requestDto.getEmail(),
-                    requestDto.getStore(),
+                    requestDto.getStoreId(),
                     requestDto.getActive(),
                     requestDto.getUsername(),
                     requestDto.getPassword()
@@ -93,28 +87,24 @@ public class StaffController {
                     requestDto.getId(),
                     requestDto.getFirstName(),
                     requestDto.getLastName(),
-                    requestDto.getAddress(),
-                    requestDto.getCity(),
-                    requestDto.getCountry(),
+                    requestDto.getAddressId(),
                     requestDto.getEmail(),
-                    requestDto.getStore(),
+                    requestDto.getStoreId(),
                     requestDto.getActive(),
                     requestDto.getUsername(),
                     requestDto.getPassword()),
                     new Staff(
                     requestDto.getNewId(),
-                    requestDto.getFirstName(),
-                    requestDto.getLastName(),
-                    requestDto.getAddress(),
-                    requestDto.getCity(),
-                    requestDto.getCountry(),
-                    requestDto.getEmail(),
-                    requestDto.getStore(),
+                    requestDto.getNewFirstName(),
+                    requestDto.getNewLastName(),
+                    requestDto.getNewAddressId(),
+                    requestDto.getNewEmail(),
+                    requestDto.getNewStoreId(),
                     requestDto.getNewActive(),
-                    requestDto.getUsername(),
-                    requestDto.getPassword())
+                    requestDto.getNewUsername(),
+                    requestDto.getNewPassword())
             );
-        } catch (DataAccessException | NumberFormatException | UnknownStoreException | UnknownCountryException | UnknownStaffException e) {
+        } catch (DataAccessException | NumberFormatException | UnknownStoreException | UnknownAddressException | UnknownStaffException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
