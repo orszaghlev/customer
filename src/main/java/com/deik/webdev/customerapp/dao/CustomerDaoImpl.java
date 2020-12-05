@@ -25,8 +25,9 @@ public class CustomerDaoImpl implements CustomerDao {
     private final AddressRepository addressRepository;
 
     @Override
-    public void createCustomer(Customer customer) throws UnknownStoreException, UnknownAddressException {
+    public void createCustomer(Customer customer) throws UnknownStoreException, UnknownAddressException, OutOfBoundsException {
         CustomerEntity customerEntity;
+        activeValue(customer.getActive());
 
         customerEntity = CustomerEntity.builder()
                 .id(customer.getId())
@@ -65,6 +66,12 @@ public class CustomerDaoImpl implements CustomerDao {
         else {
             log.trace("AddressEntity: {}", addressEntity);
             return addressEntity.get();
+        }
+    }
+
+    private void activeValue(int active) throws OutOfBoundsException {
+        if (active != 0 && active != 1) {
+            throw new OutOfBoundsException("Value of 'active' must be 0 or 1!");
         }
     }
 

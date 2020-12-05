@@ -50,7 +50,7 @@ public class CustomerController {
                     requestDto.getAddressId(),
                     requestDto.getActive()
             ));
-        } catch (DataAccessException | NumberFormatException | UnknownStoreException | UnknownAddressException e) {
+        } catch (DataAccessException | NumberFormatException | OutOfBoundsException | UnknownStoreException | UnknownAddressException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

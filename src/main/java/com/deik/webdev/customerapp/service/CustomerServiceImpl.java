@@ -22,7 +22,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void recordCustomer(Customer customer) throws UnknownStoreException, UnknownAddressException {
+    public void recordCustomer(Customer customer) throws UnknownStoreException, UnknownAddressException, OutOfBoundsException {
         customerDao.createCustomer(customer);
     }
 

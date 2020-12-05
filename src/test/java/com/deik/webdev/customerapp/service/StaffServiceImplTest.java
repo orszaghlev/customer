@@ -1,6 +1,7 @@
 package com.deik.webdev.customerapp.service;
 
 import com.deik.webdev.customerapp.dao.StaffDao;
+import com.deik.webdev.customerapp.exception.OutOfBoundsException;
 import com.deik.webdev.customerapp.exception.UnknownAddressException;
 import com.deik.webdev.customerapp.exception.UnknownStaffException;
 import com.deik.webdev.customerapp.exception.UnknownStoreException;
@@ -29,7 +30,7 @@ public class StaffServiceImplTest {
     private StaffDao dao;
 
     @Test
-    public void testRecordStaff() throws UnknownStoreException, UnknownAddressException {
+    public void testRecordStaff() throws UnknownStoreException, UnknownAddressException, OutOfBoundsException {
         Staff staff = getStaff();
         service.recordStaff(staff);
 
@@ -37,7 +38,7 @@ public class StaffServiceImplTest {
     }
 
     @Test
-    void testRecordStaffWithUnknownAddress() throws UnknownStoreException, UnknownAddressException {
+    void testRecordStaffWithUnknownAddress() throws UnknownStoreException, UnknownAddressException, OutOfBoundsException {
         doThrow(UnknownAddressException.class).when(dao).createStaff(any());
 
         assertThrows(UnknownAddressException.class, ()->{
