@@ -49,19 +49,6 @@ public class StoreController {
         }
     }
 
-    @DeleteMapping("/store")
-    public void deleteStore(@RequestBody StoreDto requestDto){
-        try {
-            service.deleteStore(new Store(
-                    requestDto.getId(),
-                    requestDto.getStaffId(),
-                    requestDto.getAddressId()
-            ));
-        } catch (DataAccessException | UnknownStoreException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
-    }
-
     @PutMapping("/store")
     public void updateStore(@RequestBody StoreUpdateRequestDto requestDto) {
         try {
