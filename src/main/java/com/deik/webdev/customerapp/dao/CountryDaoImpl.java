@@ -41,6 +41,7 @@ public class CountryDaoImpl implements CountryDao {
 
     @Override
     public Collection<Country> readAll() {
+        log.info("Read all countries");
         return StreamSupport.stream(countryRepository.findAll().spliterator(),false)
                 .map(entity -> new Country(
                         entity.getCountry()
@@ -59,6 +60,7 @@ public class CountryDaoImpl implements CountryDao {
             throw new UnknownCountryException(String.format("Country Not Found %s", country));
         }
         countryRepository.delete(countryEntity.get());
+        log.info("Deleted country: " + countryEntity.toString());
     }
 
     @Override

@@ -79,6 +79,7 @@ public class StoreDaoImpl implements StoreDao {
 
     @Override
     public Collection<Store> readAll() {
+        log.info("Read all stores");
         return StreamSupport.stream(storeRepository.findAll().spliterator(),false)
                 .map(entity -> new Store(
                         entity.getId(),
@@ -86,6 +87,27 @@ public class StoreDaoImpl implements StoreDao {
                         entity.getAddress().getId()
                 ))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Collection<Store> readStoresByStaffId(Integer staffId) throws UnknownStoreException, OutOfBoundsException {
+        if (staffId == null) {
+            throw new OutOfBoundsException("StaffID can't be empty!");
+        }
+        Collection<StoreEntity> storeEntity = storeRepository.findByStaffId(staffId);
+        if (storeEntity.isEmpty()) {
+            throw new UnknownStoreException("No Stores Found");
+        }
+        else {
+            log.info("Read all stores (by staff ID)");
+            return StreamSupport.stream(storeRepository.findByStaffId(staffId).spliterator(),false)
+                    .map(entity -> new Store(
+                            entity.getId(),
+                            entity.getStaff().getId(),
+                            entity.getAddress().getId()
+                    ))
+                    .collect(Collectors.toList());
+        }
     }
 
     @Override

@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -49,6 +50,14 @@ public class StoreServiceImplTest {
         Collection<Store> actual = service.getAllStore();
 
         assertThat(getDefaultStores(), is(actual));
+    }
+
+    @Test
+    void testReadStoresByStaffId() throws UnknownStoreException, OutOfBoundsException {
+        final Integer staffId = 1;
+        Collection<Store> actual = service.getStoresByStaffId(staffId);
+
+        assertThat(Collections.emptyList(), is(actual));
     }
 
     @Test

@@ -63,6 +63,7 @@ public class CityDaoImpl implements CityDao {
 
     @Override
     public Collection<City> readAll() {
+        log.info("Read all cities");
         return StreamSupport.stream(cityRepository.findAll().spliterator(),false)
                 .map(entity -> new City(
                         entity.getCity(),
@@ -83,6 +84,7 @@ public class CityDaoImpl implements CityDao {
             throw new UnknownCityException(String.format("City Not Found %s", city), city);
         }
         cityRepository.delete(cityEntity.get());
+        log.info("Deleted city: " + cityEntity.toString());
     }
 
     @Override

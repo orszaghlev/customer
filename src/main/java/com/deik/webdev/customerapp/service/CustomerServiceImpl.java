@@ -22,6 +22,16 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public Collection<Customer> getCustomersByName(String firstName, String lastName) throws UnknownCustomerException {
+        return customerDao.readCustomersByName(firstName, lastName);
+    }
+
+    @Override
+    public Collection<Customer> getCustomersByEmail(String email) throws UnknownCustomerException {
+        return customerDao.readCustomersByEmail(email);
+    }
+
+    @Override
     public void recordCustomer(Customer customer) throws UnknownStoreException, UnknownAddressException, OutOfBoundsException {
         customerDao.createCustomer(customer);
     }

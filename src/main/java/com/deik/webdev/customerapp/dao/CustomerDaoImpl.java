@@ -86,6 +86,7 @@ public class CustomerDaoImpl implements CustomerDao {
 
     @Override
     public Collection<Customer> readAll() {
+        log.info("Read all customers");
         return StreamSupport.stream(customerRepository.findAll().spliterator(),false)
                 .map(entity -> new Customer(
                         entity.getId(),
@@ -97,6 +98,50 @@ public class CustomerDaoImpl implements CustomerDao {
                         entity.getActive()
                 ))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Collection<Customer> readCustomersByName(String firstName, String lastName) throws UnknownCustomerException {
+        Collection<CustomerEntity> customerEntity = customerRepository.findByFirstNameAndLastName(firstName, lastName);
+        if (customerEntity.isEmpty()) {
+            throw new UnknownCustomerException("No Customers Found");
+        }
+        else {
+            log.info("Read all customers (by name)");
+            return StreamSupport.stream(customerRepository.findByFirstNameAndLastName(firstName, lastName).spliterator(),false)
+                    .map(entity -> new Customer(
+                            entity.getId(),
+                            entity.getStore().getId(),
+                            entity.getFirstName(),
+                            entity.getLastName(),
+                            entity.getEmail(),
+                            entity.getAddress().getId(),
+                            entity.getActive()
+                    ))
+                    .collect(Collectors.toList());
+        }
+    }
+
+    @Override
+    public Collection<Customer> readCustomersByEmail(String email) throws UnknownCustomerException {
+        Collection<CustomerEntity> customerEntity = customerRepository.findByEmail(email);
+        if (customerEntity.isEmpty()) {
+            throw new UnknownCustomerException("No Customers Found");
+        }
+        else {
+            log.info("Read all customers (by email)");
+            return StreamSupport.stream(customerRepository.findByEmail(email).spliterator(),false)
+                    .map(entity -> new Customer(
+                            entity.getId(),
+                            entity.getStore().getId(),
+                            entity.getFirstName(),
+                            entity.getLastName(),
+                            entity.getEmail(),
+                            entity.getAddress().getId(),
+                            entity.getActive()
+                    ))
+                    .collect(Collectors.toList());
+        }
     }
 
     @Override

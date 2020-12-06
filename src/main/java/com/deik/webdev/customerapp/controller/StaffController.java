@@ -2,10 +2,7 @@ package com.deik.webdev.customerapp.controller;
 
 import com.deik.webdev.customerapp.dto.StaffDto;
 import com.deik.webdev.customerapp.dto.StaffUpdateRequestDto;
-import com.deik.webdev.customerapp.exception.OutOfBoundsException;
-import com.deik.webdev.customerapp.exception.UnknownAddressException;
-import com.deik.webdev.customerapp.exception.UnknownStaffException;
-import com.deik.webdev.customerapp.exception.UnknownStoreException;
+import com.deik.webdev.customerapp.exception.*;
 import com.deik.webdev.customerapp.model.Staff;
 import com.deik.webdev.customerapp.service.StaffService;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +38,72 @@ public class StaffController {
                         .password(model.getPassword())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping("/staff/{username}")
+    public Collection<StaffDto> listStaffByUsername(String username) {
+        try {
+            return service.getStaffByUsername(username)
+                .stream()
+                .map(model -> StaffDto.builder()
+                        .id(model.getId())
+                        .firstName(model.getFirstName())
+                        .lastName(model.getLastName())
+                        .addressId(model.getAddressId())
+                        .email(model.getEmail())
+                        .storeId(model.getStoreId())
+                        .active(model.getActive())
+                        .username(model.getUsername())
+                        .password(model.getPassword())
+                        .build())
+                .collect(Collectors.toList());
+        } catch (UnknownStaffException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @GetMapping("/staff/{email}")
+    public Collection<StaffDto> listStaffByEmail(String email) {
+        try {
+            return service.getStaffByEmail(email)
+                    .stream()
+                    .map(model -> StaffDto.builder()
+                            .id(model.getId())
+                            .firstName(model.getFirstName())
+                            .lastName(model.getLastName())
+                            .addressId(model.getAddressId())
+                            .email(model.getEmail())
+                            .storeId(model.getStoreId())
+                            .active(model.getActive())
+                            .username(model.getUsername())
+                            .password(model.getPassword())
+                            .build())
+                    .collect(Collectors.toList());
+        } catch (UnknownStaffException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @GetMapping("/staff/{storeId}")
+    public Collection<StaffDto> listStaffByStoreId(Integer storeId) {
+        try {
+            return service.getStaffByStoreId(storeId)
+                    .stream()
+                    .map(model -> StaffDto.builder()
+                            .id(model.getId())
+                            .firstName(model.getFirstName())
+                            .lastName(model.getLastName())
+                            .addressId(model.getAddressId())
+                            .email(model.getEmail())
+                            .storeId(model.getStoreId())
+                            .active(model.getActive())
+                            .username(model.getUsername())
+                            .password(model.getPassword())
+                            .build())
+                    .collect(Collectors.toList());
+        } catch (OutOfBoundsException | UnknownStaffException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
 
     @PostMapping("/staff")

@@ -70,12 +70,13 @@ public class AddressDaoImpl implements AddressDao {
             cityRepository.save(cityEntity.get());
             log.info("Recorded new City: {}, {}", city, country);
         }
-        log.trace("City Entity: {}", cityEntity);
+        log.trace("CityEntity: {}", cityEntity);
         return cityEntity.get();
     }
 
     @Override
     public Collection<Address> readAll() {
+        log.info("Read all addresses");
         return StreamSupport.stream(addressRepository.findAll().spliterator(),false)
                 .map(entity -> new Address(
                         entity.getAddress(),
@@ -87,6 +88,50 @@ public class AddressDaoImpl implements AddressDao {
                         entity.getPhone()
                 ))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Collection<Address> readAddressesByDistrict(String district) throws UnknownAddressException {
+        Collection<AddressEntity> addressEntity = addressRepository.findByDistrict(district);
+        if (addressEntity.isEmpty()) {
+            throw new UnknownAddressException("No Addresses Found");
+        }
+        else {
+            log.info("Read all addresses (by district)");
+            return StreamSupport.stream(addressRepository.findByDistrict(district).spliterator(), false)
+                    .map(entity -> new Address(
+                            entity.getAddress(),
+                            entity.getAddress2(),
+                            entity.getDistrict(),
+                            entity.getCity().getCity(),
+                            entity.getCity().getCountry().getCountry(),
+                            entity.getPostalCode(),
+                            entity.getPhone()
+                    ))
+                    .collect(Collectors.toList());
+        }
+    }
+
+    @Override
+    public Collection<Address> readAddressesByPostalCode(String postalCode) throws UnknownAddressException {
+        Collection<AddressEntity> addressEntity = addressRepository.findByPostalCode(postalCode);
+        if (addressEntity.isEmpty()) {
+            throw new UnknownAddressException("No Addresses Found");
+        }
+        else {
+            log.info("Read all addresses (by postal code)");
+            return StreamSupport.stream(addressRepository.findByPostalCode(postalCode).spliterator(), false)
+                    .map(entity -> new Address(
+                            entity.getAddress(),
+                            entity.getAddress2(),
+                            entity.getDistrict(),
+                            entity.getCity().getCity(),
+                            entity.getCity().getCountry().getCountry(),
+                            entity.getPostalCode(),
+                            entity.getPhone()
+                    ))
+                    .collect(Collectors.toList());
+        }
     }
 
     @Override
