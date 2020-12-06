@@ -25,7 +25,7 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public Collection<Store> getStoresByStaffId(int staffId) throws UnknownStoreException {
+    public Collection<Store> getStoresByStaffId(Integer staffId) throws UnknownStoreException, OutOfBoundsException {
         return storeDao.readStoresByStaffId(staffId);
     }
 

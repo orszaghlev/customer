@@ -39,7 +39,7 @@ public class StoreController {
     }
 
     @GetMapping("/store/{staffId}")
-    public Collection<StoreDto> listStoresByStaffId(int staffId) {
+    public Collection<StoreDto> listStoresByStaffId(Integer staffId) {
         try {
             return service.getStoresByStaffId(staffId)
                     .stream()
@@ -49,7 +49,7 @@ public class StoreController {
                             .addressId(model.getAddressId())
                             .build())
                     .collect(Collectors.toList());
-        } catch (UnknownStoreException e) {
+        } catch (OutOfBoundsException | UnknownStoreException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

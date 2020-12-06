@@ -156,7 +156,10 @@ public class StaffDaoImpl implements StaffDao {
     }
 
     @Override
-    public Collection<Staff> readStaffByStoreId(int storeId) throws UnknownStaffException {
+    public Collection<Staff> readStaffByStoreId(Integer storeId) throws UnknownStaffException, OutOfBoundsException {
+        if (storeId == null) {
+            throw new OutOfBoundsException("StoreID can't be empty!");
+        }
         Collection<StaffEntity> staffEntity = staffRepository.findByStoreId(storeId);
         if (staffEntity.isEmpty()) {
             throw new UnknownStaffException("No Staff Found");

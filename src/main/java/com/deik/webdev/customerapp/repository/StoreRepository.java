@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface StoreRepository extends CrudRepository<StoreEntity, Integer> {
     Optional<StoreEntity> findById(int id);
-    Collection<StoreEntity> findByStaffId(int staffId);
+    Collection<StoreEntity> findByStaffId(Integer staffId);
 }

@@ -9,5 +9,5 @@ import java.util.Optional;
 public interface StaffRepository extends CrudRepository<StaffEntity, Integer> {
     Collection<StaffEntity> findByUsername(String username);
     Collection<StaffEntity> findByEmail(String email);
-    Collection<StaffEntity> findByStoreId(int storeId);
+    Collection<StaffEntity> findByStoreId(Integer storeId);
 }

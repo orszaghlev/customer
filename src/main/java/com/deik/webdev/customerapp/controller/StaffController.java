@@ -85,7 +85,7 @@ public class StaffController {
     }
 
     @GetMapping("/staff/{storeId}")
-    public Collection<StaffDto> listStaffByStoreId(int storeId) {
+    public Collection<StaffDto> listStaffByStoreId(Integer storeId) {
         try {
             return service.getStaffByStoreId(storeId)
                     .stream()
@@ -101,7 +101,7 @@ public class StaffController {
                             .password(model.getPassword())
                             .build())
                     .collect(Collectors.toList());
-        } catch (UnknownStaffException e) {
+        } catch (OutOfBoundsException | UnknownStaffException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

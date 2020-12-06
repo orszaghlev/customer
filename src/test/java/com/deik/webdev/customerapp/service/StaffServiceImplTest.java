@@ -72,8 +72,8 @@ public class StaffServiceImplTest {
     }
 
     @Test
-    void testReadStaffFromStoreId() throws UnknownStaffException {
-        final int storeId = 1;
+    void testReadStaffFromStoreId() throws UnknownStaffException, OutOfBoundsException {
+        final Integer storeId = 1;
         Collection<Staff> actual = service.getStaffByStoreId(storeId);
 
         assertThat(Collections.emptyList(), is(actual));

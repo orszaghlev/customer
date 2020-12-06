@@ -53,8 +53,8 @@ public class StoreServiceImplTest {
     }
 
     @Test
-    void testReadStoresByStaffId() throws UnknownStoreException {
-        final int staffId = 1;
+    void testReadStoresByStaffId() throws UnknownStoreException, OutOfBoundsException {
+        final Integer staffId = 1;
         Collection<Store> actual = service.getStoresByStaffId(staffId);
 
         assertThat(Collections.emptyList(), is(actual));

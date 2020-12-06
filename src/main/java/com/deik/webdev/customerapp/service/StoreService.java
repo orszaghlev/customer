@@ -11,7 +11,7 @@ import java.util.Collection;
 public interface StoreService {
 
     Collection<Store> getAllStore();
-    Collection<Store> getStoresByStaffId(int staffId) throws UnknownStoreException;
+    Collection<Store> getStoresByStaffId(Integer staffId) throws UnknownStoreException, OutOfBoundsException;
 
     void recordStore(Store store) throws UnknownStaffException, UnknownAddressException, OutOfBoundsException;
     void deleteStore(Store store) throws UnknownStoreException;
