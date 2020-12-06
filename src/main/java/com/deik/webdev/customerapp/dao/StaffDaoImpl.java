@@ -91,7 +91,7 @@ public class StaffDaoImpl implements StaffDao {
 
     @Override
     public Collection<Staff> readAll() {
-        log.info("Read all customers");
+        log.info("Read all staff");
         return StreamSupport.stream(staffRepository.findAll().spliterator(),false)
                 .map(entity -> new Staff(
                         entity.getId(),
@@ -162,7 +162,7 @@ public class StaffDaoImpl implements StaffDao {
             throw new UnknownStaffException("No Staff Found");
         }
         else {
-            log.info("Read all staff (by email)");
+            log.info("Read all staff (by store ID)");
             return StreamSupport.stream(staffRepository.findByStoreId(storeId).spliterator(),false)
                     .map(entity -> new Staff(
                             entity.getId(),

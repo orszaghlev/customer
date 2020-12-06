@@ -1,5 +1,6 @@
 package com.deik.webdev.customerapp.controller;
 
+import com.deik.webdev.customerapp.dto.StaffDto;
 import com.deik.webdev.customerapp.dto.StoreDto;
 import com.deik.webdev.customerapp.dto.StoreUpdateRequestDto;
 import com.deik.webdev.customerapp.exception.OutOfBoundsException;
@@ -35,6 +36,22 @@ public class StoreController {
                         .addressId(model.getAddressId())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping("/store/{staffId}")
+    public Collection<StoreDto> listStoresByStaffId(int staffId) {
+        try {
+            return service.getStoresByStaffId(staffId)
+                    .stream()
+                    .map(model -> StoreDto.builder()
+                            .id(model.getId())
+                            .staffId(model.getStaffId())
+                            .addressId(model.getAddressId())
+                            .build())
+                    .collect(Collectors.toList());
+        } catch (UnknownStoreException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
 
     @PostMapping("/store")

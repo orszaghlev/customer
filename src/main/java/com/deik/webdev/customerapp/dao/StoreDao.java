@@ -12,6 +12,7 @@ public interface StoreDao {
 
     void createStore(Store store) throws UnknownStaffException, UnknownAddressException, OutOfBoundsException;
     Collection<Store> readAll();
+    Collection<Store> readStoresByStaffId(int staffId) throws UnknownStoreException;
 
     void deleteStore(Store store) throws UnknownStoreException;
 
