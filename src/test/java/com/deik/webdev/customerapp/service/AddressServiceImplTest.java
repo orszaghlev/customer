@@ -53,10 +53,17 @@ class AddressServiceImplTest {
     }
 
     @Test
-    void testReadAddressesFromUnknownCity() {
-        when(dao.readAll()).thenReturn(getDefaultAddresses());
-        final String unknownCityName = "UnknownCity";
-        Collection<Address> actual = service.getAddressInCity(unknownCityName);
+    void testReadAddressesFromDistrict() throws UnknownAddressException {
+        final String district = "district";
+        Collection<Address> actual = service.getAddressesByDistrict(district);
+
+        assertThat(Collections.emptyList(), is(actual));
+    }
+
+    @Test
+    void testReadAddressesFromPostalCode() throws UnknownAddressException {
+        final String postalCode = "1234";
+        Collection<Address> actual = service.getAddressesByPostalCode(postalCode);
 
         assertThat(Collections.emptyList(), is(actual));
     }

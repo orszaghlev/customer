@@ -3,6 +3,7 @@ package com.deik.webdev.customerapp.controller;
 import com.deik.webdev.customerapp.dto.AddressDto;
 import com.deik.webdev.customerapp.dto.AddressRecordRequestDto;
 import com.deik.webdev.customerapp.dto.AddressUpdateRequestDto;
+import com.deik.webdev.customerapp.entity.CityEntity;
 import com.deik.webdev.customerapp.exception.UnknownAddressException;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.model.Address;
@@ -38,6 +39,46 @@ public class AddressController {
                         .phone(model.getPhone())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping("/address/{district}")
+    public Collection<AddressDto> listAddressesByDistrict(String district) {
+        try {
+            return service.getAddressesByDistrict(district)
+                    .stream()
+                    .map(model -> AddressRecordRequestDto.builder()
+                            .address(model.getAddress())
+                            .address2(model.getAddress2())
+                            .district(model.getDistrict())
+                            .city(model.getCity())
+                            .country(model.getCountry())
+                            .postalCode(model.getPostalCode())
+                            .phone(model.getPhone())
+                            .build())
+                    .collect(Collectors.toList());
+        } catch (UnknownAddressException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @GetMapping("/address/{postalCode}")
+    public Collection<AddressDto> listAddressesByPostalCode(String postalCode) {
+        try {
+            return service.getAddressesByPostalCode(postalCode)
+                    .stream()
+                    .map(model -> AddressRecordRequestDto.builder()
+                            .address(model.getAddress())
+                            .address2(model.getAddress2())
+                            .district(model.getDistrict())
+                            .city(model.getCity())
+                            .country(model.getCountry())
+                            .postalCode(model.getPostalCode())
+                            .phone(model.getPhone())
+                            .build())
+                    .collect(Collectors.toList());
+        } catch (UnknownAddressException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
 
     @PostMapping("/address")
