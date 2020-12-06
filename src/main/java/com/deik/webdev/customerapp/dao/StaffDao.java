@@ -12,6 +12,8 @@ public interface StaffDao {
 
     void createStaff(Staff staff) throws UnknownStoreException, UnknownAddressException, OutOfBoundsException;
     Collection<Staff> readAll();
+    Collection<Staff> readStaffByUsername(String username) throws UnknownStaffException;
+    Collection<Staff> readStaffByEmail(String email) throws UnknownStaffException;
 
     void deleteStaff(Staff staff) throws UnknownStaffException;
 

@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -52,6 +53,22 @@ public class StaffServiceImplTest {
         Collection<Staff> actual = service.getAllStaff();
 
         assertThat(getDefaultStaffs(), is(actual));
+    }
+
+    @Test
+    void testReadStaffFromUsername() throws UnknownStaffException {
+        final String username = "username";
+        Collection<Staff> actual = service.getStaffByUsername(username);
+
+        assertThat(Collections.emptyList(), is(actual));
+    }
+
+    @Test
+    void testReadStaffFromEmail() throws UnknownStaffException {
+        final String email = "email";
+        Collection<Staff> actual = service.getStaffByEmail(email);
+
+        assertThat(Collections.emptyList(), is(actual));
     }
 
     @Test

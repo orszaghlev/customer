@@ -91,6 +91,7 @@ public class StaffDaoImpl implements StaffDao {
 
     @Override
     public Collection<Staff> readAll() {
+        log.info("Read all customers");
         return StreamSupport.stream(staffRepository.findAll().spliterator(),false)
                 .map(entity -> new Staff(
                         entity.getId(),
@@ -104,6 +105,54 @@ public class StaffDaoImpl implements StaffDao {
                         entity.getPassword()
                 ))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Collection<Staff> readStaffByUsername(String username) throws UnknownStaffException {
+        Collection<StaffEntity> staffEntity = staffRepository.findByUsername(username);
+        if (staffEntity.isEmpty()) {
+            throw new UnknownStaffException("No Staff Found");
+        }
+        else {
+            log.info("Read all staff (by username)");
+            return StreamSupport.stream(staffRepository.findByUsername(username).spliterator(),false)
+                    .map(entity -> new Staff(
+                            entity.getId(),
+                            entity.getFirstName(),
+                            entity.getLastName(),
+                            entity.getAddress().getId(),
+                            entity.getEmail(),
+                            entity.getStore().getId(),
+                            entity.getActive(),
+                            entity.getUsername(),
+                            entity.getPassword()
+                    ))
+                    .collect(Collectors.toList());
+        }
+    }
+
+    @Override
+    public Collection<Staff> readStaffByEmail(String email) throws UnknownStaffException {
+        Collection<StaffEntity> staffEntity = staffRepository.findByEmail(email);
+        if (staffEntity.isEmpty()) {
+            throw new UnknownStaffException("No Staff Found");
+        }
+        else {
+            log.info("Read all staff (by email)");
+            return StreamSupport.stream(staffRepository.findByEmail(email).spliterator(),false)
+                    .map(entity -> new Staff(
+                            entity.getId(),
+                            entity.getFirstName(),
+                            entity.getLastName(),
+                            entity.getAddress().getId(),
+                            entity.getEmail(),
+                            entity.getStore().getId(),
+                            entity.getActive(),
+                            entity.getUsername(),
+                            entity.getPassword()
+                    ))
+                    .collect(Collectors.toList());
+        }
     }
 
     @Override
@@ -129,7 +178,7 @@ public class StaffDaoImpl implements StaffDao {
 
     @Override
     public void updateStaff(Staff staff, Staff newStaff) throws UnknownStoreException, UnknownAddressException, UnknownStaffException, OutOfBoundsException {
-        Optional<StaffEntity> staffEntity = staffRepository.findByUsername(staff.getUsername());
+        Optional<StaffEntity> staffEntity = staffRepository.findById(staff.getId());
         if (!staffEntity.isPresent()) {
             throw new UnknownStaffException(String.format("Staff Not Found %s", staff), staff);
         }

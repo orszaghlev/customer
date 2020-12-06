@@ -25,6 +25,16 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
+    public Collection<Staff> getStaffByUsername(String username) throws UnknownStaffException {
+        return staffDao.readStaffByUsername(username);
+    }
+
+    @Override
+    public Collection<Staff> getStaffByEmail(String email) throws UnknownStaffException {
+        return staffDao.readStaffByEmail(email);
+    }
+
+    @Override
     public void recordStaff(Staff staff) throws UnknownStoreException, UnknownAddressException, OutOfBoundsException {
         staffDao.createStaff(staff);
     }
