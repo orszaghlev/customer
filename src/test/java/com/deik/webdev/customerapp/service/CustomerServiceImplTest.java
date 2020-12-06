@@ -2,6 +2,7 @@ package com.deik.webdev.customerapp.service;
 
 import com.deik.webdev.customerapp.dao.CustomerDao;
 import com.deik.webdev.customerapp.exception.*;
+import com.deik.webdev.customerapp.model.Address;
 import com.deik.webdev.customerapp.model.Customer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -58,6 +60,23 @@ public class CustomerServiceImplTest {
         Collection<Customer> actual = service.getAllCustomer();
 
         assertThat(getDefaultCustomers(), is(actual));
+    }
+
+    @Test
+    void testReadCustomersFromName() throws UnknownCustomerException {
+        final String firstName = "firstName";
+        final String lastName = "lastName";
+        Collection<Customer> actual = service.getCustomersByName(firstName, lastName);
+
+        assertThat(Collections.emptyList(), is(actual));
+    }
+
+    @Test
+    void testReadCustomersFromEmail() throws UnknownCustomerException {
+        final String email = "email";
+        Collection<Customer> actual = service.getCustomersByEmail(email);
+
+        assertThat(Collections.emptyList(), is(actual));
     }
 
     @Test

@@ -38,6 +38,46 @@ public class CustomerController {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping("/customer/{firstName}/{lastName}")
+    public Collection<CustomerDto> listCustomersByName(String firstName, String lastName) {
+        try {
+            return service.getCustomersByName(firstName, lastName)
+                    .stream()
+                    .map(model -> CustomerDto.builder()
+                            .id(model.getId())
+                            .storeId(model.getStoreId())
+                            .firstName(model.getFirstName())
+                            .lastName(model.getLastName())
+                            .email(model.getEmail())
+                            .addressId(model.getAddressId())
+                            .active(model.getActive())
+                            .build())
+                    .collect(Collectors.toList());
+        } catch (UnknownCustomerException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @GetMapping("/customer/{email}")
+    public Collection<CustomerDto> listCustomersByEmail(String email) {
+        try {
+            return service.getCustomersByEmail(email)
+                    .stream()
+                    .map(model -> CustomerDto.builder()
+                            .id(model.getId())
+                            .storeId(model.getStoreId())
+                            .firstName(model.getFirstName())
+                            .lastName(model.getLastName())
+                            .email(model.getEmail())
+                            .addressId(model.getAddressId())
+                            .active(model.getActive())
+                            .build())
+                    .collect(Collectors.toList());
+        } catch (UnknownCustomerException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
     @PostMapping("/customer")
     public void recordCustomer(@RequestBody CustomerDto requestDto) {
         try {
