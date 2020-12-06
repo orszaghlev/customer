@@ -14,6 +14,7 @@ public interface StaffDao {
     Collection<Staff> readAll();
     Collection<Staff> readStaffByUsername(String username) throws UnknownStaffException;
     Collection<Staff> readStaffByEmail(String email) throws UnknownStaffException;
+    Collection<Staff> readStaffByStoreId(int storeId) throws UnknownStaffException;
 
     void deleteStaff(Staff staff) throws UnknownStaffException;
 

@@ -72,6 +72,14 @@ public class StaffServiceImplTest {
     }
 
     @Test
+    void testReadStaffFromStoreId() throws UnknownStaffException {
+        final int storeId = 1;
+        Collection<Staff> actual = service.getStaffByStoreId(storeId);
+
+        assertThat(Collections.emptyList(), is(actual));
+    }
+
+    @Test
     void testDeleteStaff() throws UnknownStaffException {
         Staff staff = getStaff();
         service.deleteStaff(staff);

@@ -13,6 +13,7 @@ public interface StaffService {
     Collection<Staff> getAllStaff();
     Collection<Staff> getStaffByUsername(String username) throws UnknownStaffException;
     Collection<Staff> getStaffByEmail(String email) throws UnknownStaffException;
+    Collection<Staff> getStaffByStoreId(int storeId) throws UnknownStaffException;
 
     void recordStaff(Staff staff) throws UnknownStoreException, UnknownAddressException, OutOfBoundsException;
     void deleteStaff(Staff staff) throws UnknownStaffException;

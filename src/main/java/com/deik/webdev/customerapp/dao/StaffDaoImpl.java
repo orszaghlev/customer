@@ -156,6 +156,30 @@ public class StaffDaoImpl implements StaffDao {
     }
 
     @Override
+    public Collection<Staff> readStaffByStoreId(int storeId) throws UnknownStaffException {
+        Collection<StaffEntity> staffEntity = staffRepository.findByStoreId(storeId);
+        if (staffEntity.isEmpty()) {
+            throw new UnknownStaffException("No Staff Found");
+        }
+        else {
+            log.info("Read all staff (by email)");
+            return StreamSupport.stream(staffRepository.findByStoreId(storeId).spliterator(),false)
+                    .map(entity -> new Staff(
+                            entity.getId(),
+                            entity.getFirstName(),
+                            entity.getLastName(),
+                            entity.getAddress().getId(),
+                            entity.getEmail(),
+                            entity.getStore().getId(),
+                            entity.getActive(),
+                            entity.getUsername(),
+                            entity.getPassword()
+                    ))
+                    .collect(Collectors.toList());
+        }
+    }
+
+    @Override
     public void deleteStaff(Staff staff) throws UnknownStaffException {
         Optional<StaffEntity> staffEntity = StreamSupport.stream(staffRepository.findAll().spliterator(),false).filter(
                 entity ->{
