@@ -92,7 +92,7 @@ public class StoreDaoImpl implements StoreDao {
     @Override
     public Collection<Store> readStoresByStaffId(Integer staffId) throws UnknownStoreException, OutOfBoundsException {
         if (staffId == null) {
-            throw new OutOfBoundsException("StaffID can't be empty!");
+            throw new OutOfBoundsException("Staff ID can't be empty!");
         }
         Collection<StoreEntity> storeEntity = storeRepository.findByStaffId(staffId);
         if (storeEntity.isEmpty()) {

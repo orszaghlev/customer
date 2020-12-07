@@ -53,7 +53,7 @@ public class CustomerController {
                             .active(model.getActive())
                             .build())
                     .collect(Collectors.toList());
-        } catch (UnknownCustomerException e) {
+        } catch (OutOfBoundsException | UnknownCustomerException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
@@ -74,6 +74,26 @@ public class CustomerController {
                             .build())
                     .collect(Collectors.toList());
         } catch (UnknownCustomerException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @GetMapping("/customer/{storeId}")
+    public Collection<CustomerDto> listCustomersByStoreId(Integer storeId) {
+        try {
+            return service.getCustomersByStoreId(storeId)
+                    .stream()
+                    .map(model -> CustomerDto.builder()
+                            .id(model.getId())
+                            .storeId(model.getStoreId())
+                            .firstName(model.getFirstName())
+                            .lastName(model.getLastName())
+                            .email(model.getEmail())
+                            .addressId(model.getAddressId())
+                            .active(model.getActive())
+                            .build())
+                    .collect(Collectors.toList());
+        } catch (OutOfBoundsException | UnknownCustomerException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

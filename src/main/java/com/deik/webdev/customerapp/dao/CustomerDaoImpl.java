@@ -101,7 +101,10 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
-    public Collection<Customer> readCustomersByName(String firstName, String lastName) throws UnknownCustomerException {
+    public Collection<Customer> readCustomersByName(String firstName, String lastName) throws UnknownCustomerException, OutOfBoundsException {
+        if ((firstName != null && lastName == null) || (firstName == null && lastName != null)) {
+            throw new OutOfBoundsException("You forgot to add firstName or lastName!");
+        }
         Collection<CustomerEntity> customerEntity = customerRepository.findByFirstNameAndLastName(firstName, lastName);
         if (customerEntity.isEmpty()) {
             throw new UnknownCustomerException("No Customers Found");
@@ -131,6 +134,31 @@ public class CustomerDaoImpl implements CustomerDao {
         else {
             log.info("Read all customers (by email)");
             return StreamSupport.stream(customerRepository.findByEmail(email).spliterator(),false)
+                    .map(entity -> new Customer(
+                            entity.getId(),
+                            entity.getStore().getId(),
+                            entity.getFirstName(),
+                            entity.getLastName(),
+                            entity.getEmail(),
+                            entity.getAddress().getId(),
+                            entity.getActive()
+                    ))
+                    .collect(Collectors.toList());
+        }
+    }
+
+    @Override
+    public Collection<Customer> readCustomersByStoreId(Integer storeId) throws UnknownCustomerException, OutOfBoundsException {
+        if (storeId == null) {
+            throw new OutOfBoundsException("Store ID can't be empty!");
+        }
+        Collection<CustomerEntity> customerEntity = customerRepository.findByStoreId(storeId);
+        if (customerEntity.isEmpty()) {
+            throw new UnknownCustomerException("No Customers Found");
+        }
+        else {
+            log.info("Read all customers (by store ID)");
+            return StreamSupport.stream(customerRepository.findByStoreId(storeId).spliterator(),false)
                     .map(entity -> new Customer(
                             entity.getId(),
                             entity.getStore().getId(),

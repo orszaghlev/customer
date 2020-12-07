@@ -12,8 +12,9 @@ public interface CustomerDao {
 
     void createCustomer(Customer customer) throws UnknownStoreException, UnknownAddressException, OutOfBoundsException;
     Collection<Customer> readAll();
-    Collection<Customer> readCustomersByName(String firstName, String lastName) throws UnknownCustomerException;
+    Collection<Customer> readCustomersByName(String firstName, String lastName) throws UnknownCustomerException, OutOfBoundsException;
     Collection<Customer> readCustomersByEmail(String email) throws UnknownCustomerException;
+    Collection<Customer> readCustomersByStoreId(Integer storeId) throws UnknownCustomerException, OutOfBoundsException;
 
     void deleteCustomer(Customer customer) throws UnknownCustomerException;
 

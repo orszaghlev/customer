@@ -22,13 +22,18 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Collection<Customer> getCustomersByName(String firstName, String lastName) throws UnknownCustomerException {
+    public Collection<Customer> getCustomersByName(String firstName, String lastName) throws UnknownCustomerException, OutOfBoundsException {
         return customerDao.readCustomersByName(firstName, lastName);
     }
 
     @Override
     public Collection<Customer> getCustomersByEmail(String email) throws UnknownCustomerException {
         return customerDao.readCustomersByEmail(email);
+    }
+
+    @Override
+    public Collection<Customer> getCustomersByStoreId(Integer storeId) throws UnknownCustomerException, OutOfBoundsException {
+        return customerDao.readCustomersByStoreId(storeId);
     }
 
     @Override
