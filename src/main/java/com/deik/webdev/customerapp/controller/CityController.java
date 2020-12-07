@@ -34,6 +34,21 @@ public class CityController {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping("/city/{country}")
+    public Collection<CityDto> listCitiesByCountry(String country) {
+        try {
+            return service.getCitiesByCountry(country)
+                    .stream()
+                    .map(model -> CityDto.builder()
+                            .city(model.getCity())
+                            .country(model.getCountry())
+                            .build())
+                    .collect(Collectors.toList());
+        } catch (UnknownCityException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
     @PostMapping("/city")
     public void recordCity(@RequestBody CityDto requestDto) {
         try {

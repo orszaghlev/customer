@@ -53,6 +53,14 @@ class AddressServiceImplTest {
     }
 
     @Test
+    void testReadAddressesFromCity() throws UnknownAddressException {
+        final String city = "city";
+        Collection<Address> actual = service.getAddressesByCity(city);
+
+        assertThat(Collections.emptyList(), is(actual));
+    }
+
+    @Test
     void testReadAddressesFromDistrict() throws UnknownAddressException {
         final String district = "district";
         Collection<Address> actual = service.getAddressesByDistrict(district);

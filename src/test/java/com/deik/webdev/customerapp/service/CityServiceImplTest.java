@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -49,6 +50,14 @@ public class CityServiceImplTest {
         Collection<City> actual = service.getAllCity();
 
         assertThat(getDefaultCities(), is(actual));
+    }
+
+    @Test
+    void testReadCitiesByCountry() throws UnknownCityException {
+        final String country = "country";
+        Collection<City> actual = service.getCitiesByCountry(country);
+
+        assertThat(Collections.emptyList(), is(actual));
     }
 
     @Test

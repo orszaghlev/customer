@@ -73,6 +73,24 @@ public class CityDaoImpl implements CityDao {
     }
 
     @Override
+    public Collection<City> readCitiesByCountry(String country) throws UnknownCityException {
+        Optional<CountryEntity> countryEntity = countryRepository.findByCountry(country);
+        Collection<CityEntity> cityEntity = cityRepository.findByCountry(countryEntity);
+        if (cityEntity.isEmpty()) {
+            throw new UnknownCityException("No Cities Found");
+        }
+        else {
+            log.info("Read all cities (by country)");
+            return StreamSupport.stream(cityRepository.findByCountry(countryEntity).spliterator(),false)
+                    .map(entity -> new City(
+                            entity.getCity(),
+                            entity.getCountry().getCountry()
+                    ))
+                    .collect(Collectors.toList());
+        }
+    }
+
+    @Override
     public void deleteCity(City city) throws UnknownCityException {
         Optional<CityEntity> cityEntity = StreamSupport.stream(cityRepository.findAll().spliterator(),false).filter(
                 entity ->{

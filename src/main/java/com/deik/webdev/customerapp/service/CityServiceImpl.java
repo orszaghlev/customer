@@ -23,6 +23,11 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
+    public Collection<City> getCitiesByCountry(String country) throws UnknownCityException {
+        return cityDao.readCitiesByCountry(country);
+    }
+
+    @Override
     public void recordCity(City city) throws UnknownCountryException {
         cityDao.createCity(city);
     }

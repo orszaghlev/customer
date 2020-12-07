@@ -10,6 +10,7 @@ public interface CityDao {
 
     void createCity(City city) throws UnknownCountryException;
     Collection<City> readAll();
+    Collection<City> readCitiesByCountry(String country) throws UnknownCityException;
 
     void deleteCity(City city) throws UnknownCityException;
 

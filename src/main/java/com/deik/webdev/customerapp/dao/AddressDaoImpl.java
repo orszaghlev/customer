@@ -91,6 +91,29 @@ public class AddressDaoImpl implements AddressDao {
     }
 
     @Override
+    public Collection<Address> readAddressesByCity(String city) throws UnknownAddressException {
+        Optional<CityEntity> cityEntity = cityRepository.findByCity(city);
+        Collection<AddressEntity> addressEntity = addressRepository.findByCity(cityEntity);
+        if (addressEntity.isEmpty()) {
+            throw new UnknownAddressException("No Addresses Found");
+        }
+        else {
+            log.info("Read all addresses (by city)");
+            return StreamSupport.stream(addressRepository.findByCity(cityEntity).spliterator(), false)
+                    .map(entity -> new Address(
+                            entity.getAddress(),
+                            entity.getAddress2(),
+                            entity.getDistrict(),
+                            entity.getCity().getCity(),
+                            entity.getCity().getCountry().getCountry(),
+                            entity.getPostalCode(),
+                            entity.getPhone()
+                    ))
+                    .collect(Collectors.toList());
+        }
+    }
+
+    @Override
     public Collection<Address> readAddressesByDistrict(String district) throws UnknownAddressException {
         Collection<AddressEntity> addressEntity = addressRepository.findByDistrict(district);
         if (addressEntity.isEmpty()) {

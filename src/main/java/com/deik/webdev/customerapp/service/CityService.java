@@ -9,6 +9,7 @@ import java.util.Collection;
 public interface CityService {
 
     Collection<City> getAllCity();
+    Collection<City> getCitiesByCountry(String country) throws UnknownCityException;
 
     void recordCity(City city) throws UnknownCountryException;
     void deleteCity(City city) throws UnknownCityException;
