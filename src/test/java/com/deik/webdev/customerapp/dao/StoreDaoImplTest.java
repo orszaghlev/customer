@@ -15,6 +15,11 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Collection;
+import java.util.Collections;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -37,6 +42,13 @@ public class StoreDaoImplTest {
         dao.createStore(getStore());
 
         verify(storeRepository, times(1)).save(any());
+    }
+
+    @Test
+    void testReadAllStores() {
+        Collection<Store> storeCollection = dao.readAll();
+
+        assertThat(Collections.emptyList(), is(storeCollection));
     }
 
     @Test

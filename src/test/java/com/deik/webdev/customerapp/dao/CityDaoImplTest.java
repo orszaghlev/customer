@@ -13,7 +13,12 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import java.util.Collection;
+import java.util.Collections;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -35,6 +40,13 @@ public class CityDaoImplTest {
         dao.createCity(getCity());
 
         verify(cityRepository, times(1)).save(any());
+    }
+
+    @Test
+    void testReadAllCities() {
+        Collection<City> cityCollection = dao.readAll();
+
+        assertThat(Collections.emptyList(), is(cityCollection));
     }
 
     @Test

@@ -14,6 +14,11 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Collection;
+import java.util.Collections;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -25,10 +30,6 @@ class AddressDaoImplTest {
     private AddressDaoImpl dao;
     @Mock
     private AddressRepository addressRepository;
-    @Mock
-    private CityRepository cityRepository;
-    @Mock
-    private CountryRepository countryRepository;
 
     @Test
     void testCreateAddress() throws UnknownCountryException {
@@ -37,6 +38,13 @@ class AddressDaoImplTest {
         dao.createAddress(getAddress());
 
         verify(addressRepository, times(1)).save(any());
+    }
+
+    @Test
+    void testReadAllAddresses() {
+        Collection<Address> addressCollection = dao.readAll();
+
+        assertThat(Collections.emptyList(), is(addressCollection));
     }
 
     @Test
