@@ -43,6 +43,17 @@ public class CountryController {
         }
     }
 
+    @DeleteMapping("/country")
+    public void deleteCountry(@RequestBody CountryDto requestDto) {
+        try {
+            service.deleteCountry(new Country(
+                    requestDto.getCountry()
+            ));
+        } catch (DataAccessException | UnknownCountryException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
     @PutMapping("/country")
     public void updateCountry(@RequestBody CountryUpdateRequestDto requestDto) {
         try {

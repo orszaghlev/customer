@@ -1,6 +1,5 @@
 package com.deik.webdev.customerapp.controller;
 
-import com.deik.webdev.customerapp.dto.StaffDto;
 import com.deik.webdev.customerapp.dto.StoreDto;
 import com.deik.webdev.customerapp.dto.StoreUpdateRequestDto;
 import com.deik.webdev.customerapp.exception.*;
@@ -60,6 +59,19 @@ public class StoreController {
                     requestDto.getAddressId()
             ));
         } catch (DataAccessException | NumberFormatException | OutOfBoundsException | UnknownStaffException | UnknownAddressException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/store")
+    public void deleteStore(@RequestBody StoreDto requestDto) {
+        try {
+            service.deleteStore(new Store(
+                    requestDto.getId(),
+                    requestDto.getStaffId(),
+                    requestDto.getAddressId()
+            ));
+        } catch (DataAccessException | UnknownStoreException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
