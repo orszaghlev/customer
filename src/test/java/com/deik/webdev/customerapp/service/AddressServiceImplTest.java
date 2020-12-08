@@ -37,7 +37,7 @@ class AddressServiceImplTest {
     }
 
     @Test
-    void testRecordAddressWithUnknownCountry() throws UnknownCountryException {
+    public void testRecordAddressWithUnknownCountry() throws UnknownCountryException {
         doThrow(UnknownCountryException.class).when(dao).createAddress(any());
 
         assertThrows(UnknownCountryException.class, ()->{
@@ -46,7 +46,7 @@ class AddressServiceImplTest {
     }
 
     @Test
-    void testReadAllAddresses() {
+    public void testReadAllAddresses() {
         when(dao.readAll()).thenReturn(getDefaultAddresses());
         Collection<Address> actual = service.getAllAddress();
 
@@ -54,7 +54,7 @@ class AddressServiceImplTest {
     }
 
     @Test
-    void testReadAddressesFromCity() throws UnknownAddressException, EmptyException {
+    public void testReadAddressesFromCity() throws UnknownAddressException, EmptyException {
         final String city = "city";
         Collection<Address> actual = service.getAddressesByCity(city);
 
@@ -62,7 +62,7 @@ class AddressServiceImplTest {
     }
 
     @Test
-    void testReadAddressesFromDistrict() throws UnknownAddressException, EmptyException {
+    public void testReadAddressesFromDistrict() throws UnknownAddressException, EmptyException {
         final String district = "district";
         Collection<Address> actual = service.getAddressesByDistrict(district);
 
@@ -70,7 +70,7 @@ class AddressServiceImplTest {
     }
 
     @Test
-    void testReadAddressesFromPostalCode() throws UnknownAddressException, EmptyException {
+    public void testReadAddressesFromPostalCode() throws UnknownAddressException, EmptyException {
         final String postalCode = "1234";
         Collection<Address> actual = service.getAddressesByPostalCode(postalCode);
 
@@ -78,7 +78,7 @@ class AddressServiceImplTest {
     }
 
     @Test
-    void testDeleteAddress() throws UnknownAddressException {
+    public void testDeleteAddress() throws UnknownAddressException {
         Address address = getAddress();
         service.deleteAddress(address);
 
@@ -86,7 +86,7 @@ class AddressServiceImplTest {
     }
 
     @Test
-    void testUpdateAddress() throws UnknownCountryException, UnknownAddressException {
+    public void testUpdateAddress() throws UnknownCountryException, UnknownAddressException {
         Address address = getAddress();
         Address newAddress = getNewAddress();
         service.updateAddress(address, newAddress);
@@ -148,4 +148,5 @@ class AddressServiceImplTest {
                         "063456789"
                 ));
     }
+
 }

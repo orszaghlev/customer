@@ -36,7 +36,7 @@ public class StoreServiceImplTest {
     }
 
     @Test
-    void testRecordStoreWithUnknownAddress() throws UnknownStaffException, UnknownAddressException, OutOfBoundsException {
+    public void testRecordStoreWithUnknownAddress() throws UnknownStaffException, UnknownAddressException, OutOfBoundsException {
         doThrow(UnknownAddressException.class).when(dao).createStore(any());
 
         assertThrows(UnknownAddressException.class, ()->{
@@ -45,7 +45,7 @@ public class StoreServiceImplTest {
     }
 
     @Test
-    void testReadAllStores() {
+    public void testReadAllStores() {
         when(dao.readAll()).thenReturn(getDefaultStores());
         Collection<Store> actual = service.getAllStore();
 
@@ -53,7 +53,7 @@ public class StoreServiceImplTest {
     }
 
     @Test
-    void testReadStoresByStaffId() throws UnknownStoreException, EmptyException {
+    public void testReadStoresByStaffId() throws UnknownStoreException, EmptyException {
         final Integer staffId = 1;
         Collection<Store> actual = service.getStoresByStaffId(staffId);
 
@@ -61,7 +61,7 @@ public class StoreServiceImplTest {
     }
 
     @Test
-    void testDeleteStore() throws UnknownStoreException {
+    public void testDeleteStore() throws UnknownStoreException {
         Store store = getStore();
         service.deleteStore(store);
 
@@ -69,7 +69,7 @@ public class StoreServiceImplTest {
     }
 
     @Test
-    void testUpdateStore() throws UnknownStaffException, UnknownAddressException, UnknownStoreException, OutOfBoundsException {
+    public void testUpdateStore() throws UnknownStaffException, UnknownAddressException, UnknownStoreException, OutOfBoundsException {
         Store store = getStore();
         Store newStore = getNewStore();
         service.updateStore(store, newStore);

@@ -4,7 +4,6 @@ import com.deik.webdev.customerapp.entity.AddressEntity;
 import com.deik.webdev.customerapp.entity.StoreEntity;
 import com.deik.webdev.customerapp.exception.OutOfBoundsException;
 import com.deik.webdev.customerapp.exception.UnknownAddressException;
-import com.deik.webdev.customerapp.exception.UnknownStaffException;
 import com.deik.webdev.customerapp.exception.UnknownStoreException;
 import com.deik.webdev.customerapp.model.Staff;
 import com.deik.webdev.customerapp.repository.*;
@@ -15,7 +14,6 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -29,7 +27,7 @@ public class StaffDaoImplTest {
     private StaffRepository staffRepository;
 
     @Test
-    void testCreateStaff() throws UnknownStoreException, UnknownAddressException, OutOfBoundsException {
+    public void testCreateStaff() throws UnknownStoreException, UnknownAddressException, OutOfBoundsException {
         doReturn(AddressEntity.builder().id(1).build())
                 .when(dao).queryAddress(anyInt());
         doReturn(StoreEntity.builder().id(1).build())
@@ -40,28 +38,10 @@ public class StaffDaoImplTest {
     }
 
     @Test
-    void testReadAllStaff() {
+    public void testReadAllStaff() {
         dao.readAll();
 
         verify(staffRepository, times(1)).findAll();
-    }
-
-    @Test
-    public void deleteStaff() throws UnknownStaffException {
-        doThrow(UnknownStaffException.class).when(dao).deleteStaff(any());
-
-        assertThrows(UnknownStaffException.class, ()->{
-            dao.deleteStaff(getStaff());
-        });
-    }
-
-    @Test
-    public void updateStaff() throws UnknownStoreException, UnknownAddressException, UnknownStaffException, OutOfBoundsException {
-        doThrow(UnknownStaffException.class).when(dao).updateStaff(any(), any());
-
-        assertThrows(UnknownStaffException.class, ()->{
-            dao.updateStaff(getStaff(), getNewStaff());
-        });
     }
 
     private Staff getStaff() {
@@ -75,20 +55,6 @@ public class StaffDaoImplTest {
                 0,
                 "username",
                 "password"
-        );
-    }
-
-    private Staff getNewStaff() {
-        return new Staff(
-                2,
-                "newFirstName",
-                "newLastName",
-                2,
-                "newEmail",
-                2,
-                1,
-                "newUsername",
-                "newPassword"
         );
     }
 

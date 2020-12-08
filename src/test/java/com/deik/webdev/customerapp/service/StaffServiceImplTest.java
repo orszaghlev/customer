@@ -36,7 +36,7 @@ public class StaffServiceImplTest {
     }
 
     @Test
-    void testRecordStaffWithUnknownAddress() throws UnknownStoreException, UnknownAddressException, OutOfBoundsException {
+    public void testRecordStaffWithUnknownAddress() throws UnknownStoreException, UnknownAddressException, OutOfBoundsException {
         doThrow(UnknownAddressException.class).when(dao).createStaff(any());
 
         assertThrows(UnknownAddressException.class, ()->{
@@ -45,7 +45,7 @@ public class StaffServiceImplTest {
     }
 
     @Test
-    void testReadAllStaffs() {
+    public void testReadAllStaffs() {
         when(dao.readAll()).thenReturn(getDefaultStaffs());
         Collection<Staff> actual = service.getAllStaff();
 
@@ -53,7 +53,7 @@ public class StaffServiceImplTest {
     }
 
     @Test
-    void testReadStaffFromUsername() throws UnknownStaffException, EmptyException {
+    public void testReadStaffFromUsername() throws UnknownStaffException, EmptyException {
         final String username = "username";
         Collection<Staff> actual = service.getStaffByUsername(username);
 
@@ -61,7 +61,7 @@ public class StaffServiceImplTest {
     }
 
     @Test
-    void testReadStaffFromEmail() throws UnknownStaffException, EmptyException {
+    public void testReadStaffFromEmail() throws UnknownStaffException, EmptyException {
         final String email = "email";
         Collection<Staff> actual = service.getStaffByEmail(email);
 
@@ -69,7 +69,7 @@ public class StaffServiceImplTest {
     }
 
     @Test
-    void testReadStaffFromStoreId() throws UnknownStaffException, EmptyException {
+    public void testReadStaffFromStoreId() throws UnknownStaffException, EmptyException {
         final Integer storeId = 1;
         Collection<Staff> actual = service.getStaffByStoreId(storeId);
 
@@ -77,7 +77,7 @@ public class StaffServiceImplTest {
     }
 
     @Test
-    void testReadActiveStaff() throws UnknownStaffException, OutOfBoundsException, EmptyException {
+    public void testReadActiveStaff() throws UnknownStaffException, OutOfBoundsException, EmptyException {
         final Integer active = 1;
         Collection<Staff> actual = service.getActiveStaff(active);
 
@@ -85,7 +85,7 @@ public class StaffServiceImplTest {
     }
 
     @Test
-    void testDeleteStaff() throws UnknownStaffException {
+    public void testDeleteStaff() throws UnknownStaffException {
         Staff staff = getStaff();
         service.deleteStaff(staff);
 
@@ -93,7 +93,7 @@ public class StaffServiceImplTest {
     }
 
     @Test
-    void testUpdateStaff() throws UnknownStoreException, UnknownAddressException, UnknownStaffException, OutOfBoundsException {
+    public void testUpdateStaff() throws UnknownStoreException, UnknownAddressException, UnknownStaffException, OutOfBoundsException {
         Staff staff = getStaff();
         Staff newStaff = getNewStaff();
         service.updateStaff(staff, newStaff);

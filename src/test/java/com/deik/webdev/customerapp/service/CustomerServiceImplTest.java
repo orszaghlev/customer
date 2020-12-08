@@ -2,7 +2,6 @@ package com.deik.webdev.customerapp.service;
 
 import com.deik.webdev.customerapp.dao.CustomerDao;
 import com.deik.webdev.customerapp.exception.*;
-import com.deik.webdev.customerapp.model.Address;
 import com.deik.webdev.customerapp.model.Customer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,7 +36,7 @@ public class CustomerServiceImplTest {
     }
 
     @Test
-    void testRecordCustomerWithUnknownStore() throws UnknownStoreException, UnknownAddressException, OutOfBoundsException {
+    public void testRecordCustomerWithUnknownStore() throws UnknownStoreException, UnknownAddressException, OutOfBoundsException {
         doThrow(UnknownStoreException.class).when(dao).createCustomer(any());
 
         assertThrows(UnknownStoreException.class, ()->{
@@ -46,7 +45,7 @@ public class CustomerServiceImplTest {
     }
 
     @Test
-    void testRecordCustomerWithUnknownAddress() throws UnknownStoreException, UnknownAddressException, OutOfBoundsException {
+    public void testRecordCustomerWithUnknownAddress() throws UnknownStoreException, UnknownAddressException, OutOfBoundsException {
         doThrow(UnknownAddressException.class).when(dao).createCustomer(any());
 
         assertThrows(UnknownAddressException.class, ()->{
@@ -55,7 +54,7 @@ public class CustomerServiceImplTest {
     }
 
     @Test
-    void testReadAllCustomers() {
+    public void testReadAllCustomers() {
         when(dao.readAll()).thenReturn(getDefaultCustomers());
         Collection<Customer> actual = service.getAllCustomer();
 
@@ -63,7 +62,7 @@ public class CustomerServiceImplTest {
     }
 
     @Test
-    void testReadCustomersFromName() throws UnknownCustomerException, EmptyException {
+    public void testReadCustomersFromName() throws UnknownCustomerException, EmptyException {
         final String firstName = "firstName";
         final String lastName = "lastName";
         Collection<Customer> actual = service.getCustomersByName(firstName, lastName);
@@ -72,7 +71,7 @@ public class CustomerServiceImplTest {
     }
 
     @Test
-    void testReadCustomersFromEmail() throws UnknownCustomerException, EmptyException {
+    public void testReadCustomersFromEmail() throws UnknownCustomerException, EmptyException {
         final String email = "email";
         Collection<Customer> actual = service.getCustomersByEmail(email);
 
@@ -80,7 +79,7 @@ public class CustomerServiceImplTest {
     }
 
     @Test
-    void testReadCustomersFromStoreId() throws UnknownCustomerException, EmptyException {
+    public void testReadCustomersFromStoreId() throws UnknownCustomerException, EmptyException {
         final Integer storeId = 1;
         Collection<Customer> actual = service.getCustomersByStoreId(storeId);
 
@@ -88,7 +87,7 @@ public class CustomerServiceImplTest {
     }
 
     @Test
-    void testReadActiveCustomers() throws UnknownCustomerException, OutOfBoundsException, EmptyException {
+    public void testReadActiveCustomers() throws UnknownCustomerException, OutOfBoundsException, EmptyException {
         final Integer active = 1;
         Collection<Customer> actual = service.getActiveCustomers(active);
 
@@ -96,7 +95,7 @@ public class CustomerServiceImplTest {
     }
 
     @Test
-    void testDeleteCustomer() throws UnknownCustomerException {
+    public void testDeleteCustomer() throws UnknownCustomerException {
         Customer customer = getCustomer();
         service.deleteCustomer(customer);
 
@@ -104,7 +103,7 @@ public class CustomerServiceImplTest {
     }
 
     @Test
-    void testUpdateCustomer() throws UnknownStoreException, UnknownAddressException, UnknownCustomerException, OutOfBoundsException {
+    public void testUpdateCustomer() throws UnknownStoreException, UnknownAddressException, UnknownCustomerException, OutOfBoundsException {
         Customer customer = getCustomer();
         Customer newCustomer = getNewCustomer();
         service.updateCustomer(customer, newCustomer);

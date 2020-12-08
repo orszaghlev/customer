@@ -37,7 +37,7 @@ public class CityServiceImplTest {
     }
 
     @Test
-    void testRecordCityWithUnknownCountry() throws UnknownCountryException {
+    public void testRecordCityWithUnknownCountry() throws UnknownCountryException {
         doThrow(UnknownCountryException.class).when(dao).createCity(any());
 
         assertThrows(UnknownCountryException.class, ()->{
@@ -46,7 +46,7 @@ public class CityServiceImplTest {
     }
 
     @Test
-    void testReadAllCities() {
+    public void testReadAllCities() {
         when(dao.readAll()).thenReturn(getDefaultCities());
         Collection<City> actual = service.getAllCity();
 
@@ -54,7 +54,7 @@ public class CityServiceImplTest {
     }
 
     @Test
-    void testReadCitiesByCountry() throws UnknownCityException, EmptyException {
+    public void testReadCitiesByCountry() throws UnknownCityException, EmptyException {
         final String country = "country";
         Collection<City> actual = service.getCitiesByCountry(country);
 
@@ -62,7 +62,7 @@ public class CityServiceImplTest {
     }
 
     @Test
-    void testDeleteCity() throws UnknownCityException {
+    public void testDeleteCity() throws UnknownCityException {
         City city = getCity();
         service.deleteCity(city);
 
@@ -70,7 +70,7 @@ public class CityServiceImplTest {
     }
 
     @Test
-    void testUpdateCity() throws UnknownCountryException, UnknownCityException {
+    public void testUpdateCity() throws UnknownCountryException, UnknownCityException {
         City city = getCity();
         City newCity = getNewCity();
         service.updateCity(city, newCity);

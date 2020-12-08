@@ -33,7 +33,7 @@ public class CountryServiceImplTest {
     }
 
     @Test
-    void testReadAllCountries() {
+    public void testReadAllCountries() {
         when(dao.readAll()).thenReturn(getDefaultCountries());
         Collection<Country> actual = service.getAllCountry();
 
@@ -41,7 +41,7 @@ public class CountryServiceImplTest {
     }
 
     @Test
-    void testDeleteCountry() throws UnknownCountryException {
+    public void testDeleteCountry() throws UnknownCountryException {
         Country country = getCountry();
         service.deleteCountry(country);
 
@@ -49,7 +49,7 @@ public class CountryServiceImplTest {
     }
 
     @Test
-    void testUpdateCountry() throws UnknownCountryException {
+    public void testUpdateCountry() throws UnknownCountryException {
         Country country = getCountry();
         Country newCountry = getNewCountry();
         service.updateCountry(country, newCountry);
