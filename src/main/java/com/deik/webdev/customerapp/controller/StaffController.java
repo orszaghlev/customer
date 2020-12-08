@@ -106,6 +106,28 @@ public class StaffController {
         }
     }
 
+    @GetMapping("/staff/{active}")
+    public Collection<StaffDto> listActiveStaff(Integer active) {
+        try {
+            return service.getActiveStaff(active)
+                    .stream()
+                    .map(model -> StaffDto.builder()
+                            .id(model.getId())
+                            .firstName(model.getFirstName())
+                            .lastName(model.getLastName())
+                            .addressId(model.getAddressId())
+                            .email(model.getEmail())
+                            .storeId(model.getStoreId())
+                            .active(model.getActive())
+                            .username(model.getUsername())
+                            .password(model.getPassword())
+                            .build())
+                    .collect(Collectors.toList());
+        } catch (OutOfBoundsException | UnknownStaffException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
     @PostMapping("/staff")
     public void recordStaff(@RequestBody StaffDto requestDto) {
         try {

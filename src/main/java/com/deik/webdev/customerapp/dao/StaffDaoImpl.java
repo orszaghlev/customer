@@ -184,6 +184,34 @@ public class StaffDaoImpl implements StaffDao {
     }
 
     @Override
+    public Collection<Staff> readActiveStaff(Integer active) throws UnknownStaffException, OutOfBoundsException {
+        if (active == null) {
+            throw new OutOfBoundsException("Active can't be empty!");
+        }
+        activeValue(active);
+        Collection<StaffEntity> staffEntity = staffRepository.findByActive(active);
+        if (staffEntity.isEmpty()) {
+            throw new UnknownStaffException("No Staff Found");
+        }
+        else {
+            log.info("Read all staff (by store ID)");
+            return StreamSupport.stream(staffRepository.findByActive(active).spliterator(),false)
+                    .map(entity -> new Staff(
+                            entity.getId(),
+                            entity.getFirstName(),
+                            entity.getLastName(),
+                            entity.getAddress().getId(),
+                            entity.getEmail(),
+                            entity.getStore().getId(),
+                            entity.getActive(),
+                            entity.getUsername(),
+                            entity.getPassword()
+                    ))
+                    .collect(Collectors.toList());
+        }
+    }
+
+    @Override
     public void deleteStaff(Staff staff) throws UnknownStaffException {
         Optional<StaffEntity> staffEntity = StreamSupport.stream(staffRepository.findAll().spliterator(),false).filter(
                 entity ->{

@@ -11,4 +11,5 @@ public interface CustomerRepository extends CrudRepository<CustomerEntity, Integ
     Collection<CustomerEntity> findByFirstNameAndLastName(String firstName, String lastName);
     Collection<CustomerEntity> findByEmail(String email);
     Collection<CustomerEntity> findByStoreId(Integer storeId);
+    Collection<CustomerEntity> findByActive(Integer active);
 }

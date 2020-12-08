@@ -10,4 +10,5 @@ public interface StaffRepository extends CrudRepository<StaffEntity, Integer> {
     Collection<StaffEntity> findByUsername(String username);
     Collection<StaffEntity> findByEmail(String email);
     Collection<StaffEntity> findByStoreId(Integer storeId);
+    Collection<StaffEntity> findByActive(Integer active);
 }

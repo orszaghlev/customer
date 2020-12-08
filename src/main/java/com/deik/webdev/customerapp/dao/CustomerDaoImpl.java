@@ -174,6 +174,32 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
+    public Collection<Customer> readActiveCustomers(Integer active) throws UnknownCustomerException, OutOfBoundsException {
+        if (active == null) {
+            throw new OutOfBoundsException("Active can't be empty!");
+        }
+        activeValue(active);
+        Collection<CustomerEntity> customerEntity = customerRepository.findByActive(active);
+        if (customerEntity.isEmpty()) {
+            throw new UnknownCustomerException("No Customers Found");
+        }
+        else {
+            log.info("Read all customers (by store ID)");
+            return StreamSupport.stream(customerRepository.findByActive(active).spliterator(),false)
+                    .map(entity -> new Customer(
+                            entity.getId(),
+                            entity.getStore().getId(),
+                            entity.getFirstName(),
+                            entity.getLastName(),
+                            entity.getEmail(),
+                            entity.getAddress().getId(),
+                            entity.getActive()
+                    ))
+                    .collect(Collectors.toList());
+        }
+    }
+
+    @Override
     public void deleteCustomer(Customer customer) throws UnknownCustomerException {
         Optional<CustomerEntity> customerEntity = StreamSupport.stream(customerRepository.findAll().spliterator(),false).filter(
                 entity ->{

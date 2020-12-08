@@ -37,6 +37,11 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public Collection<Customer> getActiveCustomers(Integer active) throws UnknownCustomerException, OutOfBoundsException {
+        return customerDao.readActiveCustomers(active);
+    }
+
+    @Override
     public void recordCustomer(Customer customer) throws UnknownStoreException, UnknownAddressException, OutOfBoundsException {
         customerDao.createCustomer(customer);
     }

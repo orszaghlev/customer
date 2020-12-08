@@ -80,6 +80,14 @@ public class StaffServiceImplTest {
     }
 
     @Test
+    void testReadActiveStaff() throws UnknownStaffException, OutOfBoundsException {
+        final Integer active = 1;
+        Collection<Staff> actual = service.getActiveStaff(active);
+
+        assertThat(Collections.emptyList(), is(actual));
+    }
+
+    @Test
     void testDeleteStaff() throws UnknownStaffException {
         Staff staff = getStaff();
         service.deleteStaff(staff);

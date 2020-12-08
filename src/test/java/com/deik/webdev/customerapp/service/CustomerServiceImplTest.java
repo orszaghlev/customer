@@ -88,6 +88,14 @@ public class CustomerServiceImplTest {
     }
 
     @Test
+    void testReadActiveCustomers() throws UnknownCustomerException, OutOfBoundsException {
+        final Integer active = 1;
+        Collection<Customer> actual = service.getActiveCustomers(active);
+
+        assertThat(Collections.emptyList(), is(actual));
+    }
+
+    @Test
     void testDeleteCustomer() throws UnknownCustomerException {
         Customer customer = getCustomer();
         service.deleteCustomer(customer);

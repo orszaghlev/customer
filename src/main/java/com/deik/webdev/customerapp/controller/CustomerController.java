@@ -98,6 +98,26 @@ public class CustomerController {
         }
     }
 
+    @GetMapping("/customer/{active}")
+    public Collection<CustomerDto> listActiveCustomers(Integer active) {
+        try {
+            return service.getActiveCustomers(active)
+                    .stream()
+                    .map(model -> CustomerDto.builder()
+                            .id(model.getId())
+                            .storeId(model.getStoreId())
+                            .firstName(model.getFirstName())
+                            .lastName(model.getLastName())
+                            .email(model.getEmail())
+                            .addressId(model.getAddressId())
+                            .active(model.getActive())
+                            .build())
+                    .collect(Collectors.toList());
+        } catch (OutOfBoundsException | UnknownCustomerException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
     @PostMapping("/customer")
     public void recordCustomer(@RequestBody CustomerDto requestDto) {
         try {

@@ -14,6 +14,7 @@ public interface StaffService {
     Collection<Staff> getStaffByUsername(String username) throws UnknownStaffException;
     Collection<Staff> getStaffByEmail(String email) throws UnknownStaffException;
     Collection<Staff> getStaffByStoreId(Integer storeId) throws UnknownStaffException, OutOfBoundsException;
+    Collection<Staff> getActiveStaff(Integer staff) throws UnknownStaffException, OutOfBoundsException;
 
     void recordStaff(Staff staff) throws UnknownStoreException, UnknownAddressException, OutOfBoundsException;
     void deleteStaff(Staff staff) throws UnknownStaffException;
