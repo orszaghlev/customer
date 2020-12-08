@@ -1,10 +1,7 @@
 package com.deik.webdev.customerapp.dao;
 
 import com.deik.webdev.customerapp.entity.*;
-import com.deik.webdev.customerapp.exception.OutOfBoundsException;
-import com.deik.webdev.customerapp.exception.UnknownAddressException;
-import com.deik.webdev.customerapp.exception.UnknownStaffException;
-import com.deik.webdev.customerapp.exception.UnknownStoreException;
+import com.deik.webdev.customerapp.exception.*;
 import com.deik.webdev.customerapp.model.Staff;
 import com.deik.webdev.customerapp.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -109,7 +106,10 @@ public class StaffDaoImpl implements StaffDao {
     }
 
     @Override
-    public Collection<Staff> readStaffByUsername(String username) throws UnknownStaffException {
+    public Collection<Staff> readStaffByUsername(String username) throws UnknownStaffException, EmptyException {
+        if (username == null) {
+            throw new EmptyException("Add a username!");
+        }
         Collection<StaffEntity> staffEntity = staffRepository.findByUsername(username);
         if (staffEntity.isEmpty()) {
             throw new UnknownStaffException("No Staff Found");
@@ -133,7 +133,10 @@ public class StaffDaoImpl implements StaffDao {
     }
 
     @Override
-    public Collection<Staff> readStaffByEmail(String email) throws UnknownStaffException {
+    public Collection<Staff> readStaffByEmail(String email) throws UnknownStaffException, EmptyException {
+        if (email == null) {
+            throw new EmptyException("Add an email!");
+        }
         Collection<StaffEntity> staffEntity = staffRepository.findByEmail(email);
         if (staffEntity.isEmpty()) {
             throw new UnknownStaffException("No Staff Found");
@@ -157,9 +160,9 @@ public class StaffDaoImpl implements StaffDao {
     }
 
     @Override
-    public Collection<Staff> readStaffByStoreId(Integer storeId) throws UnknownStaffException, OutOfBoundsException {
+    public Collection<Staff> readStaffByStoreId(Integer storeId) throws UnknownStaffException, EmptyException {
         if (storeId == null) {
-            throw new OutOfBoundsException("Store ID can't be empty!");
+            throw new EmptyException("Add a store ID!");
         }
         Collection<StaffEntity> staffEntity = staffRepository.findByStoreId(storeId);
         if (staffEntity.isEmpty()) {
@@ -184,9 +187,9 @@ public class StaffDaoImpl implements StaffDao {
     }
 
     @Override
-    public Collection<Staff> readActiveStaff(Integer active) throws UnknownStaffException, OutOfBoundsException {
+    public Collection<Staff> readActiveStaff(Integer active) throws UnknownStaffException, OutOfBoundsException, EmptyException {
         if (active == null) {
-            throw new OutOfBoundsException("Active can't be empty!");
+            throw new EmptyException("Add 0 (inactive) or 1 (active)!");
         }
         activeValue(active);
         Collection<StaffEntity> staffEntity = staffRepository.findByActive(active);

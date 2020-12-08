@@ -1,6 +1,7 @@
 package com.deik.webdev.customerapp.service;
 
 import com.deik.webdev.customerapp.dao.AddressDao;
+import com.deik.webdev.customerapp.exception.EmptyException;
 import com.deik.webdev.customerapp.exception.UnknownAddressException;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.model.Address;
@@ -23,17 +24,17 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public Collection<Address> getAddressesByCity(String city) throws UnknownAddressException {
+    public Collection<Address> getAddressesByCity(String city) throws UnknownAddressException, EmptyException {
         return addressDao.readAddressesByCity(city);
     }
 
     @Override
-    public Collection<Address> getAddressesByDistrict(String district) throws UnknownAddressException {
+    public Collection<Address> getAddressesByDistrict(String district) throws UnknownAddressException, EmptyException {
         return addressDao.readAddressesByDistrict(district);
     }
 
     @Override
-    public Collection<Address> getAddressesByPostalCode(String postalCode) throws UnknownAddressException {
+    public Collection<Address> getAddressesByPostalCode(String postalCode) throws UnknownAddressException, EmptyException {
         return addressDao.readAddressesByPostalCode(postalCode);
     }
 

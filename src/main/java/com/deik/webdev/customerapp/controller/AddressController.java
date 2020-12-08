@@ -3,6 +3,7 @@ package com.deik.webdev.customerapp.controller;
 import com.deik.webdev.customerapp.dto.AddressDto;
 import com.deik.webdev.customerapp.dto.AddressRecordRequestDto;
 import com.deik.webdev.customerapp.dto.AddressUpdateRequestDto;
+import com.deik.webdev.customerapp.exception.EmptyException;
 import com.deik.webdev.customerapp.exception.UnknownAddressException;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.model.Address;
@@ -55,7 +56,7 @@ public class AddressController {
                             .phone(model.getPhone())
                             .build())
                     .collect(Collectors.toList());
-        } catch (UnknownAddressException e) {
+        } catch (EmptyException | UnknownAddressException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
@@ -75,7 +76,7 @@ public class AddressController {
                             .phone(model.getPhone())
                             .build())
                     .collect(Collectors.toList());
-        } catch (UnknownAddressException e) {
+        } catch (EmptyException | UnknownAddressException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
@@ -95,7 +96,7 @@ public class AddressController {
                             .phone(model.getPhone())
                             .build())
                     .collect(Collectors.toList());
-        } catch (UnknownAddressException e) {
+        } catch (EmptyException | UnknownAddressException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

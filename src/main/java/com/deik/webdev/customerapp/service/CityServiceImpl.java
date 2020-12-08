@@ -1,6 +1,7 @@
 package com.deik.webdev.customerapp.service;
 
 import com.deik.webdev.customerapp.dao.CityDao;
+import com.deik.webdev.customerapp.exception.EmptyException;
 import com.deik.webdev.customerapp.exception.UnknownCityException;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.model.City;
@@ -23,7 +24,7 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public Collection<City> getCitiesByCountry(String country) throws UnknownCityException {
+    public Collection<City> getCitiesByCountry(String country) throws UnknownCityException, EmptyException {
         return cityDao.readCitiesByCountry(country);
     }
 

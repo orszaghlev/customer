@@ -1,10 +1,7 @@
 package com.deik.webdev.customerapp.service;
 
 import com.deik.webdev.customerapp.dao.StoreDao;
-import com.deik.webdev.customerapp.exception.OutOfBoundsException;
-import com.deik.webdev.customerapp.exception.UnknownAddressException;
-import com.deik.webdev.customerapp.exception.UnknownStaffException;
-import com.deik.webdev.customerapp.exception.UnknownStoreException;
+import com.deik.webdev.customerapp.exception.*;
 import com.deik.webdev.customerapp.model.Store;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +22,7 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public Collection<Store> getStoresByStaffId(Integer staffId) throws UnknownStoreException, OutOfBoundsException {
+    public Collection<Store> getStoresByStaffId(Integer staffId) throws UnknownStoreException, EmptyException {
         return storeDao.readStoresByStaffId(staffId);
     }
 

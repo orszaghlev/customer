@@ -1,10 +1,7 @@
 package com.deik.webdev.customerapp.dao;
 
 import com.deik.webdev.customerapp.entity.*;
-import com.deik.webdev.customerapp.exception.OutOfBoundsException;
-import com.deik.webdev.customerapp.exception.UnknownAddressException;
-import com.deik.webdev.customerapp.exception.UnknownStaffException;
-import com.deik.webdev.customerapp.exception.UnknownStoreException;
+import com.deik.webdev.customerapp.exception.*;
 import com.deik.webdev.customerapp.model.Store;
 import com.deik.webdev.customerapp.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -91,9 +88,9 @@ public class StoreDaoImpl implements StoreDao {
     }
 
     @Override
-    public Collection<Store> readStoresByStaffId(Integer staffId) throws UnknownStoreException, OutOfBoundsException {
+    public Collection<Store> readStoresByStaffId(Integer staffId) throws UnknownStoreException, EmptyException {
         if (staffId == null) {
-            throw new OutOfBoundsException("Staff ID can't be empty!");
+            throw new EmptyException("Add a staff ID!");
         }
         Collection<StoreEntity> storeEntity = storeRepository.findByStaffId(staffId);
         if (storeEntity.isEmpty()) {

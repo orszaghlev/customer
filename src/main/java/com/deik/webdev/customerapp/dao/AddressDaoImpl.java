@@ -3,6 +3,7 @@ package com.deik.webdev.customerapp.dao;
 import com.deik.webdev.customerapp.entity.AddressEntity;
 import com.deik.webdev.customerapp.entity.CityEntity;
 import com.deik.webdev.customerapp.entity.CountryEntity;
+import com.deik.webdev.customerapp.exception.EmptyException;
 import com.deik.webdev.customerapp.exception.UnknownAddressException;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.model.Address;
@@ -92,7 +93,10 @@ public class AddressDaoImpl implements AddressDao {
     }
 
     @Override
-    public Collection<Address> readAddressesByCity(String city) throws UnknownAddressException {
+    public Collection<Address> readAddressesByCity(String city) throws UnknownAddressException, EmptyException {
+        if (city == null) {
+            throw new EmptyException("Add a city!");
+        }
         Optional<CityEntity> cityEntity = cityRepository.findByCity(city);
         Collection<AddressEntity> addressEntity = addressRepository.findByCity(cityEntity);
         if (addressEntity.isEmpty()) {
@@ -115,7 +119,10 @@ public class AddressDaoImpl implements AddressDao {
     }
 
     @Override
-    public Collection<Address> readAddressesByDistrict(String district) throws UnknownAddressException {
+    public Collection<Address> readAddressesByDistrict(String district) throws UnknownAddressException, EmptyException {
+        if (district == null) {
+            throw new EmptyException("Add a district!");
+        }
         Collection<AddressEntity> addressEntity = addressRepository.findByDistrict(district);
         if (addressEntity.isEmpty()) {
             throw new UnknownAddressException("No Addresses Found");
@@ -137,7 +144,10 @@ public class AddressDaoImpl implements AddressDao {
     }
 
     @Override
-    public Collection<Address> readAddressesByPostalCode(String postalCode) throws UnknownAddressException {
+    public Collection<Address> readAddressesByPostalCode(String postalCode) throws UnknownAddressException, EmptyException {
+        if (postalCode == null) {
+            throw new EmptyException("Add a postal code!");
+        }
         Collection<AddressEntity> addressEntity = addressRepository.findByPostalCode(postalCode);
         if (addressEntity.isEmpty()) {
             throw new UnknownAddressException("No Addresses Found");

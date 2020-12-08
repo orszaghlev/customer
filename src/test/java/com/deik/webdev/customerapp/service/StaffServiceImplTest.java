@@ -1,10 +1,7 @@
 package com.deik.webdev.customerapp.service;
 
 import com.deik.webdev.customerapp.dao.StaffDao;
-import com.deik.webdev.customerapp.exception.OutOfBoundsException;
-import com.deik.webdev.customerapp.exception.UnknownAddressException;
-import com.deik.webdev.customerapp.exception.UnknownStaffException;
-import com.deik.webdev.customerapp.exception.UnknownStoreException;
+import com.deik.webdev.customerapp.exception.*;
 import com.deik.webdev.customerapp.model.Staff;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -56,7 +53,7 @@ public class StaffServiceImplTest {
     }
 
     @Test
-    void testReadStaffFromUsername() throws UnknownStaffException {
+    void testReadStaffFromUsername() throws UnknownStaffException, EmptyException {
         final String username = "username";
         Collection<Staff> actual = service.getStaffByUsername(username);
 
@@ -64,7 +61,7 @@ public class StaffServiceImplTest {
     }
 
     @Test
-    void testReadStaffFromEmail() throws UnknownStaffException {
+    void testReadStaffFromEmail() throws UnknownStaffException, EmptyException {
         final String email = "email";
         Collection<Staff> actual = service.getStaffByEmail(email);
 
@@ -72,7 +69,7 @@ public class StaffServiceImplTest {
     }
 
     @Test
-    void testReadStaffFromStoreId() throws UnknownStaffException, OutOfBoundsException {
+    void testReadStaffFromStoreId() throws UnknownStaffException, EmptyException {
         final Integer storeId = 1;
         Collection<Staff> actual = service.getStaffByStoreId(storeId);
 
@@ -80,7 +77,7 @@ public class StaffServiceImplTest {
     }
 
     @Test
-    void testReadActiveStaff() throws UnknownStaffException, OutOfBoundsException {
+    void testReadActiveStaff() throws UnknownStaffException, OutOfBoundsException, EmptyException {
         final Integer active = 1;
         Collection<Staff> actual = service.getActiveStaff(active);
 

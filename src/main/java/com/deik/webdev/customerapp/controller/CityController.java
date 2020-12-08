@@ -2,6 +2,7 @@ package com.deik.webdev.customerapp.controller;
 
 import com.deik.webdev.customerapp.dto.CityDto;
 import com.deik.webdev.customerapp.dto.CityUpdateRequestDto;
+import com.deik.webdev.customerapp.exception.EmptyException;
 import com.deik.webdev.customerapp.exception.UnknownCityException;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.model.City;
@@ -44,7 +45,7 @@ public class CityController {
                             .country(model.getCountry())
                             .build())
                     .collect(Collectors.toList());
-        } catch (UnknownCityException e) {
+        } catch (EmptyException | UnknownCityException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

@@ -102,9 +102,12 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
-    public Collection<Customer> readCustomersByName(String firstName, String lastName) throws UnknownCustomerException, OutOfBoundsException {
+    public Collection<Customer> readCustomersByName(String firstName, String lastName) throws UnknownCustomerException, EmptyException {
+        if (firstName == null && lastName == null) {
+            throw new EmptyException("Add a first name and a last name!");
+        }
         if ((firstName != null && lastName == null) || (firstName == null && lastName != null)) {
-            throw new OutOfBoundsException("You forgot to add firstName or lastName!");
+            throw new EmptyException("You forgot to add a first name or a last name!");
         }
         Collection<CustomerEntity> customerEntity = customerRepository.findByFirstNameAndLastName(firstName, lastName);
         if (customerEntity.isEmpty()) {
@@ -127,7 +130,10 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
-    public Collection<Customer> readCustomersByEmail(String email) throws UnknownCustomerException {
+    public Collection<Customer> readCustomersByEmail(String email) throws UnknownCustomerException, EmptyException {
+        if (email == null) {
+            throw new EmptyException("Add an email!");
+        }
         Collection<CustomerEntity> customerEntity = customerRepository.findByEmail(email);
         if (customerEntity.isEmpty()) {
             throw new UnknownCustomerException("No Customers Found");
@@ -149,9 +155,9 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
-    public Collection<Customer> readCustomersByStoreId(Integer storeId) throws UnknownCustomerException, OutOfBoundsException {
+    public Collection<Customer> readCustomersByStoreId(Integer storeId) throws UnknownCustomerException, EmptyException {
         if (storeId == null) {
-            throw new OutOfBoundsException("Store ID can't be empty!");
+            throw new EmptyException("Add a store ID!");
         }
         Collection<CustomerEntity> customerEntity = customerRepository.findByStoreId(storeId);
         if (customerEntity.isEmpty()) {
@@ -174,9 +180,9 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
-    public Collection<Customer> readActiveCustomers(Integer active) throws UnknownCustomerException, OutOfBoundsException {
+    public Collection<Customer> readActiveCustomers(Integer active) throws UnknownCustomerException, OutOfBoundsException, EmptyException {
         if (active == null) {
-            throw new OutOfBoundsException("Active can't be empty!");
+            throw new EmptyException("Add 0 (inactive) or 1 (active)!");
         }
         activeValue(active);
         Collection<CustomerEntity> customerEntity = customerRepository.findByActive(active);

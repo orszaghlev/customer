@@ -2,6 +2,7 @@ package com.deik.webdev.customerapp.dao;
 
 import com.deik.webdev.customerapp.entity.CityEntity;
 import com.deik.webdev.customerapp.entity.CountryEntity;
+import com.deik.webdev.customerapp.exception.EmptyException;
 import com.deik.webdev.customerapp.exception.UnknownCityException;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.model.City;
@@ -74,7 +75,10 @@ public class CityDaoImpl implements CityDao {
     }
 
     @Override
-    public Collection<City> readCitiesByCountry(String country) throws UnknownCityException {
+    public Collection<City> readCitiesByCountry(String country) throws UnknownCityException, EmptyException {
+        if (country == null) {
+            throw new EmptyException("Add a country!");
+        }
         Optional<CountryEntity> countryEntity = countryRepository.findByCountry(country);
         Collection<CityEntity> cityEntity = cityRepository.findByCountry(countryEntity);
         if (cityEntity.isEmpty()) {

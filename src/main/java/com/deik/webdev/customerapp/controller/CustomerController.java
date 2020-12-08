@@ -53,7 +53,7 @@ public class CustomerController {
                             .active(model.getActive())
                             .build())
                     .collect(Collectors.toList());
-        } catch (OutOfBoundsException | UnknownCustomerException e) {
+        } catch (EmptyException | UnknownCustomerException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
@@ -73,7 +73,7 @@ public class CustomerController {
                             .active(model.getActive())
                             .build())
                     .collect(Collectors.toList());
-        } catch (UnknownCustomerException e) {
+        } catch (EmptyException | UnknownCustomerException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
@@ -93,7 +93,7 @@ public class CustomerController {
                             .active(model.getActive())
                             .build())
                     .collect(Collectors.toList());
-        } catch (OutOfBoundsException | UnknownCustomerException e) {
+        } catch (EmptyException | UnknownCustomerException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
@@ -113,7 +113,7 @@ public class CustomerController {
                             .active(model.getActive())
                             .build())
                     .collect(Collectors.toList());
-        } catch (OutOfBoundsException | UnknownCustomerException e) {
+        } catch (EmptyException | OutOfBoundsException | UnknownCustomerException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

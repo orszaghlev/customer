@@ -1,6 +1,7 @@
 package com.deik.webdev.customerapp.service;
 
 import com.deik.webdev.customerapp.dao.AddressDao;
+import com.deik.webdev.customerapp.exception.EmptyException;
 import com.deik.webdev.customerapp.exception.UnknownAddressException;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.model.Address;
@@ -53,7 +54,7 @@ class AddressServiceImplTest {
     }
 
     @Test
-    void testReadAddressesFromCity() throws UnknownAddressException {
+    void testReadAddressesFromCity() throws UnknownAddressException, EmptyException {
         final String city = "city";
         Collection<Address> actual = service.getAddressesByCity(city);
 
@@ -61,7 +62,7 @@ class AddressServiceImplTest {
     }
 
     @Test
-    void testReadAddressesFromDistrict() throws UnknownAddressException {
+    void testReadAddressesFromDistrict() throws UnknownAddressException, EmptyException {
         final String district = "district";
         Collection<Address> actual = service.getAddressesByDistrict(district);
 
@@ -69,7 +70,7 @@ class AddressServiceImplTest {
     }
 
     @Test
-    void testReadAddressesFromPostalCode() throws UnknownAddressException {
+    void testReadAddressesFromPostalCode() throws UnknownAddressException, EmptyException {
         final String postalCode = "1234";
         Collection<Address> actual = service.getAddressesByPostalCode(postalCode);
 

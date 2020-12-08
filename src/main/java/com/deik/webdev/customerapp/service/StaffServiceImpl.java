@@ -1,10 +1,7 @@
 package com.deik.webdev.customerapp.service;
 
 import com.deik.webdev.customerapp.dao.StaffDao;
-import com.deik.webdev.customerapp.exception.OutOfBoundsException;
-import com.deik.webdev.customerapp.exception.UnknownAddressException;
-import com.deik.webdev.customerapp.exception.UnknownStaffException;
-import com.deik.webdev.customerapp.exception.UnknownStoreException;
+import com.deik.webdev.customerapp.exception.*;
 import com.deik.webdev.customerapp.model.Staff;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,22 +22,22 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public Collection<Staff> getStaffByUsername(String username) throws UnknownStaffException {
+    public Collection<Staff> getStaffByUsername(String username) throws UnknownStaffException, EmptyException {
         return staffDao.readStaffByUsername(username);
     }
 
     @Override
-    public Collection<Staff> getStaffByEmail(String email) throws UnknownStaffException {
+    public Collection<Staff> getStaffByEmail(String email) throws UnknownStaffException, EmptyException {
         return staffDao.readStaffByEmail(email);
     }
 
     @Override
-    public Collection<Staff> getStaffByStoreId(Integer storeId) throws UnknownStaffException, OutOfBoundsException {
+    public Collection<Staff> getStaffByStoreId(Integer storeId) throws UnknownStaffException, EmptyException {
         return staffDao.readStaffByStoreId(storeId);
     }
 
     @Override
-    public Collection<Staff> getActiveStaff(Integer active) throws UnknownStaffException, OutOfBoundsException {
+    public Collection<Staff> getActiveStaff(Integer active) throws UnknownStaffException, OutOfBoundsException, EmptyException {
         return staffDao.readActiveStaff(active);
     }
 

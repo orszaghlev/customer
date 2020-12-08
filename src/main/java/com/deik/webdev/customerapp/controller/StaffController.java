@@ -57,7 +57,7 @@ public class StaffController {
                         .password(model.getPassword())
                         .build())
                 .collect(Collectors.toList());
-        } catch (UnknownStaffException e) {
+        } catch (EmptyException | UnknownStaffException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
@@ -79,7 +79,7 @@ public class StaffController {
                             .password(model.getPassword())
                             .build())
                     .collect(Collectors.toList());
-        } catch (UnknownStaffException e) {
+        } catch (EmptyException | UnknownStaffException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
@@ -101,7 +101,7 @@ public class StaffController {
                             .password(model.getPassword())
                             .build())
                     .collect(Collectors.toList());
-        } catch (OutOfBoundsException | UnknownStaffException e) {
+        } catch (EmptyException | UnknownStaffException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
@@ -123,7 +123,7 @@ public class StaffController {
                             .password(model.getPassword())
                             .build())
                     .collect(Collectors.toList());
-        } catch (OutOfBoundsException | UnknownStaffException e) {
+        } catch (EmptyException | OutOfBoundsException | UnknownStaffException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
