@@ -5,8 +5,6 @@ import com.deik.webdev.customerapp.exception.UnknownAddressException;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.model.Address;
 import com.deik.webdev.customerapp.repository.AddressRepository;
-import com.deik.webdev.customerapp.repository.CityRepository;
-import com.deik.webdev.customerapp.repository.CountryRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -14,11 +12,6 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Collection;
-import java.util.Collections;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -42,9 +35,9 @@ class AddressDaoImplTest {
 
     @Test
     void testReadAllAddresses() {
-        Collection<Address> addressCollection = dao.readAll();
+        dao.readAll();
 
-        assertThat(Collections.emptyList(), is(addressCollection));
+        verify(addressRepository, times(1)).findAll();
     }
 
     @Test

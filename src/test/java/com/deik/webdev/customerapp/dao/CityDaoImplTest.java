@@ -5,7 +5,6 @@ import com.deik.webdev.customerapp.exception.UnknownCityException;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.model.City;
 import com.deik.webdev.customerapp.repository.CityRepository;
-import com.deik.webdev.customerapp.repository.CountryRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -13,12 +12,7 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Collection;
-import java.util.Collections;
-
 import static org.junit.jupiter.api.Assertions.*;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -30,8 +24,6 @@ public class CityDaoImplTest {
     private CityDaoImpl dao;
     @Mock
     private CityRepository cityRepository;
-    @Mock
-    private CountryRepository countryRepository;
 
     @Test
     void testCreateCity() throws UnknownCountryException {
@@ -44,9 +36,9 @@ public class CityDaoImplTest {
 
     @Test
     void testReadAllCities() {
-        Collection<City> cityCollection = dao.readAll();
+        dao.readAll();
 
-        assertThat(Collections.emptyList(), is(cityCollection));
+        verify(cityRepository, times(1)).findAll();
     }
 
     @Test
