@@ -38,6 +38,7 @@ public class CityDaoImpl implements CityDao {
         log.info("CityEntity: {}", cityEntity);
         try {
             cityRepository.save(cityEntity);
+            log.info("Recorded new City: {}", city);
         }
         catch(Exception e) {
             log.error(e.getMessage());

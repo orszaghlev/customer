@@ -43,6 +43,7 @@ public class StoreDaoImpl implements StoreDao {
         log.info("StoreEntity: {}", storeEntity);
         try {
             storeRepository.save(storeEntity);
+            log.info("Recorded new Store: {}", store);
         }
         catch(Exception e) {
             log.error(e.getMessage());
@@ -123,6 +124,7 @@ public class StoreDaoImpl implements StoreDao {
             throw new UnknownStoreException(String.format("Store Not Found %s", store));
         }
         storeRepository.delete(storeEntity.get());
+        log.info("Deleted store: " + storeEntity.toString());
     }
 
     @Override

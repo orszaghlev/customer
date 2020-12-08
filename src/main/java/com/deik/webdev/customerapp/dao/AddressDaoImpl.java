@@ -49,6 +49,7 @@ public class AddressDaoImpl implements AddressDao {
         log.info("AddressEntity: {}", addressEntity);
         try {
             addressRepository.save(addressEntity);
+            log.info("Recorded new Address: {}", address);
         }
         catch(Exception e) {
             log.error(e.getMessage());

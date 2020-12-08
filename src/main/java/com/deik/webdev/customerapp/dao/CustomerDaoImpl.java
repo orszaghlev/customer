@@ -46,6 +46,7 @@ public class CustomerDaoImpl implements CustomerDao {
         log.info("CustomerEntity: {}", customerEntity);
         try {
             customerRepository.save(customerEntity);
+            log.info("Recorded new Customer: {}", customer);
         }
         catch(Exception e) {
             log.error(e.getMessage());
@@ -189,6 +190,7 @@ public class CustomerDaoImpl implements CustomerDao {
             throw new UnknownCustomerException(String.format("Customer Not Found %s", customer), customer);
         }
         customerRepository.delete(customerEntity.get());
+        log.info("Deleted customer: " + customerEntity.toString());
     }
 
     @Override

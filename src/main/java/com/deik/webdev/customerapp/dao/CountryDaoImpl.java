@@ -33,6 +33,7 @@ public class CountryDaoImpl implements CountryDao {
         log.info("CountryEntity: {}", countryEntity);
         try {
             countryRepository.save(countryEntity);
+            log.info("Recorded new Country: {}", country);
         }
         catch(Exception e) {
             log.error(e.getMessage());

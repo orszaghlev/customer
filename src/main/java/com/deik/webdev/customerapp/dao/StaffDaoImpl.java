@@ -50,6 +50,7 @@ public class StaffDaoImpl implements StaffDao {
         log.info("StaffEntity: {}", staffEntity);
         try {
             staffRepository.save(staffEntity);
+            log.info("Recorded new Staff: {}", staff);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -201,6 +202,7 @@ public class StaffDaoImpl implements StaffDao {
             throw new UnknownStaffException(String.format("Staff Not Found %s", staff));
         }
         staffRepository.delete(staffEntity.get());
+        log.info("Deleted staff: " + staffEntity.toString());
     }
 
     @Override
