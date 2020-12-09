@@ -106,9 +106,9 @@ public class StaffController {
     }
 
     @GetMapping("/staff/{active}")
-    public Collection<StaffDto> listActiveStaff(Integer active) {
+    public Collection<StaffDto> listStaffByActivity(Integer active) {
         try {
-            return service.getActiveStaff(active)
+            return service.getStaffByActivity(active)
                     .stream()
                     .map(model -> StaffDto.builder()
                             .id(model.getId())

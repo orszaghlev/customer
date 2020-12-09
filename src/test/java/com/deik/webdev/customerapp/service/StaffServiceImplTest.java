@@ -53,7 +53,7 @@ public class StaffServiceImplTest {
     }
 
     @Test
-    public void testReadStaffFromFirstNameAndLastName() throws UnknownStaffException, EmptyException {
+    public void testReadStaffByFirstNameAndLastName() throws UnknownStaffException, EmptyException {
         final String firstName = "firstName";
         final String lastName = "lastName";
         Collection<Staff> actual = service.getStaffByFirstNameAndLastName(firstName, lastName);
@@ -62,7 +62,7 @@ public class StaffServiceImplTest {
     }
 
     @Test
-    public void testReadStaffFromEmail() throws UnknownStaffException, EmptyException {
+    public void testReadStaffByEmail() throws UnknownStaffException, EmptyException {
         final String email = "email";
         Collection<Staff> actual = service.getStaffByEmail(email);
 
@@ -70,7 +70,7 @@ public class StaffServiceImplTest {
     }
 
     @Test
-    public void testReadStaffFromStoreId() throws UnknownStaffException, EmptyException, OutOfBoundsException {
+    public void testReadStaffByStoreId() throws UnknownStaffException, EmptyException, OutOfBoundsException {
         final Integer storeId = 1;
         Collection<Staff> actual = service.getStaffByStoreId(storeId);
 
@@ -78,9 +78,9 @@ public class StaffServiceImplTest {
     }
 
     @Test
-    public void testReadActiveStaff() throws UnknownStaffException, OutOfBoundsException, EmptyException {
+    public void testReadStaffByActivity() throws UnknownStaffException, OutOfBoundsException, EmptyException {
         final Integer active = 1;
-        Collection<Staff> actual = service.getActiveStaff(active);
+        Collection<Staff> actual = service.getStaffByActivity(active);
 
         assertThat(Collections.emptyList(), is(actual));
     }

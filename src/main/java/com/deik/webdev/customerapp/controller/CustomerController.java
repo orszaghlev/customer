@@ -98,9 +98,9 @@ public class CustomerController {
     }
 
     @GetMapping("/customer/{active}")
-    public Collection<CustomerDto> listActiveCustomers(Integer active) {
+    public Collection<CustomerDto> listCustomersByActivity(Integer active) {
         try {
-            return service.getActiveCustomers(active)
+            return service.getCustomersByActivity(active)
                     .stream()
                     .map(model -> CustomerDto.builder()
                             .id(model.getId())

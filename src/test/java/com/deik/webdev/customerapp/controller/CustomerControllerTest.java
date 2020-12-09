@@ -57,11 +57,11 @@ public class CustomerControllerTest {
     }
 
     @Test
-    public void testListActiveCustomers() throws UnknownCustomerException, EmptyException, OutOfBoundsException {
-        when(customerService.getActiveCustomers(any())).thenReturn(getCustomers());
-        customerController.listActiveCustomers(anyInt());
+    public void testListCustomersByActivity() throws UnknownCustomerException, EmptyException, OutOfBoundsException {
+        when(customerService.getCustomersByActivity(any())).thenReturn(getCustomers());
+        customerController.listCustomersByActivity(anyInt());
 
-        verify(customerService, times(1)).getActiveCustomers(anyInt());
+        verify(customerService, times(1)).getCustomersByActivity(anyInt());
     }
 
     @Test

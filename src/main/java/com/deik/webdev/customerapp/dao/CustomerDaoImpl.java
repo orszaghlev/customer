@@ -179,7 +179,7 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
-    public Collection<Customer> readActiveCustomers(Integer active) throws UnknownCustomerException, OutOfBoundsException, EmptyException {
+    public Collection<Customer> readCustomersByActivity(Integer active) throws UnknownCustomerException, OutOfBoundsException, EmptyException {
         if (active == null) {
             throw new EmptyException("Add 0 (inactive) or 1 (active)!");
         }

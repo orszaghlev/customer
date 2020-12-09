@@ -62,7 +62,7 @@ public class CustomerServiceImplTest {
     }
 
     @Test
-    public void testReadCustomersFromName() throws UnknownCustomerException, EmptyException {
+    public void testReadCustomersByName() throws UnknownCustomerException, EmptyException {
         final String firstName = "firstName";
         final String lastName = "lastName";
         Collection<Customer> actual = service.getCustomersByName(firstName, lastName);
@@ -71,7 +71,7 @@ public class CustomerServiceImplTest {
     }
 
     @Test
-    public void testReadCustomersFromEmail() throws UnknownCustomerException, EmptyException {
+    public void testReadCustomersByEmail() throws UnknownCustomerException, EmptyException {
         final String email = "email";
         Collection<Customer> actual = service.getCustomersByEmail(email);
 
@@ -79,7 +79,7 @@ public class CustomerServiceImplTest {
     }
 
     @Test
-    public void testReadCustomersFromStoreId() throws UnknownCustomerException, EmptyException, OutOfBoundsException {
+    public void testReadCustomersByStoreId() throws UnknownCustomerException, EmptyException, OutOfBoundsException {
         final Integer storeId = 1;
         Collection<Customer> actual = service.getCustomersByStoreId(storeId);
 
@@ -87,9 +87,9 @@ public class CustomerServiceImplTest {
     }
 
     @Test
-    public void testReadActiveCustomers() throws UnknownCustomerException, OutOfBoundsException, EmptyException {
+    public void testReadCustomersByActivity() throws UnknownCustomerException, OutOfBoundsException, EmptyException {
         final Integer active = 1;
-        Collection<Customer> actual = service.getActiveCustomers(active);
+        Collection<Customer> actual = service.getCustomersByActivity(active);
 
         assertThat(Collections.emptyList(), is(actual));
     }

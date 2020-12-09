@@ -11,7 +11,7 @@ public interface StaffService {
     Collection<Staff> getStaffByFirstNameAndLastName(String firstName, String lastName) throws UnknownStaffException, EmptyException;
     Collection<Staff> getStaffByEmail(String email) throws UnknownStaffException, EmptyException;
     Collection<Staff> getStaffByStoreId(Integer storeId) throws UnknownStaffException, EmptyException, OutOfBoundsException;
-    Collection<Staff> getActiveStaff(Integer staff) throws UnknownStaffException, OutOfBoundsException, EmptyException;
+    Collection<Staff> getStaffByActivity(Integer staff) throws UnknownStaffException, OutOfBoundsException, EmptyException;
     Staff getStaffById(Integer id) throws UnknownStaffException, OutOfBoundsException, EmptyException;
 
     void recordStaff(Staff staff) throws UnknownStoreException, UnknownAddressException, OutOfBoundsException;

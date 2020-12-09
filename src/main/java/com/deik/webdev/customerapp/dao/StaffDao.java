@@ -12,7 +12,7 @@ public interface StaffDao {
     Collection<Staff> readStaffByFirstNameAndLastName(String firstName, String lastName) throws UnknownStaffException, EmptyException;
     Collection<Staff> readStaffByEmail(String email) throws UnknownStaffException, EmptyException;
     Collection<Staff> readStaffByStoreId(Integer storeId) throws UnknownStaffException, EmptyException, OutOfBoundsException;
-    Collection<Staff> readActiveStaff(Integer active) throws UnknownStaffException, OutOfBoundsException, EmptyException;
+    Collection<Staff> readStaffByActivity(Integer active) throws UnknownStaffException, OutOfBoundsException, EmptyException;
     Staff readStaffById(Integer id) throws UnknownStaffException, OutOfBoundsException, EmptyException;
 
     void deleteStaff(Staff staff) throws UnknownStaffException;

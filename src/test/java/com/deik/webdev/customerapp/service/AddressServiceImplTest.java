@@ -52,7 +52,7 @@ class AddressServiceImplTest {
     }
 
     @Test
-    public void testReadAddressesFromCity() throws UnknownAddressException, EmptyException {
+    public void testReadAddressesByCity() throws UnknownAddressException, EmptyException {
         final String city = "city";
         Collection<Address> actual = service.getAddressesByCity(city);
 
@@ -60,7 +60,7 @@ class AddressServiceImplTest {
     }
 
     @Test
-    public void testReadAddressesFromDistrict() throws UnknownAddressException, EmptyException {
+    public void testReadAddressesByDistrict() throws UnknownAddressException, EmptyException {
         final String district = "district";
         Collection<Address> actual = service.getAddressesByDistrict(district);
 
@@ -68,7 +68,7 @@ class AddressServiceImplTest {
     }
 
     @Test
-    public void testReadAddressesFromPostalCode() throws UnknownAddressException, EmptyException {
+    public void testReadAddressesByPostalCode() throws UnknownAddressException, EmptyException {
         final String postalCode = "1234";
         Collection<Address> actual = service.getAddressesByPostalCode(postalCode);
 

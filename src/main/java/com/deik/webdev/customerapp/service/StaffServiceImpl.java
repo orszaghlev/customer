@@ -37,8 +37,8 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public Collection<Staff> getActiveStaff(Integer active) throws UnknownStaffException, OutOfBoundsException, EmptyException {
-        return staffDao.readActiveStaff(active);
+    public Collection<Staff> getStaffByActivity(Integer active) throws UnknownStaffException, OutOfBoundsException, EmptyException {
+        return staffDao.readStaffByActivity(active);
     }
 
     @Override

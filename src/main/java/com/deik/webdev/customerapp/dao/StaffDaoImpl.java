@@ -189,7 +189,7 @@ public class StaffDaoImpl implements StaffDao {
     }
 
     @Override
-    public Collection<Staff> readActiveStaff(Integer active) throws UnknownStaffException, OutOfBoundsException, EmptyException {
+    public Collection<Staff> readStaffByActivity(Integer active) throws UnknownStaffException, OutOfBoundsException, EmptyException {
         if (active == null) {
             throw new EmptyException("Add 0 (inactive) or 1 (active)!");
         }

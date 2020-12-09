@@ -57,11 +57,11 @@ public class StaffControllerTest {
     }
 
     @Test
-    public void testListActiveStaff() throws UnknownStaffException, EmptyException, OutOfBoundsException {
-        when(staffService.getActiveStaff(any())).thenReturn(getStaffs());
-        staffController.listActiveStaff(anyInt());
+    public void testListStaffByActivity() throws UnknownStaffException, EmptyException, OutOfBoundsException {
+        when(staffService.getStaffByActivity(any())).thenReturn(getStaffs());
+        staffController.listStaffByActivity(anyInt());
 
-        verify(staffService, times(1)).getActiveStaff(anyInt());
+        verify(staffService, times(1)).getStaffByActivity(anyInt());
     }
 
     @Test
