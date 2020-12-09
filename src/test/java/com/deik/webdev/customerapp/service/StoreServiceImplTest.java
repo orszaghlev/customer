@@ -61,6 +61,14 @@ public class StoreServiceImplTest {
     }
 
     @Test
+    public void testReadStoreById() throws UnknownStoreException, EmptyException, OutOfBoundsException {
+        final Integer id = 1;
+        service.getStoreById(id);
+
+        verify(dao, times(1)).readStoreById(id);
+    }
+
+    @Test
     public void testDeleteStore() throws UnknownStoreException {
         Store store = getStore();
         service.deleteStore(store);

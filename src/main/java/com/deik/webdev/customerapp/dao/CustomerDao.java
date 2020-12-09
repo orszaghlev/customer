@@ -13,6 +13,7 @@ public interface CustomerDao {
     Collection<Customer> readCustomersByEmail(String email) throws UnknownCustomerException, EmptyException;
     Collection<Customer> readCustomersByStoreId(Integer storeId) throws UnknownCustomerException, EmptyException;
     Collection<Customer> readActiveCustomers(Integer active) throws UnknownCustomerException, OutOfBoundsException, EmptyException;
+    Customer readCustomerById(Integer id) throws UnknownCustomerException, OutOfBoundsException, EmptyException;
 
     void deleteCustomer(Customer customer) throws UnknownCustomerException;
 

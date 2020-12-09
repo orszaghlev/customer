@@ -7,7 +7,6 @@ import com.deik.webdev.customerapp.model.Store;
 import com.deik.webdev.customerapp.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -50,6 +49,19 @@ public class StoreController {
         }
     }
 
+    @GetMapping("/store/{id}")
+    public StoreDto listStoreById(Integer id) {
+        try {
+            Store store = service.getStoreById(id);
+            return new StoreDto(
+                    store.getId(),
+                    store.getStaffId(),
+                    store.getAddressId());
+        } catch (OutOfBoundsException | EmptyException | UnknownStoreException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
     @PostMapping("/store")
     public void recordStore(@RequestBody StoreDto requestDto) {
         try {
@@ -58,7 +70,7 @@ public class StoreController {
                     requestDto.getStaffId(),
                     requestDto.getAddressId()
             ));
-        } catch (DataAccessException | NumberFormatException | OutOfBoundsException | UnknownStaffException | UnknownAddressException e) {
+        } catch (OutOfBoundsException | UnknownStaffException | UnknownAddressException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
@@ -71,7 +83,7 @@ public class StoreController {
                     requestDto.getStaffId(),
                     requestDto.getAddressId()
             ));
-        } catch (DataAccessException | UnknownStoreException e) {
+        } catch (UnknownStoreException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
@@ -88,7 +100,7 @@ public class StoreController {
                     requestDto.getNewStaffId(),
                     requestDto.getNewAddressId())
             );
-        } catch (DataAccessException | NumberFormatException | OutOfBoundsException | UnknownStaffException | UnknownAddressException | UnknownStoreException e) {
+        } catch (OutOfBoundsException | UnknownStaffException | UnknownAddressException | UnknownStoreException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

@@ -12,6 +12,7 @@ public interface StaffService {
     Collection<Staff> getStaffByEmail(String email) throws UnknownStaffException, EmptyException;
     Collection<Staff> getStaffByStoreId(Integer storeId) throws UnknownStaffException, EmptyException;
     Collection<Staff> getActiveStaff(Integer staff) throws UnknownStaffException, OutOfBoundsException, EmptyException;
+    Staff getStaffById(Integer id) throws UnknownStaffException, OutOfBoundsException, EmptyException;
 
     void recordStaff(Staff staff) throws UnknownStoreException, UnknownAddressException, OutOfBoundsException;
     void deleteStaff(Staff staff) throws UnknownStaffException;

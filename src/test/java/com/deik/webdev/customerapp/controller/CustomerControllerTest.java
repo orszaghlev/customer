@@ -65,6 +65,14 @@ public class CustomerControllerTest {
     }
 
     @Test
+    public void testListCustomerById() throws UnknownCustomerException, EmptyException, OutOfBoundsException {
+        when(customerService.getCustomerById(any())).thenReturn(getCustomer());
+        customerController.listCustomerById(anyInt());
+
+        verify(customerService, times(1)).getCustomerById(anyInt());
+    }
+
+    @Test
     public void testRecordCustomer() throws UnknownStoreException, UnknownAddressException, OutOfBoundsException {
         customerController.recordCustomer(getCustomerDto());
 

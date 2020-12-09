@@ -7,7 +7,6 @@ import com.deik.webdev.customerapp.model.Staff;
 import com.deik.webdev.customerapp.service.StaffService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -128,6 +127,25 @@ public class StaffController {
         }
     }
 
+    @GetMapping("/staff/{id}")
+    public StaffDto listStaffById(Integer id) {
+        try {
+            Staff staff = service.getStaffById(id);
+            return new StaffDto(
+                    staff.getId(),
+                    staff.getFirstName(),
+                    staff.getLastName(),
+                    staff.getAddressId(),
+                    staff.getEmail(),
+                    staff.getStoreId(),
+                    staff.getActive(),
+                    staff.getUsername(),
+                    staff.getPassword());
+        } catch (EmptyException | OutOfBoundsException | UnknownStaffException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
     @PostMapping("/staff")
     public void recordStaff(@RequestBody StaffDto requestDto) {
         try {
@@ -142,7 +160,7 @@ public class StaffController {
                     requestDto.getUsername(),
                     requestDto.getPassword()
             ));
-        } catch (DataAccessException | NumberFormatException | OutOfBoundsException | UnknownStoreException | UnknownAddressException e) {
+        } catch (OutOfBoundsException | UnknownStoreException | UnknownAddressException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
@@ -161,7 +179,7 @@ public class StaffController {
                     requestDto.getUsername(),
                     requestDto.getPassword()
             ));
-        } catch (DataAccessException | UnknownStaffException e) {
+        } catch (UnknownStaffException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
@@ -190,7 +208,7 @@ public class StaffController {
                     requestDto.getNewUsername(),
                     requestDto.getNewPassword())
             );
-        } catch (DataAccessException | NumberFormatException | OutOfBoundsException | UnknownStoreException | UnknownAddressException | UnknownStaffException e) {
+        } catch (OutOfBoundsException | UnknownStoreException | UnknownAddressException | UnknownStaffException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

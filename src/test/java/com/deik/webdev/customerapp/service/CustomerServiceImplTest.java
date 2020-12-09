@@ -95,6 +95,14 @@ public class CustomerServiceImplTest {
     }
 
     @Test
+    public void testReadCustomerById() throws UnknownCustomerException, OutOfBoundsException, EmptyException {
+        final Integer id = 1;
+        Customer actual = service.getCustomerById(id);
+
+        verify(dao, times(1)).readCustomerById(id);
+    }
+
+    @Test
     public void testDeleteCustomer() throws UnknownCustomerException {
         Customer customer = getCustomer();
         service.deleteCustomer(customer);

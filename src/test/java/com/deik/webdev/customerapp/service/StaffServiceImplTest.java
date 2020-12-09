@@ -85,6 +85,14 @@ public class StaffServiceImplTest {
     }
 
     @Test
+    public void testReadStaffById() throws UnknownStaffException, OutOfBoundsException, EmptyException {
+        final Integer id = 1;
+        service.getStaffById(id);
+
+        verify(dao, times(1)).readStaffById(id);
+    }
+
+    @Test
     public void testDeleteStaff() throws UnknownStaffException {
         Staff staff = getStaff();
         service.deleteStaff(staff);

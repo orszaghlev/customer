@@ -41,6 +41,14 @@ public class StoreControllerTest {
     }
 
     @Test
+    public void testListStoreById() throws UnknownStoreException, EmptyException, OutOfBoundsException {
+        when(storeService.getStoreById(any())).thenReturn(getStore());
+        storeController.listStoreById(anyInt());
+
+        verify(storeService, times(1)).getStoreById(anyInt());
+    }
+
+    @Test
     public void testRecordStore() throws UnknownAddressException, UnknownStaffException, OutOfBoundsException {
         storeController.recordStore(getStoreDto());
 

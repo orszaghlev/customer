@@ -42,6 +42,11 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public Customer getCustomerById(Integer id) throws UnknownCustomerException, OutOfBoundsException, EmptyException {
+        return customerDao.readCustomerById(id);
+    }
+
+    @Override
     public void recordCustomer(Customer customer) throws UnknownStoreException, UnknownAddressException, OutOfBoundsException {
         customerDao.createCustomer(customer);
     }

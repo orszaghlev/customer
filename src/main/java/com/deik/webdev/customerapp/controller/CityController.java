@@ -9,7 +9,6 @@ import com.deik.webdev.customerapp.model.City;
 import com.deik.webdev.customerapp.service.CityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -57,7 +56,7 @@ public class CityController {
                     requestDto.getCity(),
                     requestDto.getCountry()
             ));
-        } catch (DataAccessException | UnknownCountryException e) {
+        } catch (UnknownCountryException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
@@ -69,7 +68,7 @@ public class CityController {
                     requestDto.getCity(),
                     requestDto.getCountry()
             ));
-        } catch (DataAccessException | UnknownCityException e) {
+        } catch (UnknownCityException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
@@ -84,7 +83,7 @@ public class CityController {
                             requestDto.getNewCity(),
                             requestDto.getNewCountry())
             );
-        } catch (DataAccessException | UnknownCountryException | UnknownCityException e) {
+        } catch (UnknownCountryException | UnknownCityException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

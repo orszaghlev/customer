@@ -206,6 +206,30 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
+    public Customer readCustomerById(Integer id) throws UnknownCustomerException, EmptyException, OutOfBoundsException {
+        if (id == null) {
+            throw new EmptyException("Add an ID!");
+        }
+        correctValue(id);
+        Optional<CustomerEntity> customerEntity = customerRepository.findById(id);
+        if (!customerEntity.isPresent()) {
+            throw new UnknownCustomerException("No Customer Found");
+        }
+        else {
+            log.info("Read customer (by ID)");
+            return new Customer(
+                    customerEntity.get().getId(),
+                    customerEntity.get().getStore().getId(),
+                    customerEntity.get().getFirstName(),
+                    customerEntity.get().getLastName(),
+                    customerEntity.get().getEmail(),
+                    customerEntity.get().getAddress().getId(),
+                    customerEntity.get().getActive()
+            );
+        }
+    }
+
+    @Override
     public void deleteCustomer(Customer customer) throws UnknownCustomerException {
         Optional<CustomerEntity> customerEntity = StreamSupport.stream(customerRepository.findAll().spliterator(),false).filter(
                 entity ->{

@@ -9,6 +9,7 @@ public interface StoreService {
 
     Collection<Store> getAllStore();
     Collection<Store> getStoresByStaffId(Integer staffId) throws UnknownStoreException, EmptyException;
+    Store getStoreById(Integer id) throws UnknownStoreException, EmptyException, OutOfBoundsException;
 
     void recordStore(Store store) throws UnknownStaffException, UnknownAddressException, OutOfBoundsException;
     void deleteStore(Store store) throws UnknownStoreException;

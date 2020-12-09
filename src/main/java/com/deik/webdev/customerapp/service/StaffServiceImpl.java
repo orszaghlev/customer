@@ -42,6 +42,11 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
+    public Staff getStaffById(Integer id) throws UnknownStaffException, OutOfBoundsException, EmptyException {
+        return staffDao.readStaffById(id);
+    }
+
+    @Override
     public void recordStaff(Staff staff) throws UnknownStoreException, UnknownAddressException, OutOfBoundsException {
         staffDao.createStaff(staff);
     }

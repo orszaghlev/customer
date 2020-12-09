@@ -88,6 +88,26 @@ public class StoreDaoImpl implements StoreDao {
     }
 
     @Override
+    public Store readStoreById(Integer id) throws UnknownStoreException, EmptyException, OutOfBoundsException {
+        if (id == null) {
+            throw new EmptyException("Add an ID!");
+        }
+        correctValue(id);
+        Optional<StoreEntity> storeEntity = storeRepository.findById(id);
+        if (!storeEntity.isPresent()) {
+            throw new UnknownStoreException("No Store Found");
+        }
+        else {
+            log.info("Read store (by ID)");
+            return new Store(
+                            storeEntity.get().getId(),
+                            storeEntity.get().getStaff().getId(),
+                            storeEntity.get().getAddress().getId()
+                    );
+        }
+    }
+
+    @Override
     public Collection<Store> readStoresByStaffId(Integer staffId) throws UnknownStoreException, EmptyException {
         if (staffId == null) {
             throw new EmptyException("Add a staff ID!");

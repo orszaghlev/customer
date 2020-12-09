@@ -10,7 +10,6 @@ import com.deik.webdev.customerapp.model.Address;
 import com.deik.webdev.customerapp.service.AddressService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -113,7 +112,7 @@ public class AddressController {
                     requestDto.getPostalCode(),
                     requestDto.getPhone()
             ));
-        } catch (DataAccessException | UnknownCountryException e) {
+        } catch (UnknownCountryException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
@@ -130,7 +129,7 @@ public class AddressController {
                     requestDto.getPostalCode(),
                     requestDto.getPhone()
             ));
-        } catch (DataAccessException | UnknownAddressException e) {
+        } catch (UnknownAddressException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
@@ -155,7 +154,7 @@ public class AddressController {
                     requestDto.getNewPostalCode(),
                     requestDto.getNewPhone())
             );
-        } catch (DataAccessException | UnknownCountryException | UnknownAddressException e) {
+        } catch (UnknownCountryException | UnknownAddressException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

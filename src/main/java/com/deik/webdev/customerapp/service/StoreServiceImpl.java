@@ -27,6 +27,11 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
+    public Store getStoreById(Integer id) throws UnknownStoreException, EmptyException, OutOfBoundsException {
+        return storeDao.readStoreById(id);
+    }
+
+    @Override
     public void recordStore(Store store) throws UnknownStaffException, UnknownAddressException, OutOfBoundsException {
         storeDao.createStore(store);
     }

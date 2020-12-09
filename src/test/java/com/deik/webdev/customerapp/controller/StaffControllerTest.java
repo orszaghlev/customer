@@ -65,6 +65,14 @@ public class StaffControllerTest {
     }
 
     @Test
+    public void testListStaffById() throws UnknownStaffException, EmptyException, OutOfBoundsException {
+        when(staffService.getStaffById(any())).thenReturn(getStaff());
+        staffController.listStaffById(anyInt());
+
+        verify(staffService, times(1)).getStaffById(anyInt());
+    }
+
+    @Test
     public void testRecordStaff() throws UnknownAddressException, UnknownStoreException, OutOfBoundsException {
         staffController.recordStaff(getStaffDto());
 

@@ -7,7 +7,6 @@ import com.deik.webdev.customerapp.model.Customer;
 import com.deik.webdev.customerapp.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -118,6 +117,23 @@ public class CustomerController {
         }
     }
 
+    @GetMapping("/customer/{id}")
+    public CustomerDto listCustomerById(Integer id) {
+        try {
+            Customer customer = service.getCustomerById(id);
+            return new CustomerDto(
+                    customer.getId(),
+                    customer.getStoreId(),
+                    customer.getFirstName(),
+                    customer.getLastName(),
+                    customer.getEmail(),
+                    customer.getAddressId(),
+                    customer.getActive());
+        } catch (OutOfBoundsException | EmptyException | UnknownCustomerException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
     @PostMapping("/customer")
     public void recordCustomer(@RequestBody CustomerDto requestDto) {
         try {
@@ -130,7 +146,7 @@ public class CustomerController {
                     requestDto.getAddressId(),
                     requestDto.getActive()
             ));
-        } catch (DataAccessException | NumberFormatException | OutOfBoundsException | UnknownStoreException | UnknownAddressException e) {
+        } catch (OutOfBoundsException | UnknownStoreException | UnknownAddressException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
@@ -147,7 +163,7 @@ public class CustomerController {
                     requestDto.getAddressId(),
                     requestDto.getActive()
             ));
-        } catch (DataAccessException | UnknownCustomerException e) {
+        } catch (UnknownCustomerException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
@@ -172,7 +188,7 @@ public class CustomerController {
                     requestDto.getNewAddressId(),
                     requestDto.getNewActive())
             );
-        } catch (DataAccessException | NumberFormatException | OutOfBoundsException | UnknownStoreException | UnknownAddressException | UnknownCustomerException e) {
+        } catch (OutOfBoundsException | UnknownStoreException | UnknownAddressException | UnknownCustomerException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
