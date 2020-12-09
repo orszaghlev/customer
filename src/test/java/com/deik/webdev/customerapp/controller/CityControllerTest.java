@@ -3,6 +3,7 @@ package com.deik.webdev.customerapp.controller;
 import com.deik.webdev.customerapp.dto.CityDto;
 import com.deik.webdev.customerapp.dto.CityUpdateRequestDto;
 import com.deik.webdev.customerapp.exception.EmptyException;
+import com.deik.webdev.customerapp.exception.OutOfBoundsException;
 import com.deik.webdev.customerapp.exception.UnknownCityException;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.model.City;
@@ -40,6 +41,14 @@ public class CityControllerTest {
         cityController.listCitiesByCountry(anyString());
 
         verify(cityService, times(1)).getCitiesByCountry(anyString());
+    }
+
+    @Test
+    public void testListCityById() throws UnknownCityException, OutOfBoundsException, EmptyException {
+        when(cityService.getCityById(any())).thenReturn(getCity());
+        cityController.listCityById(anyInt());
+
+        verify(cityService, times(1)).getCityById(any());
     }
 
     @Test

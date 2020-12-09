@@ -2,6 +2,7 @@ package com.deik.webdev.customerapp.service;
 
 import com.deik.webdev.customerapp.dao.CityDao;
 import com.deik.webdev.customerapp.exception.EmptyException;
+import com.deik.webdev.customerapp.exception.OutOfBoundsException;
 import com.deik.webdev.customerapp.exception.UnknownCityException;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.model.City;
@@ -59,6 +60,14 @@ public class CityServiceImplTest {
         Collection<City> actual = service.getCitiesByCountry(country);
 
         assertThat(Collections.emptyList(), is(actual));
+    }
+
+    @Test
+    public void testReadCityById() throws UnknownCityException, OutOfBoundsException, EmptyException {
+        final Integer id = 1;
+        service.getCityById(id);
+
+        verify(dao, times(1)).readCityById(id);
     }
 
     @Test

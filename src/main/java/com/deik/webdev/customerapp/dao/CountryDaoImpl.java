@@ -1,6 +1,8 @@
 package com.deik.webdev.customerapp.dao;
 
 import com.deik.webdev.customerapp.entity.CountryEntity;
+import com.deik.webdev.customerapp.exception.EmptyException;
+import com.deik.webdev.customerapp.exception.OutOfBoundsException;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.model.Country;
 import com.deik.webdev.customerapp.repository.CountryRepository;
@@ -40,6 +42,12 @@ public class CountryDaoImpl implements CountryDao {
         }
     }
 
+    private void correctValue(int value) throws OutOfBoundsException {
+        if (value < 0) {
+            throw new OutOfBoundsException("Value can't be smaller than 0!");
+        }
+    }
+
     @Override
     public Collection<Country> readAll() {
         log.info("Read all countries");
@@ -48,6 +56,24 @@ public class CountryDaoImpl implements CountryDao {
                         entity.getCountry()
                 ))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Country readCountryById(Integer id) throws UnknownCountryException, EmptyException, OutOfBoundsException {
+        if (id == null) {
+            throw new EmptyException("Add an ID!");
+        }
+        correctValue(id);
+        Optional<CountryEntity> countryEntity = countryRepository.findById(id);
+        if (!countryEntity.isPresent()) {
+            throw new UnknownCountryException("No Country Found");
+        }
+        else {
+            log.info("Read country (by ID)");
+            return new Country(
+                    countryEntity.get().getCountry()
+            );
+        }
     }
 
     @Override

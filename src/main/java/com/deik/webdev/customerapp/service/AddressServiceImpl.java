@@ -2,6 +2,7 @@ package com.deik.webdev.customerapp.service;
 
 import com.deik.webdev.customerapp.dao.AddressDao;
 import com.deik.webdev.customerapp.exception.EmptyException;
+import com.deik.webdev.customerapp.exception.OutOfBoundsException;
 import com.deik.webdev.customerapp.exception.UnknownAddressException;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.model.Address;
@@ -36,6 +37,11 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public Collection<Address> getAddressesByPostalCode(String postalCode) throws UnknownAddressException, EmptyException {
         return addressDao.readAddressesByPostalCode(postalCode);
+    }
+
+    @Override
+    public Address getAddressById(Integer id) throws UnknownAddressException, EmptyException, OutOfBoundsException {
+        return addressDao.readAddressById(id);
     }
 
     @Override

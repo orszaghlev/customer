@@ -3,9 +3,7 @@ package com.deik.webdev.customerapp.dao;
 import com.deik.webdev.customerapp.entity.AddressEntity;
 import com.deik.webdev.customerapp.entity.CityEntity;
 import com.deik.webdev.customerapp.entity.CountryEntity;
-import com.deik.webdev.customerapp.exception.EmptyException;
-import com.deik.webdev.customerapp.exception.UnknownAddressException;
-import com.deik.webdev.customerapp.exception.UnknownCountryException;
+import com.deik.webdev.customerapp.exception.*;
 import com.deik.webdev.customerapp.model.Address;
 import com.deik.webdev.customerapp.repository.AddressRepository;
 import com.deik.webdev.customerapp.repository.CityRepository;
@@ -74,6 +72,12 @@ public class AddressDaoImpl implements AddressDao {
         }
         log.trace("CityEntity: {}", cityEntity);
         return cityEntity.get();
+    }
+
+    private void correctValue(int value) throws OutOfBoundsException {
+        if (value < 0) {
+            throw new OutOfBoundsException("Value can't be smaller than 0!");
+        }
     }
 
     @Override
@@ -165,6 +169,30 @@ public class AddressDaoImpl implements AddressDao {
                             entity.getPhone()
                     ))
                     .collect(Collectors.toList());
+        }
+    }
+
+    @Override
+    public Address readAddressById(Integer id) throws UnknownAddressException, EmptyException, OutOfBoundsException {
+        if (id == null) {
+            throw new EmptyException("Add an ID!");
+        }
+        correctValue(id);
+        Optional<AddressEntity> addressEntity = addressRepository.findById(id);
+        if (!addressEntity.isPresent()) {
+            throw new UnknownAddressException("No Address Found");
+        }
+        else {
+            log.info("Read address (by ID)");
+            return new Address(
+                    addressEntity.get().getAddress(),
+                    addressEntity.get().getAddress2(),
+                    addressEntity.get().getDistrict(),
+                    addressEntity.get().getCity().getCity(),
+                    addressEntity.get().getCity().getCountry().getCountry(),
+                    addressEntity.get().getPostalCode(),
+                    addressEntity.get().getPhone()
+            );
         }
     }
 

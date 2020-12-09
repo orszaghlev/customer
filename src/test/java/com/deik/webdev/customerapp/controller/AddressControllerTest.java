@@ -3,9 +3,7 @@ package com.deik.webdev.customerapp.controller;
 import com.deik.webdev.customerapp.dto.AddressDto;
 import com.deik.webdev.customerapp.dto.AddressRecordRequestDto;
 import com.deik.webdev.customerapp.dto.AddressUpdateRequestDto;
-import com.deik.webdev.customerapp.exception.EmptyException;
-import com.deik.webdev.customerapp.exception.UnknownAddressException;
-import com.deik.webdev.customerapp.exception.UnknownCountryException;
+import com.deik.webdev.customerapp.exception.*;
 import com.deik.webdev.customerapp.model.Address;
 import com.deik.webdev.customerapp.service.AddressService;
 import org.junit.jupiter.api.Test;
@@ -57,6 +55,14 @@ public class AddressControllerTest {
         addressController.listAddressesByPostalCode(anyString());
 
         verify(addressService, times(1)).getAddressesByPostalCode(anyString());
+    }
+
+    @Test
+    public void testListAddressById() throws UnknownAddressException, OutOfBoundsException, EmptyException {
+        when(addressService.getAddressById(any())).thenReturn(getAddress());
+        addressController.listAddressById(anyInt());
+
+        verify(addressService, times(1)).getAddressById(any());
     }
 
     @Test

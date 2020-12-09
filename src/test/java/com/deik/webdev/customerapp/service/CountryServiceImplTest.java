@@ -1,6 +1,8 @@
 package com.deik.webdev.customerapp.service;
 
 import com.deik.webdev.customerapp.dao.CountryDao;
+import com.deik.webdev.customerapp.exception.EmptyException;
+import com.deik.webdev.customerapp.exception.OutOfBoundsException;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.model.Country;
 import org.junit.jupiter.api.Test;
@@ -38,6 +40,14 @@ public class CountryServiceImplTest {
         Collection<Country> actual = service.getAllCountry();
 
         assertThat(getDefaultCountries(), is(actual));
+    }
+
+    @Test
+    public void testReadCountryById() throws UnknownCountryException, OutOfBoundsException, EmptyException {
+        final Integer id = 1;
+        service.getCountryById(id);
+
+        verify(dao, times(1)).readCountryById(id);
     }
 
     @Test

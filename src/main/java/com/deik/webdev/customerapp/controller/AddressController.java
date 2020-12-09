@@ -3,9 +3,7 @@ package com.deik.webdev.customerapp.controller;
 import com.deik.webdev.customerapp.dto.AddressDto;
 import com.deik.webdev.customerapp.dto.AddressRecordRequestDto;
 import com.deik.webdev.customerapp.dto.AddressUpdateRequestDto;
-import com.deik.webdev.customerapp.exception.EmptyException;
-import com.deik.webdev.customerapp.exception.UnknownAddressException;
-import com.deik.webdev.customerapp.exception.UnknownCountryException;
+import com.deik.webdev.customerapp.exception.*;
 import com.deik.webdev.customerapp.model.Address;
 import com.deik.webdev.customerapp.service.AddressService;
 import lombok.RequiredArgsConstructor;
@@ -96,6 +94,21 @@ public class AddressController {
                             .build())
                     .collect(Collectors.toList());
         } catch (EmptyException | UnknownAddressException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @GetMapping("/address/{id}")
+    public AddressDto listAddressById(Integer id) {
+        try {
+            Address address = service.getAddressById(id);
+            return new AddressDto(
+                    address.getAddress(),
+                    address.getAddress2(),
+                    address.getDistrict(),
+                    address.getCity(),
+                    address.getCountry());
+        } catch (OutOfBoundsException | EmptyException | UnknownAddressException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

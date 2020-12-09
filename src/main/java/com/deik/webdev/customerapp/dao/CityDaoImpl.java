@@ -3,6 +3,7 @@ package com.deik.webdev.customerapp.dao;
 import com.deik.webdev.customerapp.entity.CityEntity;
 import com.deik.webdev.customerapp.entity.CountryEntity;
 import com.deik.webdev.customerapp.exception.EmptyException;
+import com.deik.webdev.customerapp.exception.OutOfBoundsException;
 import com.deik.webdev.customerapp.exception.UnknownCityException;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.model.City;
@@ -63,6 +64,12 @@ public class CityDaoImpl implements CityDao {
         return countryEntity.get();
     }
 
+    private void correctValue(int value) throws OutOfBoundsException {
+        if (value < 0) {
+            throw new OutOfBoundsException("Value can't be smaller than 0!");
+        }
+    }
+
     @Override
     public Collection<City> readAll() {
         log.info("Read all cities");
@@ -92,6 +99,25 @@ public class CityDaoImpl implements CityDao {
                             entity.getCountry().getCountry()
                     ))
                     .collect(Collectors.toList());
+        }
+    }
+
+    @Override
+    public City readCityById(Integer id) throws UnknownCityException, EmptyException, OutOfBoundsException {
+        if (id == null) {
+            throw new EmptyException("Add an ID!");
+        }
+        correctValue(id);
+        Optional<CityEntity> cityEntity = cityRepository.findById(id);
+        if (!cityEntity.isPresent()) {
+            throw new UnknownCityException("No City Found");
+        }
+        else {
+            log.info("Read city (by ID)");
+            return new City(
+                    cityEntity.get().getCity(),
+                    cityEntity.get().getCountry().getCountry()
+            );
         }
     }
 

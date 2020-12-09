@@ -1,6 +1,8 @@
 package com.deik.webdev.customerapp.service;
 
 import com.deik.webdev.customerapp.dao.CountryDao;
+import com.deik.webdev.customerapp.exception.EmptyException;
+import com.deik.webdev.customerapp.exception.OutOfBoundsException;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.model.Country;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,11 @@ public class CountryServiceImpl implements CountryService {
     @Override
     public Collection<Country> getAllCountry() {
         return countryDao.readAll();
+    }
+
+    @Override
+    public Country getCountryById(Integer id) throws UnknownCountryException, EmptyException, OutOfBoundsException {
+        return countryDao.readCountryById(id);
     }
 
     @Override

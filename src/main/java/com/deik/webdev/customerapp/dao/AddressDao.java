@@ -1,6 +1,7 @@
 package com.deik.webdev.customerapp.dao;
 
 import com.deik.webdev.customerapp.exception.EmptyException;
+import com.deik.webdev.customerapp.exception.OutOfBoundsException;
 import com.deik.webdev.customerapp.exception.UnknownAddressException;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.model.Address;
@@ -14,6 +15,7 @@ public interface AddressDao {
     Collection<Address> readAddressesByCity(String city) throws UnknownAddressException, EmptyException;
     Collection<Address> readAddressesByDistrict(String district) throws UnknownAddressException, EmptyException;
     Collection<Address> readAddressesByPostalCode(String postalCode) throws UnknownAddressException, EmptyException;
+    Address readAddressById(Integer id) throws UnknownAddressException, EmptyException, OutOfBoundsException;
 
     void deleteAddress(Address address) throws UnknownAddressException;
 

@@ -2,6 +2,8 @@ package com.deik.webdev.customerapp.controller;
 
 import com.deik.webdev.customerapp.dto.CountryDto;
 import com.deik.webdev.customerapp.dto.CountryUpdateRequestDto;
+import com.deik.webdev.customerapp.exception.EmptyException;
+import com.deik.webdev.customerapp.exception.OutOfBoundsException;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.model.Country;
 import com.deik.webdev.customerapp.service.CountryService;
@@ -29,6 +31,17 @@ public class CountryController {
                         .country(model.getCountry())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping("/country/{id}")
+    public CountryDto listCountryById(Integer id) {
+        try {
+            Country country = service.getCountryById(id);
+            return new CountryDto(
+                    country.getCountry());
+        } catch (OutOfBoundsException | EmptyException | UnknownCountryException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
 
     @PostMapping("/country")

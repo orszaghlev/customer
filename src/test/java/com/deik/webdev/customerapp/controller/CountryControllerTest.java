@@ -2,6 +2,8 @@ package com.deik.webdev.customerapp.controller;
 
 import com.deik.webdev.customerapp.dto.CountryDto;
 import com.deik.webdev.customerapp.dto.CountryUpdateRequestDto;
+import com.deik.webdev.customerapp.exception.EmptyException;
+import com.deik.webdev.customerapp.exception.OutOfBoundsException;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.model.Country;
 import com.deik.webdev.customerapp.service.CountryService;
@@ -30,6 +32,14 @@ public class CountryControllerTest {
         countryController.listCountries();
 
         verify(countryService, times(1)).getAllCountry();
+    }
+
+    @Test
+    public void testListCountryById() throws UnknownCountryException, OutOfBoundsException, EmptyException {
+        when(countryService.getCountryById(any())).thenReturn(getCountry());
+        countryController.listCountryById(anyInt());
+
+        verify(countryService, times(1)).getCountryById(any());
     }
 
     @Test

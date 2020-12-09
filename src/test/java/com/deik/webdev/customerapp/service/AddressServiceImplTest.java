@@ -1,9 +1,7 @@
 package com.deik.webdev.customerapp.service;
 
 import com.deik.webdev.customerapp.dao.AddressDao;
-import com.deik.webdev.customerapp.exception.EmptyException;
-import com.deik.webdev.customerapp.exception.UnknownAddressException;
-import com.deik.webdev.customerapp.exception.UnknownCountryException;
+import com.deik.webdev.customerapp.exception.*;
 import com.deik.webdev.customerapp.model.Address;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -75,6 +73,14 @@ class AddressServiceImplTest {
         Collection<Address> actual = service.getAddressesByPostalCode(postalCode);
 
         assertThat(Collections.emptyList(), is(actual));
+    }
+
+    @Test
+    public void testReadAddressById() throws UnknownAddressException, OutOfBoundsException, EmptyException {
+        final Integer id = 1;
+        service.getAddressById(id);
+
+        verify(dao, times(1)).readAddressById(id);
     }
 
     @Test

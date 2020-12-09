@@ -3,6 +3,7 @@ package com.deik.webdev.customerapp.controller;
 import com.deik.webdev.customerapp.dto.CityDto;
 import com.deik.webdev.customerapp.dto.CityUpdateRequestDto;
 import com.deik.webdev.customerapp.exception.EmptyException;
+import com.deik.webdev.customerapp.exception.OutOfBoundsException;
 import com.deik.webdev.customerapp.exception.UnknownCityException;
 import com.deik.webdev.customerapp.exception.UnknownCountryException;
 import com.deik.webdev.customerapp.model.City;
@@ -45,6 +46,18 @@ public class CityController {
                             .build())
                     .collect(Collectors.toList());
         } catch (EmptyException | UnknownCityException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @GetMapping("/city/{id}")
+    public CityDto listCityById(Integer id) {
+        try {
+            City city = service.getCityById(id);
+            return new CityDto(
+                    city.getCity(),
+                    city.getCountry());
+        } catch (OutOfBoundsException | EmptyException | UnknownCityException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
