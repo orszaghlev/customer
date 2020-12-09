@@ -13,6 +13,6 @@ public class CityDto {
 
     private int id;
     private String city;
-    private int countryId;
+    private String country;
 
 }

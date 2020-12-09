@@ -12,7 +12,7 @@ import lombok.ToString;
 public class Store {
 
     private int id;
-    private int staffId;
-    private int addressId;
+    private String staff;
+    private String address;
 
 }

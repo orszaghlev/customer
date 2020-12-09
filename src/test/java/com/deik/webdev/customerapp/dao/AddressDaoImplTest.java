@@ -24,8 +24,8 @@ class AddressDaoImplTest {
 
     @Test
     public void testCreateAddress() throws UnknownCityException {
-        doReturn(CityEntity.builder().id(1).build())
-                .when(dao).queryCity(anyInt());
+        doReturn(CityEntity.builder().city("city").build())
+                .when(dao).queryCity(any());
         dao.createAddress(getAddress());
 
         verify(addressRepository, times(1)).save(any());
@@ -44,7 +44,7 @@ class AddressDaoImplTest {
                 "address1",
                 "address2",
                 "district",
-                1,
+                "city",
                 "1234",
                 "061234567"
         );

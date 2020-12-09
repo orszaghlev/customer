@@ -14,7 +14,7 @@ public class Staff {
     private int id;
     private String firstName;
     private String lastName;
-    private int addressId;
+    private String address;
     private String email;
     private int storeId;
     private int active;

@@ -30,14 +30,13 @@ public class CustomerDaoImpl implements CustomerDao {
         activeValue(customer.getActive());
         correctValue(customer.getId());
         correctValue(customer.getStoreId());
-        correctValue(customer.getAddressId());
 
         customerEntity = CustomerEntity.builder()
                 .store(queryStore(customer.getStoreId()))
                 .firstName(customer.getFirstName())
                 .lastName(customer.getLastName())
                 .email(customer.getEmail())
-                .address(queryAddress(customer.getAddressId()))
+                .address(queryAddress(customer.getAddress()))
                 .active(customer.getActive())
                 .createDate(new Timestamp((new Date()).getTime()))
                 .lastUpdate(new Timestamp((new Date()).getTime()))
@@ -61,8 +60,8 @@ public class CustomerDaoImpl implements CustomerDao {
         return storeEntity.get();
     }
 
-    protected AddressEntity queryAddress(int addressId) throws UnknownAddressException {
-        Optional<AddressEntity> addressEntity = addressRepository.findById(addressId);
+    protected AddressEntity queryAddress(String address) throws UnknownAddressException {
+        Optional<AddressEntity> addressEntity = addressRepository.findByAddress(address);
         if (!addressEntity.isPresent()) {
             throw new UnknownAddressException("No Address Found");
         }
@@ -94,7 +93,7 @@ public class CustomerDaoImpl implements CustomerDao {
                         entity.getFirstName(),
                         entity.getLastName(),
                         entity.getEmail(),
-                        entity.getAddress().getId(),
+                        entity.getAddress().getAddress(),
                         entity.getActive()
                 ))
                 .collect(Collectors.toList());
@@ -121,7 +120,7 @@ public class CustomerDaoImpl implements CustomerDao {
                             entity.getFirstName(),
                             entity.getLastName(),
                             entity.getEmail(),
-                            entity.getAddress().getId(),
+                            entity.getAddress().getAddress(),
                             entity.getActive()
                     ))
                     .collect(Collectors.toList());
@@ -146,7 +145,7 @@ public class CustomerDaoImpl implements CustomerDao {
                             entity.getFirstName(),
                             entity.getLastName(),
                             entity.getEmail(),
-                            entity.getAddress().getId(),
+                            entity.getAddress().getAddress(),
                             entity.getActive()
                     ))
                     .collect(Collectors.toList());
@@ -171,7 +170,7 @@ public class CustomerDaoImpl implements CustomerDao {
                             entity.getFirstName(),
                             entity.getLastName(),
                             entity.getEmail(),
-                            entity.getAddress().getId(),
+                            entity.getAddress().getAddress(),
                             entity.getActive()
                     ))
                     .collect(Collectors.toList());
@@ -197,7 +196,7 @@ public class CustomerDaoImpl implements CustomerDao {
                             entity.getFirstName(),
                             entity.getLastName(),
                             entity.getEmail(),
-                            entity.getAddress().getId(),
+                            entity.getAddress().getAddress(),
                             entity.getActive()
                     ))
                     .collect(Collectors.toList());
@@ -222,7 +221,7 @@ public class CustomerDaoImpl implements CustomerDao {
                     customerEntity.get().getFirstName(),
                     customerEntity.get().getLastName(),
                     customerEntity.get().getEmail(),
-                    customerEntity.get().getAddress().getId(),
+                    customerEntity.get().getAddress().getAddress(),
                     customerEntity.get().getActive()
             );
         }
@@ -237,7 +236,7 @@ public class CustomerDaoImpl implements CustomerDao {
                             customer.getFirstName().equals(entity.getFirstName()) &&
                             customer.getLastName().equals(entity.getLastName()) &&
                             customer.getEmail().equals(entity.getEmail()) &&
-                            customer.getAddressId() == entity.getAddress().getId() &&
+                            customer.getAddress().equals(entity.getAddress().getAddress()) &&
                             customer.getActive() == entity.getActive();
                 }
         ).findAny();
@@ -257,13 +256,12 @@ public class CustomerDaoImpl implements CustomerDao {
         activeValue(newCustomer.getActive());
         correctValue(newCustomer.getId());
         correctValue(newCustomer.getStoreId());
-        correctValue(newCustomer.getAddressId());
         log.info("Original: " + customerEntity.toString());
         customerEntity.get().setStore(queryStore(newCustomer.getStoreId()));
         customerEntity.get().setFirstName(newCustomer.getFirstName());
         customerEntity.get().setLastName(newCustomer.getLastName());
         customerEntity.get().setEmail(newCustomer.getEmail());
-        customerEntity.get().setAddress(queryAddress(newCustomer.getAddressId()));
+        customerEntity.get().setAddress(queryAddress(newCustomer.getAddress()));
         customerEntity.get().setActive(newCustomer.getActive());
         customerEntity.get().setLastUpdate(new Timestamp((new Date()).getTime()));
         log.info("Updated: " + customerEntity.toString());

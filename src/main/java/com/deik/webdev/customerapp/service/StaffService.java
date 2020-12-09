@@ -8,7 +8,7 @@ import java.util.Collection;
 public interface StaffService {
 
     Collection<Staff> getAllStaff();
-    Collection<Staff> getStaffByUsername(String username) throws UnknownStaffException, EmptyException;
+    Collection<Staff> getStaffByFirstNameAndLastName(String firstName, String lastName) throws UnknownStaffException, EmptyException;
     Collection<Staff> getStaffByEmail(String email) throws UnknownStaffException, EmptyException;
     Collection<Staff> getStaffByStoreId(Integer storeId) throws UnknownStaffException, EmptyException;
     Collection<Staff> getActiveStaff(Integer staff) throws UnknownStaffException, OutOfBoundsException, EmptyException;

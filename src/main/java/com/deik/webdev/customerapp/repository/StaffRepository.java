@@ -7,7 +7,8 @@ import java.util.Collection;
 import java.util.Optional;
 
 public interface StaffRepository extends CrudRepository<StaffEntity, Integer> {
-    Collection<StaffEntity> findByUsername(String username);
+    Optional<StaffEntity> findByUsername(String username);
+    Collection<StaffEntity> findByFirstNameAndLastName(String firstName, String lastName);
     Collection<StaffEntity> findByEmail(String email);
     Collection<StaffEntity> findByStoreId(Integer storeId);
     Collection<StaffEntity> findByActive(Integer active);

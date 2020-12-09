@@ -88,16 +88,16 @@ public class StoreServiceImplTest {
     private Store getStore() {
         return new Store(
                 1,
-                1,
-                1
+                "staff",
+                "address"
         );
     }
 
     private Store getNewStore() {
         return new Store(
                 2,
-                2,
-                2
+                "newStaff",
+                "newAddress"
         );
     }
 
@@ -105,18 +105,18 @@ public class StoreServiceImplTest {
         return Arrays.asList(
                 new Store(
                         1,
-                        1,
-                        1
+                        "staff",
+                        "address"
                 ),
                 new Store(
                         2,
-                        2,
-                        2
+                        "staff",
+                        "address"
                 ),
                 new Store(
                         3,
-                        3,
-                        3
+                        "staff",
+                        "address"
                 ));
     }
 

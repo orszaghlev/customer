@@ -53,9 +53,10 @@ public class StaffServiceImplTest {
     }
 
     @Test
-    public void testReadStaffFromUsername() throws UnknownStaffException, EmptyException {
-        final String username = "username";
-        Collection<Staff> actual = service.getStaffByUsername(username);
+    public void testReadStaffFromFirstNameAndLastName() throws UnknownStaffException, EmptyException {
+        final String firstName = "firstName";
+        final String lastName = "lastName";
+        Collection<Staff> actual = service.getStaffByFirstNameAndLastName(firstName, lastName);
 
         assertThat(Collections.emptyList(), is(actual));
     }
@@ -114,7 +115,7 @@ public class StaffServiceImplTest {
                 1,
                 "firstName",
                 "lastName",
-                1,
+                "address",
                 "email",
                 1,
                 0,
@@ -128,7 +129,7 @@ public class StaffServiceImplTest {
                 2,
                 "newFirstName",
                 "newLastName",
-                2,
+                "newAddress",
                 "newEmail",
                 2,
                 1,
@@ -143,7 +144,7 @@ public class StaffServiceImplTest {
                         1,
                         "firstName",
                         "lastName",
-                        1,
+                        "address",
                         "email",
                         1,
                         0,
@@ -154,7 +155,7 @@ public class StaffServiceImplTest {
                         2,
                         "firstName",
                         "lastName",
-                        2,
+                        "address",
                         "email",
                         2,
                         1,
@@ -165,7 +166,7 @@ public class StaffServiceImplTest {
                         3,
                         "firstName",
                         "lastName",
-                        3,
+                        "address",
                         "email",
                         3,
                         0,

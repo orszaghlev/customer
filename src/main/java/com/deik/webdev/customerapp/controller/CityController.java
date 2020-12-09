@@ -31,7 +31,7 @@ public class CityController {
                 .map(model -> CityDto.builder()
                         .id(model.getId())
                         .city(model.getCity())
-                        .countryId(model.getCountryId())
+                        .country(model.getCountry())
                         .build())
                 .collect(Collectors.toList());
     }
@@ -44,7 +44,7 @@ public class CityController {
                     .map(model -> CityDto.builder()
                             .id(model.getId())
                             .city(model.getCity())
-                            .countryId(model.getCountryId())
+                            .country(model.getCountry())
                             .build())
                     .collect(Collectors.toList());
         } catch (EmptyException | UnknownCityException e) {
@@ -59,7 +59,7 @@ public class CityController {
             return new CityDto(
                     city.getId(),
                     city.getCity(),
-                    city.getCountryId());
+                    city.getCountry());
         } catch (OutOfBoundsException | EmptyException | UnknownCityException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
@@ -71,7 +71,7 @@ public class CityController {
             service.recordCity(new City(
                     requestDto.getId(),
                     requestDto.getCity(),
-                    requestDto.getCountryId()
+                    requestDto.getCountry()
             ));
         } catch (UnknownCountryException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
@@ -84,7 +84,7 @@ public class CityController {
             service.deleteCity(new City(
                     requestDto.getId(),
                     requestDto.getCity(),
-                    requestDto.getCountryId()
+                    requestDto.getCountry()
             ));
         } catch (UnknownCityException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
@@ -97,11 +97,11 @@ public class CityController {
             service.updateCity(new City(
                             requestDto.getId(),
                             requestDto.getCity(),
-                            requestDto.getCountryId()),
+                            requestDto.getCountry()),
                     new City(
                             requestDto.getId(),
                             requestDto.getNewCity(),
-                            requestDto.getNewCountryId())
+                            requestDto.getNewCountry())
             );
         } catch (UnknownCountryException | UnknownCityException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());

@@ -72,23 +72,23 @@ public class StoreControllerTest {
     private Store getStore() {
         return new Store(
                 1,
-                1,
-                1
+                "staff",
+                "address"
         );
     }
 
     private StoreDto getStoreDto() {
         return new StoreDto(
                 1,
-                1,
-                1
+                "staff",
+                "address"
         );
     }
 
     private StoreUpdateRequestDto getStoreUpdateRequestDto() {
         return new StoreUpdateRequestDto(
-                1,
-                1
+                "staff",
+                "address"
         );
     }
 
@@ -96,18 +96,18 @@ public class StoreControllerTest {
         return Arrays.asList(
                 new Store(
                         1,
-                        1,
-                        1
+                        "staff",
+                        "address"
                 ),
                 new Store(
                         2,
-                        2,
-                        2
+                        "staff",
+                        "address"
                 ),
                 new Store(
                         3,
-                        3,
-                        3
+                        "staff",
+                        "address"
                 ));
     }
 

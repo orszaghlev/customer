@@ -11,6 +11,6 @@ import lombok.experimental.SuperBuilder;
 public class CityUpdateRequestDto extends CityDto {
 
     private String newCity;
-    private int newCountryId;
+    private String newCountry;
 
 }

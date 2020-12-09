@@ -33,11 +33,11 @@ public class StaffControllerTest {
     }
 
     @Test
-    public void testListStaffByUsername() throws UnknownStaffException, EmptyException {
-        when(staffService.getStaffByUsername(any())).thenReturn(getStaffs());
-        staffController.listStaffByUsername(anyString());
+    public void testListStaffByFirstNameAndLastName() throws UnknownStaffException, EmptyException {
+        when(staffService.getStaffByFirstNameAndLastName(any(), any())).thenReturn(getStaffs());
+        staffController.listStaffByFirstNameAndLastName(anyString(), anyString());
 
-        verify(staffService, times(1)).getStaffByUsername(anyString());
+        verify(staffService, times(1)).getStaffByFirstNameAndLastName(anyString(), anyString());
     }
 
     @Test
@@ -98,7 +98,7 @@ public class StaffControllerTest {
                 1,
                 "firstName",
                 "lastName",
-                1,
+                "address",
                 "email",
                 1,
                 0,
@@ -112,7 +112,7 @@ public class StaffControllerTest {
                 1,
                 "firstName",
                 "lastName",
-                1,
+                "address",
                 "email",
                 1,
                 0,
@@ -125,7 +125,7 @@ public class StaffControllerTest {
         return new StaffUpdateRequestDto(
                 "firstName",
                 "lastName",
-                1,
+                "address",
                 "email",
                 1,
                 0,
@@ -140,7 +140,7 @@ public class StaffControllerTest {
                         1,
                         "firstName",
                         "lastName",
-                        1,
+                        "address",
                         "email",
                         1,
                         0,
@@ -151,7 +151,7 @@ public class StaffControllerTest {
                         2,
                         "firstName",
                         "lastName",
-                        2,
+                        "address",
                         "email",
                         2,
                         1,
@@ -162,7 +162,7 @@ public class StaffControllerTest {
                         3,
                         "firstName",
                         "lastName",
-                        3,
+                        "address",
                         "email",
                         3,
                         0,

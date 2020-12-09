@@ -34,7 +34,7 @@ public class CityDaoImpl implements CityDao {
 
         cityEntity = CityEntity.builder()
                 .city(city.getCity())
-                .country(queryCountry(city.getCountryId()))
+                .country(queryCountry(city.getCountry()))
                 .lastUpdate(new Timestamp((new Date()).getTime()))
                 .build();
         log.info("CityEntity: {}", cityEntity);
@@ -47,8 +47,8 @@ public class CityDaoImpl implements CityDao {
         }
     }
 
-    protected CountryEntity queryCountry(int countryId) throws UnknownCountryException {
-        Optional<CountryEntity> countryEntity = countryRepository.findById(countryId);
+    protected CountryEntity queryCountry(String country) throws UnknownCountryException {
+        Optional<CountryEntity> countryEntity = countryRepository.findByCountry(country);
         if (!countryEntity.isPresent()) {
             throw new UnknownCountryException("No Country Found");
         }
@@ -69,7 +69,7 @@ public class CityDaoImpl implements CityDao {
                 .map(entity -> new City(
                         entity.getId(),
                         entity.getCity(),
-                        entity.getCountry().getId()
+                        entity.getCountry().getCountry()
                 ))
                 .collect(Collectors.toList());
     }
@@ -90,7 +90,7 @@ public class CityDaoImpl implements CityDao {
                     .map(entity -> new City(
                             entity.getId(),
                             entity.getCity(),
-                            entity.getCountry().getId()
+                            entity.getCountry().getCountry()
                     ))
                     .collect(Collectors.toList());
         }
@@ -111,7 +111,7 @@ public class CityDaoImpl implements CityDao {
             return new City(
                     cityEntity.get().getId(),
                     cityEntity.get().getCity(),
-                    cityEntity.get().getCountry().getId()
+                    cityEntity.get().getCountry().getCountry()
             );
         }
     }
@@ -122,7 +122,7 @@ public class CityDaoImpl implements CityDao {
                 entity ->{
                     return city.getId() == entity.getId() &&
                             city.getCity().equals(entity.getCity()) &&
-                            city.getCountryId() == entity.getCountry().getId();
+                            city.getCountry().equals(entity.getCountry().getCountry());
                 }
         ).findAny();
         if (!cityEntity.isPresent()) {
@@ -140,7 +140,7 @@ public class CityDaoImpl implements CityDao {
         }
         log.info("Original: " + cityEntity.toString());
         cityEntity.get().setCity(newCity.getCity());
-        cityEntity.get().setCountry(queryCountry(newCity.getCountryId()));
+        cityEntity.get().setCountry(queryCountry(newCity.getCountry()));
         cityEntity.get().setLastUpdate(new Timestamp((new Date()).getTime()));
         log.info("Updated: " + cityEntity.toString());
         try {

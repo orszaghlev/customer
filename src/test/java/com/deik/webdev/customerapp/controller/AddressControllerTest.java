@@ -91,7 +91,7 @@ public class AddressControllerTest {
                 "address1",
                 "address2",
                 "district",
-                1,
+                "city",
                 "1234",
                 "061234567"
         );
@@ -103,7 +103,7 @@ public class AddressControllerTest {
                 "address1",
                 "address2",
                 "district",
-                1,
+                "city",
                 "1234",
                 "061234567"
         );
@@ -114,7 +114,7 @@ public class AddressControllerTest {
                 "address1",
                 "address2",
                 "district",
-                1,
+                "city",
                 "1234",
                 "061234567"
         );
@@ -127,7 +127,7 @@ public class AddressControllerTest {
                         "address1",
                         "address2",
                         "district",
-                        1,
+                        "city",
                         "1234",
                         "061234567"
                 ),
@@ -136,7 +136,7 @@ public class AddressControllerTest {
                         "address3",
                         "address4",
                         "district",
-                        2,
+                        "city",
                         "1234",
                         "061234567"
                 ),
@@ -145,7 +145,7 @@ public class AddressControllerTest {
                         "address5",
                         "address6",
                         "district",
-                        3,
+                        "city",
                         "1234",
                         "061234567"
                 )

@@ -13,7 +13,7 @@ public class StaffUpdateRequestDto extends StaffDto {
 
     private String newFirstName;
     private String newLastName;
-    private int newAddressId;
+    private String newAddress;
     private String newEmail;
     private int newStoreId;
     private int newActive;

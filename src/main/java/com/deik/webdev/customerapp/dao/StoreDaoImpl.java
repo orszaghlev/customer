@@ -28,12 +28,10 @@ public class StoreDaoImpl implements StoreDao {
     public void createStore(Store store) throws UnknownStaffException, UnknownAddressException, OutOfBoundsException {
         StoreEntity storeEntity;
         correctValue(store.getId());
-        correctValue(store.getStaffId());
-        correctValue(store.getAddressId());
 
         storeEntity = StoreEntity.builder()
-                .staff(queryStaff(store.getStaffId()))
-                .address(queryAddress(store.getAddressId()))
+                .staff(queryStaff(store.getStaff()))
+                .address(queryAddress(store.getAddress()))
                 .lastUpdate(new Timestamp((new Date()).getTime()))
                 .build();
         log.info("StoreEntity: {}", storeEntity);
@@ -46,8 +44,8 @@ public class StoreDaoImpl implements StoreDao {
         }
     }
 
-    protected StaffEntity queryStaff(int staffId) throws UnknownStaffException {
-        Optional<StaffEntity> staffEntity = staffRepository.findById(staffId);
+    protected StaffEntity queryStaff(String staff) throws UnknownStaffException {
+        Optional<StaffEntity> staffEntity = staffRepository.findByUsername(staff);
         if (!staffEntity.isPresent()) {
             throw new UnknownStaffException("No Staff Found");
         }
@@ -57,8 +55,8 @@ public class StoreDaoImpl implements StoreDao {
         }
     }
 
-    protected AddressEntity queryAddress(int addressId) throws UnknownAddressException {
-        Optional<AddressEntity> addressEntity = addressRepository.findById(addressId);
+    protected AddressEntity queryAddress(String address) throws UnknownAddressException {
+        Optional<AddressEntity> addressEntity = addressRepository.findByAddress(address);
         if (!addressEntity.isPresent()) {
             throw new UnknownAddressException("No Address Found");
         }
@@ -80,8 +78,8 @@ public class StoreDaoImpl implements StoreDao {
         return StreamSupport.stream(storeRepository.findAll().spliterator(),false)
                 .map(entity -> new Store(
                         entity.getId(),
-                        entity.getStaff().getId(),
-                        entity.getAddress().getId()
+                        entity.getStaff().getUsername(),
+                        entity.getAddress().getAddress()
                 ))
                 .collect(Collectors.toList());
     }
@@ -100,8 +98,8 @@ public class StoreDaoImpl implements StoreDao {
             log.info("Read store (by ID)");
             return new Store(
                             storeEntity.get().getId(),
-                            storeEntity.get().getStaff().getId(),
-                            storeEntity.get().getAddress().getId()
+                            storeEntity.get().getStaff().getUsername(),
+                            storeEntity.get().getAddress().getAddress()
                     );
         }
     }
@@ -120,8 +118,8 @@ public class StoreDaoImpl implements StoreDao {
             return StreamSupport.stream(storeRepository.findByStaffId(staffId).spliterator(),false)
                     .map(entity -> new Store(
                             entity.getId(),
-                            entity.getStaff().getId(),
-                            entity.getAddress().getId()
+                            entity.getStaff().getUsername(),
+                            entity.getAddress().getAddress()
                     ))
                     .collect(Collectors.toList());
         }
@@ -132,8 +130,8 @@ public class StoreDaoImpl implements StoreDao {
         Optional<StoreEntity> storeEntity = StreamSupport.stream(storeRepository.findAll().spliterator(),false).filter(
                 entity ->{
                     return store.getId() == entity.getId() &&
-                            store.getStaffId() == entity.getStaff().getId()  &&
-                            store.getAddressId() == entity.getAddress().getId();
+                            store.getStaff().equals(entity.getStaff().getUsername()) &&
+                            store.getAddress().equals(entity.getAddress().getAddress());
                 }
         ).findAny();
         if (!storeEntity.isPresent()) {
@@ -150,11 +148,9 @@ public class StoreDaoImpl implements StoreDao {
             throw new UnknownStoreException(String.format("Store Not Found %s", store), store);
         }
         correctValue(newStore.getId());
-        correctValue(newStore.getStaffId());
-        correctValue(newStore.getAddressId());
         log.info("Original: " + storeEntity.toString());
-        storeEntity.get().setStaff(queryStaff(newStore.getStaffId()));
-        storeEntity.get().setAddress(queryAddress(newStore.getAddressId()));
+        storeEntity.get().setStaff(queryStaff(newStore.getStaff()));
+        storeEntity.get().setAddress(queryAddress(newStore.getAddress()));
         storeEntity.get().setLastUpdate(new Timestamp((new Date()).getTime()));
         log.info("Updated: " + storeEntity.toString());
         try {

@@ -106,7 +106,7 @@ class AddressServiceImplTest {
                 "address1",
                 "address2",
                 "district",
-                1,
+                "city",
                 "1234",
                 "061234567"
         );
@@ -118,7 +118,7 @@ class AddressServiceImplTest {
                 "newAddress1",
                 "newAddress2",
                 "newDistrict",
-                1,
+                "city",
                 "2345",
                 "062345678"
         );
@@ -131,7 +131,7 @@ class AddressServiceImplTest {
                         "address1",
                         "address2",
                         "district",
-                        1,
+                        "city",
                         "1234",
                         "061234567"
                 ),
@@ -140,7 +140,7 @@ class AddressServiceImplTest {
                         "address10",
                         "address20",
                         "district",
-                        2,
+                        "city",
                         "2345",
                         "062345678"
                 ),
@@ -149,7 +149,7 @@ class AddressServiceImplTest {
                         "address1",
                         "address2",
                         "district",
-                        3,
+                        "city",
                         "3456",
                         "063456789"
                 ));

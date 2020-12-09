@@ -126,7 +126,7 @@ public class CustomerServiceImplTest {
                 "firstName",
                 "lastName",
                 "email",
-                1,
+                "address",
                 0
         );
     }
@@ -138,7 +138,7 @@ public class CustomerServiceImplTest {
                 "newFirstName",
                 "newLastName",
                 "newEmail",
-                2,
+                "newAddress",
                 1
         );
     }
@@ -151,7 +151,7 @@ public class CustomerServiceImplTest {
                         "firstName",
                         "lastName",
                         "email",
-                        1,
+                        "address",
                         0
                 ),
                 new Customer(
@@ -160,7 +160,7 @@ public class CustomerServiceImplTest {
                         "firstName",
                         "lastName",
                         "email",
-                        2,
+                        "address",
                         1
                 ),
                 new Customer(
@@ -169,7 +169,7 @@ public class CustomerServiceImplTest {
                         "firstName",
                         "lastName",
                         "email",
-                        3,
+                        "address",
                         0
                 ));
     }

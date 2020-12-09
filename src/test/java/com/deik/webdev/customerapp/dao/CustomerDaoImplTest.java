@@ -26,8 +26,8 @@ public class CustomerDaoImplTest {
 
     @Test
     public void testCreateCustomer() throws UnknownStoreException, UnknownAddressException, OutOfBoundsException {
-        doReturn(AddressEntity.builder().id(1).build())
-                .when(dao).queryAddress(anyInt());
+        doReturn(AddressEntity.builder().address("address").build())
+                .when(dao).queryAddress(any());
         doReturn(StoreEntity.builder().id(1).build())
                 .when(dao).queryStore(anyInt());
         dao.createCustomer(getCustomer());
@@ -49,7 +49,7 @@ public class CustomerDaoImplTest {
                 "firstName",
                 "lastName",
                 "email",
-                1,
+                "address",
                 0
         );
     }

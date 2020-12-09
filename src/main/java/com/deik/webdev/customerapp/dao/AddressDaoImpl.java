@@ -36,7 +36,7 @@ public class AddressDaoImpl implements AddressDao {
                 .address(address.getAddress())
                 .address2(address.getAddress2())
                 .district(address.getDistrict())
-                .city(queryCity(address.getCityId()))
+                .city(queryCity(address.getCity()))
                 .postalCode(address.getPostalCode())
                 .phone(address.getPhone())
                 .location(geometryFactory.createPoint(new Coordinate()))
@@ -52,8 +52,8 @@ public class AddressDaoImpl implements AddressDao {
         }
     }
 
-    protected CityEntity queryCity(int cityId) throws UnknownCityException {
-        Optional<CityEntity> cityEntity = cityRepository.findById(cityId);
+    protected CityEntity queryCity(String city) throws UnknownCityException {
+        Optional<CityEntity> cityEntity = cityRepository.findByCity(city);
         if (!cityEntity.isPresent()) {
             throw new UnknownCityException("No City Found");
         }
@@ -76,7 +76,7 @@ public class AddressDaoImpl implements AddressDao {
                         entity.getAddress(),
                         entity.getAddress2(),
                         entity.getDistrict(),
-                        entity.getCity().getId(),
+                        entity.getCity().getCity(),
                         entity.getPostalCode(),
                         entity.getPhone()
                 ))
@@ -101,7 +101,7 @@ public class AddressDaoImpl implements AddressDao {
                             entity.getAddress(),
                             entity.getAddress2(),
                             entity.getDistrict(),
-                            entity.getCity().getId(),
+                            entity.getCity().getCity(),
                             entity.getPostalCode(),
                             entity.getPhone()
                     ))
@@ -126,7 +126,7 @@ public class AddressDaoImpl implements AddressDao {
                             entity.getAddress(),
                             entity.getAddress2(),
                             entity.getDistrict(),
-                            entity.getCity().getId(),
+                            entity.getCity().getCity(),
                             entity.getPostalCode(),
                             entity.getPhone()
                     ))
@@ -151,7 +151,7 @@ public class AddressDaoImpl implements AddressDao {
                             entity.getAddress(),
                             entity.getAddress2(),
                             entity.getDistrict(),
-                            entity.getCity().getId(),
+                            entity.getCity().getCity(),
                             entity.getPostalCode(),
                             entity.getPhone()
                     ))
@@ -176,7 +176,7 @@ public class AddressDaoImpl implements AddressDao {
                     addressEntity.get().getAddress(),
                     addressEntity.get().getAddress2(),
                     addressEntity.get().getDistrict(),
-                    addressEntity.get().getCity().getId(),
+                    addressEntity.get().getCity().getCity(),
                     addressEntity.get().getPostalCode(),
                     addressEntity.get().getPhone()
             );
@@ -191,7 +191,7 @@ public class AddressDaoImpl implements AddressDao {
                             address.getAddress().equals(entity.getAddress())  &&
                             address.getAddress2().equals(entity.getAddress2()) &&
                             address.getDistrict().equals(entity.getDistrict()) &&
-                            address.getCityId() == entity.getCity().getId() &&
+                            address.getCity().equals(entity.getCity().getCity()) &&
                             address.getPostalCode().equals(entity.getPostalCode()) &&
                             address.getPhone().equals(entity.getPhone());
                 }
@@ -214,7 +214,7 @@ public class AddressDaoImpl implements AddressDao {
         addressEntity.get().setAddress(newAddress.getAddress());
         addressEntity.get().setAddress2(newAddress.getAddress2());
         addressEntity.get().setDistrict(newAddress.getDistrict());
-        addressEntity.get().setCity(queryCity(newAddress.getCityId()));
+        addressEntity.get().setCity(queryCity(newAddress.getCity()));
         addressEntity.get().setPostalCode(newAddress.getPostalCode());
         addressEntity.get().setPhone(newAddress.getPhone());
         addressEntity.get().setLocation(geometryFactory.createPoint(new Coordinate()));

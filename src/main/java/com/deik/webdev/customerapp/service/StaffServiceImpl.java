@@ -22,8 +22,8 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public Collection<Staff> getStaffByUsername(String username) throws UnknownStaffException, EmptyException {
-        return staffDao.readStaffByUsername(username);
+    public Collection<Staff> getStaffByFirstNameAndLastName(String firstName, String lastName) throws UnknownStaffException, EmptyException {
+        return staffDao.readStaffByFirstNameAndLastName(firstName, lastName);
     }
 
     @Override

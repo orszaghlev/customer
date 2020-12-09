@@ -76,7 +76,7 @@ public class CityControllerTest {
         return new City(
                 1,
                 "city",
-                1
+                "country"
         );
     }
 
@@ -84,14 +84,14 @@ public class CityControllerTest {
         return new CityDto(
                 1,
                 "city",
-                1
+                "country"
         );
     }
 
     private CityUpdateRequestDto getCityUpdateRequestDto() {
         return new CityUpdateRequestDto(
                 "city",
-                1
+                "country"
         );
     }
 
@@ -100,17 +100,17 @@ public class CityControllerTest {
                 new City(
                         1,
                         "city",
-                        1
+                        "country"
                 ),
                 new City(
                         2,
                         "city1",
-                        2
+                        "country1"
                 ),
                 new City(
                         3,
                         "city2",
-                        3
+                        "country2"
                 ));
     }
 

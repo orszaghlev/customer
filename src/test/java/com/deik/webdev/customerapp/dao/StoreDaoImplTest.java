@@ -28,10 +28,10 @@ public class StoreDaoImplTest {
 
     @Test
     public void testCreateStore() throws UnknownStaffException, UnknownAddressException, OutOfBoundsException {
-        doReturn(AddressEntity.builder().id(1).build())
-                .when(dao).queryAddress(anyInt());
-        doReturn(StaffEntity.builder().id(1).build())
-                .when(dao).queryStaff(anyInt());
+        doReturn(AddressEntity.builder().address("address").build())
+                .when(dao).queryAddress(any());
+        doReturn(StaffEntity.builder().username("username").build())
+                .when(dao).queryStaff(any());
         dao.createStore(getStore());
 
         verify(storeRepository, times(1)).save(any());
@@ -47,8 +47,8 @@ public class StoreDaoImplTest {
     private Store getStore() {
         return new Store(
                 1,
-                1,
-                1
+                "staff",
+                "address"
         );
     }
 

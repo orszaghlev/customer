@@ -11,7 +11,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class StoreUpdateRequestDto extends StoreDto {
 
-    private int newStaffId;
-    private int newAddressId;
+    private String newStaff;
+    private String newAddress;
 
 }

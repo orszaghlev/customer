@@ -15,7 +15,7 @@ public class CustomerUpdateRequestDto extends CustomerDto {
     private String newFirstName;
     private String newLastName;
     private String newEmail;
-    private int newAddressId;
+    private String newAddress;
     private int newActive;
 
 }

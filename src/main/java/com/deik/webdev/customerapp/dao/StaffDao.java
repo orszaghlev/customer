@@ -9,7 +9,7 @@ public interface StaffDao {
 
     void createStaff(Staff staff) throws UnknownStoreException, UnknownAddressException, OutOfBoundsException;
     Collection<Staff> readAll();
-    Collection<Staff> readStaffByUsername(String username) throws UnknownStaffException, EmptyException;
+    Collection<Staff> readStaffByFirstNameAndLastName(String firstName, String lastName) throws UnknownStaffException, EmptyException;
     Collection<Staff> readStaffByEmail(String email) throws UnknownStaffException, EmptyException;
     Collection<Staff> readStaffByStoreId(Integer storeId) throws UnknownStaffException, EmptyException;
     Collection<Staff> readActiveStaff(Integer active) throws UnknownStaffException, OutOfBoundsException, EmptyException;

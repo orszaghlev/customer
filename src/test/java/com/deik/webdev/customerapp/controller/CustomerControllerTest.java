@@ -100,7 +100,7 @@ public class CustomerControllerTest {
                 "firstName",
                 "lastName",
                 "email",
-                1,
+                "address",
                 0
         );
     }
@@ -112,7 +112,7 @@ public class CustomerControllerTest {
                 "firstName",
                 "lastName",
                 "email",
-                1,
+                "address",
                 0
         );
     }
@@ -123,7 +123,7 @@ public class CustomerControllerTest {
                 "firstName",
                 "lastName",
                 "email",
-                1,
+                "address",
                 0
         );
     }
@@ -136,7 +136,7 @@ public class CustomerControllerTest {
                         "firstName",
                         "lastName",
                         "email",
-                        1,
+                        "address",
                         0
                 ),
                 new Customer(
@@ -145,7 +145,7 @@ public class CustomerControllerTest {
                         "firstName",
                         "lastName",
                         "email",
-                        2,
+                        "address",
                         1
                 ),
                 new Customer(
@@ -154,7 +154,7 @@ public class CustomerControllerTest {
                         "firstName",
                         "lastName",
                         "email",
-                        3,
+                        "address",
                         0
                 ));
     }
