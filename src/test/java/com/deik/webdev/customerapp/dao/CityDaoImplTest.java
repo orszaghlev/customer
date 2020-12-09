@@ -41,6 +41,7 @@ public class CityDaoImplTest {
 
     private City getCity() {
         return new City(
+                1,
                 "city",
                 "country"
         );

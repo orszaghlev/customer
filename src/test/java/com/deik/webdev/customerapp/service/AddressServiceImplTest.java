@@ -102,6 +102,7 @@ class AddressServiceImplTest {
 
     private Address getAddress() {
         return new Address(
+                1,
                 "address1",
                 "address2",
                 "district",
@@ -114,6 +115,7 @@ class AddressServiceImplTest {
 
     private Address getNewAddress() {
         return new Address(
+                1,
                 "newAddress1",
                 "newAddress2",
                 "newDistrict",
@@ -127,6 +129,7 @@ class AddressServiceImplTest {
     private Collection<Address> getDefaultAddresses() {
         return Arrays.asList(
                 new Address(
+                        1,
                         "address1",
                         "address2",
                         "district",
@@ -136,6 +139,7 @@ class AddressServiceImplTest {
                         "061234567"
                 ),
                 new Address(
+                        2,
                         "address10",
                         "address20",
                         "district",
@@ -145,6 +149,7 @@ class AddressServiceImplTest {
                         "062345678"
                 ),
                 new Address(
+                        3,
                         "address1",
                         "address2",
                         "district",

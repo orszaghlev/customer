@@ -87,6 +87,7 @@ public class AddressControllerTest {
 
     private Address getAddress() {
         return new Address(
+                1,
                 "address1",
                 "address2",
                 "district",
@@ -99,6 +100,7 @@ public class AddressControllerTest {
 
     private AddressDto getAddressDto() {
         return new AddressDto(
+                1,
                 "address1",
                 "address2",
                 "district",
@@ -124,6 +126,7 @@ public class AddressControllerTest {
     private Collection<Address> getAddresses() {
         return Arrays.asList(
                 new Address(
+                        1,
                         "address1",
                         "address2",
                         "district",
@@ -133,6 +136,7 @@ public class AddressControllerTest {
                         "061234567"
                 ),
                 new Address(
+                        2,
                         "address3",
                         "address4",
                         "district",
@@ -142,6 +146,7 @@ public class AddressControllerTest {
                         "061234567"
                 ),
                 new Address(
+                        3,
                         "address5",
                         "address6",
                         "district",

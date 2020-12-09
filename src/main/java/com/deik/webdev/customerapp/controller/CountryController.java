@@ -28,6 +28,7 @@ public class CountryController {
         return service.getAllCountry()
                 .stream()
                 .map(model -> CountryDto.builder()
+                        .id(model.getId())
                         .country(model.getCountry())
                         .build())
                 .collect(Collectors.toList());
@@ -38,6 +39,7 @@ public class CountryController {
         try {
             Country country = service.getCountryById(id);
             return new CountryDto(
+                    country.getId(),
                     country.getCountry());
         } catch (OutOfBoundsException | EmptyException | UnknownCountryException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
@@ -48,6 +50,7 @@ public class CountryController {
     public void recordCountry(@RequestBody CountryDto requestDto) {
         try {
             service.recordCountry(new Country(
+                    requestDto.getId(),
                     requestDto.getCountry()
             ));
         } catch (Exception e) {
@@ -59,6 +62,7 @@ public class CountryController {
     public void deleteCountry(@RequestBody CountryDto requestDto) {
         try {
             service.deleteCountry(new Country(
+                    requestDto.getId(),
                     requestDto.getCountry()
             ));
         } catch (UnknownCountryException e) {
@@ -70,8 +74,10 @@ public class CountryController {
     public void updateCountry(@RequestBody CountryUpdateRequestDto requestDto) {
         try {
             service.updateCountry(new Country(
+                            requestDto.getId(),
                             requestDto.getCountry()),
                     new Country(
+                            requestDto.getId(),
                             requestDto.getNewCountry())
             );
         } catch (UnknownCountryException e) {

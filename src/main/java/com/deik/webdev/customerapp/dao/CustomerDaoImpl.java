@@ -33,7 +33,6 @@ public class CustomerDaoImpl implements CustomerDao {
         correctValue(customer.getAddressId());
 
         customerEntity = CustomerEntity.builder()
-                .id(customer.getId())
                 .store(queryStore(customer.getStoreId()))
                 .firstName(customer.getFirstName())
                 .lastName(customer.getLastName())
@@ -260,7 +259,6 @@ public class CustomerDaoImpl implements CustomerDao {
         correctValue(newCustomer.getStoreId());
         correctValue(newCustomer.getAddressId());
         log.info("Original: " + customerEntity.toString());
-        customerEntity.get().setId(newCustomer.getId());
         customerEntity.get().setStore(queryStore(newCustomer.getStoreId()));
         customerEntity.get().setFirstName(newCustomer.getFirstName());
         customerEntity.get().setLastName(newCustomer.getLastName());

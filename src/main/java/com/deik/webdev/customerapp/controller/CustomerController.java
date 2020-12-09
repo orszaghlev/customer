@@ -180,7 +180,7 @@ public class CustomerController {
                     requestDto.getAddressId(),
                     requestDto.getActive()),
                     new Customer(
-                    requestDto.getNewId(),
+                    requestDto.getId(),
                     requestDto.getNewStoreId(),
                     requestDto.getNewFirstName(),
                     requestDto.getNewLastName(),

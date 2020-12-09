@@ -11,6 +11,7 @@ import lombok.ToString;
 @EqualsAndHashCode
 public class Address {
 
+    private int id;
     private String address;
     private String address2;
     private String district;

@@ -96,7 +96,7 @@ public class StoreController {
                     requestDto.getStaffId(),
                     requestDto.getAddressId()),
                     new Store(
-                    requestDto.getNewId(),
+                    requestDto.getId(),
                     requestDto.getNewStaffId(),
                     requestDto.getNewAddressId())
             );

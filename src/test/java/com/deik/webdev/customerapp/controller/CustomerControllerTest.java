@@ -120,7 +120,6 @@ public class CustomerControllerTest {
     private CustomerUpdateRequestDto getCustomerUpdateRequestDto() {
         return new CustomerUpdateRequestDto(
                 1,
-                1,
                 "firstName",
                 "lastName",
                 "email",

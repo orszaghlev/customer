@@ -74,6 +74,7 @@ public class CityControllerTest {
 
     private City getCity() {
         return new City(
+                1,
                 "city",
                 "country"
         );
@@ -81,6 +82,7 @@ public class CityControllerTest {
 
     private CityDto getCityDto() {
         return new CityDto(
+                1,
                 "city",
                 "country"
         );
@@ -96,14 +98,17 @@ public class CityControllerTest {
     private Collection<City> getCities() {
         return Arrays.asList(
                 new City(
+                        1,
                         "city",
                         "country"
                 ),
                 new City(
+                        2,
                         "city1",
                         "country1"
                 ),
                 new City(
+                        3,
                         "city2",
                         "country2"
                 ));

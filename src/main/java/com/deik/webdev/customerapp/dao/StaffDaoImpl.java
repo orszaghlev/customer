@@ -33,7 +33,6 @@ public class StaffDaoImpl implements StaffDao {
         correctValue(staff.getAddressId());
 
         staffEntity = StaffEntity.builder()
-                .id(staff.getId())
                 .firstName(staff.getFirstName())
                 .lastName(staff.getLastName())
                 .address(queryAddress(staff.getAddressId()))
@@ -273,7 +272,6 @@ public class StaffDaoImpl implements StaffDao {
         correctValue(newStaff.getStoreId());
         correctValue(newStaff.getAddressId());
         log.info("Original: " + staffEntity.toString());
-        staffEntity.get().setId(newStaff.getId());
         staffEntity.get().setFirstName(newStaff.getFirstName());
         staffEntity.get().setLastName(newStaff.getLastName());
         staffEntity.get().setAddress(queryAddress(newStaff.getAddressId()));

@@ -40,6 +40,7 @@ class AddressDaoImplTest {
 
     private Address getAddress() {
         return new Address(
+                1,
                 "address1",
                 "address2",
                 "district",

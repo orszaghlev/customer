@@ -89,6 +89,7 @@ public class CityServiceImplTest {
 
     private City getCity() {
         return new City(
+                1,
                 "city",
                 "country"
         );
@@ -96,6 +97,7 @@ public class CityServiceImplTest {
 
     private City getNewCity() {
         return new City(
+                1,
                 "newCity",
                 "newCountry"
         );
@@ -104,14 +106,17 @@ public class CityServiceImplTest {
     private Collection<City> getDefaultCities() {
         return Arrays.asList(
                 new City(
+                        1,
                         "city",
                         "country"
                 ),
                 new City(
+                        2,
                         "city1",
                         "country1"
                 ),
                 new City(
+                        3,
                         "city2",
                         "country2"
                 ));

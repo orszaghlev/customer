@@ -32,7 +32,6 @@ public class StoreDaoImpl implements StoreDao {
         correctValue(store.getAddressId());
 
         storeEntity = StoreEntity.builder()
-                .id(store.getId())
                 .staff(queryStaff(store.getStaffId()))
                 .address(queryAddress(store.getAddressId()))
                 .lastUpdate(new Timestamp((new Date()).getTime()))
@@ -154,7 +153,6 @@ public class StoreDaoImpl implements StoreDao {
         correctValue(newStore.getStaffId());
         correctValue(newStore.getAddressId());
         log.info("Original: " + storeEntity.toString());
-        storeEntity.get().setId(newStore.getId());
         storeEntity.get().setStaff(queryStaff(newStore.getStaffId()));
         storeEntity.get().setAddress(queryAddress(newStore.getAddressId()));
         storeEntity.get().setLastUpdate(new Timestamp((new Date()).getTime()));

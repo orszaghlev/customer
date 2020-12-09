@@ -123,7 +123,6 @@ public class StaffControllerTest {
 
     private StaffUpdateRequestDto getStaffUpdateRequestDto() {
         return new StaffUpdateRequestDto(
-                1,
                 "firstName",
                 "lastName",
                 1,

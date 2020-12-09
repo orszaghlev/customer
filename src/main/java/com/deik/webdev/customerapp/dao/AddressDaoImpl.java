@@ -85,6 +85,7 @@ public class AddressDaoImpl implements AddressDao {
         log.info("Read all addresses");
         return StreamSupport.stream(addressRepository.findAll().spliterator(),false)
                 .map(entity -> new Address(
+                        entity.getId(),
                         entity.getAddress(),
                         entity.getAddress2(),
                         entity.getDistrict(),
@@ -110,6 +111,7 @@ public class AddressDaoImpl implements AddressDao {
             log.info("Read all addresses (by city)");
             return StreamSupport.stream(addressRepository.findByCity(cityEntity).spliterator(), false)
                     .map(entity -> new Address(
+                            entity.getId(),
                             entity.getAddress(),
                             entity.getAddress2(),
                             entity.getDistrict(),
@@ -135,6 +137,7 @@ public class AddressDaoImpl implements AddressDao {
             log.info("Read all addresses (by district)");
             return StreamSupport.stream(addressRepository.findByDistrict(district).spliterator(), false)
                     .map(entity -> new Address(
+                            entity.getId(),
                             entity.getAddress(),
                             entity.getAddress2(),
                             entity.getDistrict(),
@@ -160,6 +163,7 @@ public class AddressDaoImpl implements AddressDao {
             log.info("Read all addresses (by postal code)");
             return StreamSupport.stream(addressRepository.findByPostalCode(postalCode).spliterator(), false)
                     .map(entity -> new Address(
+                            entity.getId(),
                             entity.getAddress(),
                             entity.getAddress2(),
                             entity.getDistrict(),
@@ -185,6 +189,7 @@ public class AddressDaoImpl implements AddressDao {
         else {
             log.info("Read address (by ID)");
             return new Address(
+                    addressEntity.get().getId(),
                     addressEntity.get().getAddress(),
                     addressEntity.get().getAddress2(),
                     addressEntity.get().getDistrict(),
@@ -200,7 +205,8 @@ public class AddressDaoImpl implements AddressDao {
     public void deleteAddress(Address address) throws UnknownAddressException {
         Optional<AddressEntity> addressEntity = StreamSupport.stream(addressRepository.findAll().spliterator(),false).filter(
                 entity ->{
-                    return address.getAddress().equals(entity.getAddress())  &&
+                    return address.getId() == entity.getId() &&
+                            address.getAddress().equals(entity.getAddress())  &&
                             address.getAddress2().equals(entity.getAddress2()) &&
                             address.getDistrict().equals(entity.getDistrict()) &&
                             address.getCity().equals(entity.getCity().getCity()) &&
@@ -219,7 +225,7 @@ public class AddressDaoImpl implements AddressDao {
         Optional<AddressEntity> addressEntity = addressRepository.findByAddress(address.getAddress());
         GeometryFactory geometryFactory = new GeometryFactory();
         if (!addressEntity.isPresent()) {
-            throw new UnknownAddressException(String.format("Address Not Found %s", address), address);
+            throw new UnknownAddressException(String.format("Address Not Found %s", address));
         }
         log.info("Original: " + addressEntity.toString());
         addressEntity.get().setAddress(newAddress.getAddress());

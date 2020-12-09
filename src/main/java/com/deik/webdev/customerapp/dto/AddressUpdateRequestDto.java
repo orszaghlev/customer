@@ -9,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddressUpdateRequestDto extends AddressRecordRequestDto {
+public class AddressUpdateRequestDto extends AddressDto {
 
     private String newAddress;
     private String newAddress2;

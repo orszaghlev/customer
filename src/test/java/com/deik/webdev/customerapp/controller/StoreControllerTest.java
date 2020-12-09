@@ -88,7 +88,6 @@ public class StoreControllerTest {
     private StoreUpdateRequestDto getStoreUpdateRequestDto() {
         return new StoreUpdateRequestDto(
                 1,
-                1,
                 1
         );
     }

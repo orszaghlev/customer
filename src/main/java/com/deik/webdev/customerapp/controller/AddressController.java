@@ -26,6 +26,7 @@ public class AddressController {
         return service.getAllAddress()
                 .stream()
                 .map(model -> AddressDto.builder()
+                        .id(model.getId())
                         .address(model.getAddress())
                         .address2(model.getAddress2())
                         .district(model.getDistrict())
@@ -43,6 +44,7 @@ public class AddressController {
             return service.getAddressesByCity(city)
                     .stream()
                     .map(model -> AddressDto.builder()
+                            .id(model.getId())
                             .address(model.getAddress())
                             .address2(model.getAddress2())
                             .district(model.getDistrict())
@@ -63,6 +65,7 @@ public class AddressController {
             return service.getAddressesByDistrict(district)
                     .stream()
                     .map(model -> AddressDto.builder()
+                            .id(model.getId())
                             .address(model.getAddress())
                             .address2(model.getAddress2())
                             .district(model.getDistrict())
@@ -83,6 +86,7 @@ public class AddressController {
             return service.getAddressesByPostalCode(postalCode)
                     .stream()
                     .map(model -> AddressDto.builder()
+                            .id(model.getId())
                             .address(model.getAddress())
                             .address2(model.getAddress2())
                             .district(model.getDistrict())
@@ -102,6 +106,7 @@ public class AddressController {
         try {
             Address address = service.getAddressById(id);
             return new AddressDto(
+                    address.getId(),
                     address.getAddress(),
                     address.getAddress2(),
                     address.getDistrict(),
@@ -118,6 +123,7 @@ public class AddressController {
     public void recordAddress(@RequestBody AddressDto requestDto) {
         try {
             service.recordAddress(new Address(
+                    requestDto.getId(),
                     requestDto.getAddress(),
                     requestDto.getAddress2(),
                     requestDto.getDistrict(),
@@ -135,6 +141,7 @@ public class AddressController {
     public void deleteAddress(@RequestBody AddressDto requestDto) {
         try {
             service.deleteAddress(new Address(
+                    requestDto.getId(),
                     requestDto.getAddress(),
                     requestDto.getAddress2(),
                     requestDto.getDistrict(),
@@ -152,6 +159,7 @@ public class AddressController {
     public void updateAddress(@RequestBody AddressUpdateRequestDto requestDto) {
         try {
             service.updateAddress(new Address(
+                    requestDto.getId(),
                     requestDto.getAddress(),
                     requestDto.getAddress2(),
                     requestDto.getDistrict(),
@@ -160,6 +168,7 @@ public class AddressController {
                     requestDto.getPostalCode(),
                     requestDto.getPhone()),
                     new Address(
+                    requestDto.getId(),
                     requestDto.getNewAddress(),
                     requestDto.getNewAddress2(),
                     requestDto.getNewDistrict(),

@@ -198,7 +198,7 @@ public class StaffController {
                     requestDto.getUsername(),
                     requestDto.getPassword()),
                     new Staff(
-                    requestDto.getNewId(),
+                    requestDto.getId(),
                     requestDto.getNewFirstName(),
                     requestDto.getNewLastName(),
                     requestDto.getNewAddressId(),
