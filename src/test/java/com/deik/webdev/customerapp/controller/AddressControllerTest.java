@@ -1,7 +1,6 @@
 package com.deik.webdev.customerapp.controller;
 
 import com.deik.webdev.customerapp.dto.AddressDto;
-import com.deik.webdev.customerapp.dto.AddressRecordRequestDto;
 import com.deik.webdev.customerapp.dto.AddressUpdateRequestDto;
 import com.deik.webdev.customerapp.exception.*;
 import com.deik.webdev.customerapp.model.Address;
@@ -66,21 +65,21 @@ public class AddressControllerTest {
     }
 
     @Test
-    public void testRecordAddress() throws UnknownCountryException {
-        addressController.recordAddress(getAddressRecordRequestDto());
+    public void testRecordAddress() throws UnknownCityException {
+        addressController.recordAddress(getAddressDto());
 
         verify(addressService, times(1)).recordAddress(getAddress());
     }
 
     @Test
     public void testDeleteAddress() throws UnknownAddressException {
-        addressController.deleteAddress(getAddressRecordRequestDto());
+        addressController.deleteAddress(getAddressDto());
 
         verify(addressService, times(1)).deleteAddress(any());
     }
 
     @Test
-    public void testUpdateAddress() throws UnknownAddressException, UnknownCountryException {
+    public void testUpdateAddress() throws UnknownAddressException, UnknownCityException {
         addressController.updateAddress(getAddressUpdateRequestDto());
 
         verify(addressService, times(1)).updateAddress(any(), any());
@@ -88,11 +87,11 @@ public class AddressControllerTest {
 
     private Address getAddress() {
         return new Address(
-                null,
-                null,
-                null,
-                null,
-                null,
+                1,
+                "address1",
+                "address2",
+                "district",
+                "city",
                 "1234",
                 "061234567"
         );
@@ -100,18 +99,13 @@ public class AddressControllerTest {
 
     private AddressDto getAddressDto() {
         return new AddressDto(
+                1,
                 "address1",
                 "address2",
                 "district",
-                "UnknownCity",
-                "Algeria_1234"
-        );
-    }
-
-    private AddressRecordRequestDto getAddressRecordRequestDto() {
-        return new AddressRecordRequestDto(
-                "061234567",
-                "1234"
+                "city",
+                "1234",
+                "061234567"
         );
     }
 
@@ -120,8 +114,7 @@ public class AddressControllerTest {
                 "address1",
                 "address2",
                 "district",
-                "UnknownCity",
-                "Algeria_1234",
+                "city",
                 "1234",
                 "061234567"
         );
@@ -130,29 +123,29 @@ public class AddressControllerTest {
     private Collection<Address> getAddresses() {
         return Arrays.asList(
                 new Address(
+                        1,
                         "address1",
                         "address2",
                         "district",
-                        "UnknownCity",
-                        "Algeria_1234",
+                        "city",
                         "1234",
                         "061234567"
                 ),
                 new Address(
+                        2,
                         "address3",
                         "address4",
                         "district",
-                        "UnknownCity",
-                        "Algeria_1234",
+                        "city",
                         "1234",
                         "061234567"
                 ),
                 new Address(
+                        3,
                         "address5",
                         "address6",
                         "district",
-                        "UnknownCity",
-                        "Algeria_1234",
+                        "city",
                         "1234",
                         "061234567"
                 )

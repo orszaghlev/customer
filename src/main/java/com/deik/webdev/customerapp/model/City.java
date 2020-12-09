@@ -11,6 +11,7 @@ import lombok.ToString;
 @EqualsAndHashCode
 public class City {
 
+    private int id;
     private String city;
     private String country;
 

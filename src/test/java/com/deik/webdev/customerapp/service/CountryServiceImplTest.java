@@ -69,12 +69,14 @@ public class CountryServiceImplTest {
 
     private Country getCountry() {
         return new Country(
+                1,
                 "country"
         );
     }
 
     private Country getNewCountry() {
         return new Country(
+                1,
                 "newCountry"
         );
     }
@@ -82,12 +84,15 @@ public class CountryServiceImplTest {
     private Collection<Country> getDefaultCountries() {
         return Arrays.asList(
                 new Country(
+                        1,
                         "country"
                 ),
                 new Country(
+                        2,
                         "country1"
                 ),
                 new Country(
+                        3,
                         "country2"
                 ));
     }

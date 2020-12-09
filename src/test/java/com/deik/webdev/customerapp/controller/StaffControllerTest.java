@@ -33,11 +33,11 @@ public class StaffControllerTest {
     }
 
     @Test
-    public void testListStaffByUsername() throws UnknownStaffException, EmptyException {
-        when(staffService.getStaffByUsername(any())).thenReturn(getStaffs());
-        staffController.listStaffByUsername(anyString());
+    public void testListStaffByFirstNameAndLastName() throws UnknownStaffException, EmptyException {
+        when(staffService.getStaffByFirstNameAndLastName(any(), any())).thenReturn(getStaffs());
+        staffController.listStaffByFirstNameAndLastName(anyString(), anyString());
 
-        verify(staffService, times(1)).getStaffByUsername(anyString());
+        verify(staffService, times(1)).getStaffByFirstNameAndLastName(anyString(), anyString());
     }
 
     @Test
@@ -49,7 +49,7 @@ public class StaffControllerTest {
     }
 
     @Test
-    public void testListStaffByStoreId() throws UnknownStaffException, EmptyException {
+    public void testListStaffByStoreId() throws UnknownStaffException, EmptyException, OutOfBoundsException {
         when(staffService.getStaffByStoreId(any())).thenReturn(getStaffs());
         staffController.listStaffByStoreId(anyInt());
 
@@ -57,11 +57,11 @@ public class StaffControllerTest {
     }
 
     @Test
-    public void testListActiveStaff() throws UnknownStaffException, EmptyException, OutOfBoundsException {
-        when(staffService.getActiveStaff(any())).thenReturn(getStaffs());
-        staffController.listActiveStaff(anyInt());
+    public void testListStaffByActivity() throws UnknownStaffException, EmptyException, OutOfBoundsException {
+        when(staffService.getStaffByActivity(any())).thenReturn(getStaffs());
+        staffController.listStaffByActivity(anyInt());
 
-        verify(staffService, times(1)).getActiveStaff(anyInt());
+        verify(staffService, times(1)).getStaffByActivity(anyInt());
     }
 
     @Test
@@ -98,7 +98,7 @@ public class StaffControllerTest {
                 1,
                 "firstName",
                 "lastName",
-                1,
+                "address",
                 "email",
                 1,
                 0,
@@ -112,7 +112,7 @@ public class StaffControllerTest {
                 1,
                 "firstName",
                 "lastName",
-                1,
+                "address",
                 "email",
                 1,
                 0,
@@ -123,10 +123,9 @@ public class StaffControllerTest {
 
     private StaffUpdateRequestDto getStaffUpdateRequestDto() {
         return new StaffUpdateRequestDto(
-                1,
                 "firstName",
                 "lastName",
-                1,
+                "address",
                 "email",
                 1,
                 0,
@@ -141,7 +140,7 @@ public class StaffControllerTest {
                         1,
                         "firstName",
                         "lastName",
-                        1,
+                        "address",
                         "email",
                         1,
                         0,
@@ -152,7 +151,7 @@ public class StaffControllerTest {
                         2,
                         "firstName",
                         "lastName",
-                        2,
+                        "address",
                         "email",
                         2,
                         1,
@@ -163,7 +162,7 @@ public class StaffControllerTest {
                         3,
                         "firstName",
                         "lastName",
-                        3,
+                        "address",
                         "email",
                         3,
                         0,

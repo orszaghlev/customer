@@ -27,7 +27,7 @@ class AddressServiceImplTest {
     private AddressDao dao;
 
     @Test
-    public void testRecordAddress() throws UnknownCountryException {
+    public void testRecordAddress() throws UnknownCityException {
         Address address = getAddress();
         service.recordAddress(address);
 
@@ -35,10 +35,10 @@ class AddressServiceImplTest {
     }
 
     @Test
-    public void testRecordAddressWithUnknownCountry() throws UnknownCountryException {
-        doThrow(UnknownCountryException.class).when(dao).createAddress(any());
+    public void testRecordAddressWithUnknownCity() throws UnknownCityException {
+        doThrow(UnknownCityException.class).when(dao).createAddress(any());
 
-        assertThrows(UnknownCountryException.class, ()->{
+        assertThrows(UnknownCityException.class, ()->{
             service.recordAddress(getAddress());
         });
     }
@@ -52,7 +52,7 @@ class AddressServiceImplTest {
     }
 
     @Test
-    public void testReadAddressesFromCity() throws UnknownAddressException, EmptyException {
+    public void testReadAddressesByCity() throws UnknownAddressException, EmptyException {
         final String city = "city";
         Collection<Address> actual = service.getAddressesByCity(city);
 
@@ -60,7 +60,7 @@ class AddressServiceImplTest {
     }
 
     @Test
-    public void testReadAddressesFromDistrict() throws UnknownAddressException, EmptyException {
+    public void testReadAddressesByDistrict() throws UnknownAddressException, EmptyException {
         final String district = "district";
         Collection<Address> actual = service.getAddressesByDistrict(district);
 
@@ -68,7 +68,7 @@ class AddressServiceImplTest {
     }
 
     @Test
-    public void testReadAddressesFromPostalCode() throws UnknownAddressException, EmptyException {
+    public void testReadAddressesByPostalCode() throws UnknownAddressException, EmptyException {
         final String postalCode = "1234";
         Collection<Address> actual = service.getAddressesByPostalCode(postalCode);
 
@@ -92,7 +92,7 @@ class AddressServiceImplTest {
     }
 
     @Test
-    public void testUpdateAddress() throws UnknownCountryException, UnknownAddressException {
+    public void testUpdateAddress() throws UnknownCityException, UnknownAddressException {
         Address address = getAddress();
         Address newAddress = getNewAddress();
         service.updateAddress(address, newAddress);
@@ -102,11 +102,11 @@ class AddressServiceImplTest {
 
     private Address getAddress() {
         return new Address(
+                1,
                 "address1",
                 "address2",
                 "district",
-                "UnknownCity",
-                "Algeria_1234",
+                "city",
                 "1234",
                 "061234567"
         );
@@ -114,11 +114,11 @@ class AddressServiceImplTest {
 
     private Address getNewAddress() {
         return new Address(
+                1,
                 "newAddress1",
                 "newAddress2",
                 "newDistrict",
-                "newUnknownCity",
-                "newAlgeria_1234",
+                "city",
                 "2345",
                 "062345678"
         );
@@ -127,29 +127,29 @@ class AddressServiceImplTest {
     private Collection<Address> getDefaultAddresses() {
         return Arrays.asList(
                 new Address(
+                        1,
                         "address1",
                         "address2",
                         "district",
-                        "Atlantis",
-                        "Greece",
+                        "city",
                         "1234",
                         "061234567"
                 ),
                 new Address(
+                        2,
                         "address10",
                         "address20",
                         "district",
-                        "Atlantis",
-                        "Greece",
+                        "city",
                         "2345",
                         "062345678"
                 ),
                 new Address(
+                        3,
                         "address1",
                         "address2",
                         "district",
-                        "Debrecen",
-                        "Hungary",
+                        "city",
                         "3456",
                         "063456789"
                 ));

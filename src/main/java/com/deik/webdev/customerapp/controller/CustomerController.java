@@ -31,7 +31,7 @@ public class CustomerController {
                         .firstName(model.getFirstName())
                         .lastName(model.getLastName())
                         .email(model.getEmail())
-                        .addressId(model.getAddressId())
+                        .address(model.getAddress())
                         .active(model.getActive())
                         .build())
                 .collect(Collectors.toList());
@@ -48,7 +48,7 @@ public class CustomerController {
                             .firstName(model.getFirstName())
                             .lastName(model.getLastName())
                             .email(model.getEmail())
-                            .addressId(model.getAddressId())
+                            .address(model.getAddress())
                             .active(model.getActive())
                             .build())
                     .collect(Collectors.toList());
@@ -68,7 +68,7 @@ public class CustomerController {
                             .firstName(model.getFirstName())
                             .lastName(model.getLastName())
                             .email(model.getEmail())
-                            .addressId(model.getAddressId())
+                            .address(model.getAddress())
                             .active(model.getActive())
                             .build())
                     .collect(Collectors.toList());
@@ -88,19 +88,19 @@ public class CustomerController {
                             .firstName(model.getFirstName())
                             .lastName(model.getLastName())
                             .email(model.getEmail())
-                            .addressId(model.getAddressId())
+                            .address(model.getAddress())
                             .active(model.getActive())
                             .build())
                     .collect(Collectors.toList());
-        } catch (EmptyException | UnknownCustomerException e) {
+        } catch (OutOfBoundsException | EmptyException | UnknownCustomerException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 
     @GetMapping("/customer/{active}")
-    public Collection<CustomerDto> listActiveCustomers(Integer active) {
+    public Collection<CustomerDto> listCustomersByActivity(Integer active) {
         try {
-            return service.getActiveCustomers(active)
+            return service.getCustomersByActivity(active)
                     .stream()
                     .map(model -> CustomerDto.builder()
                             .id(model.getId())
@@ -108,7 +108,7 @@ public class CustomerController {
                             .firstName(model.getFirstName())
                             .lastName(model.getLastName())
                             .email(model.getEmail())
-                            .addressId(model.getAddressId())
+                            .address(model.getAddress())
                             .active(model.getActive())
                             .build())
                     .collect(Collectors.toList());
@@ -127,7 +127,7 @@ public class CustomerController {
                     customer.getFirstName(),
                     customer.getLastName(),
                     customer.getEmail(),
-                    customer.getAddressId(),
+                    customer.getAddress(),
                     customer.getActive());
         } catch (OutOfBoundsException | EmptyException | UnknownCustomerException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
@@ -143,7 +143,7 @@ public class CustomerController {
                     requestDto.getFirstName(),
                     requestDto.getLastName(),
                     requestDto.getEmail(),
-                    requestDto.getAddressId(),
+                    requestDto.getAddress(),
                     requestDto.getActive()
             ));
         } catch (OutOfBoundsException | UnknownStoreException | UnknownAddressException e) {
@@ -160,7 +160,7 @@ public class CustomerController {
                     requestDto.getFirstName(),
                     requestDto.getLastName(),
                     requestDto.getEmail(),
-                    requestDto.getAddressId(),
+                    requestDto.getAddress(),
                     requestDto.getActive()
             ));
         } catch (UnknownCustomerException e) {
@@ -177,15 +177,15 @@ public class CustomerController {
                     requestDto.getFirstName(),
                     requestDto.getLastName(),
                     requestDto.getEmail(),
-                    requestDto.getAddressId(),
+                    requestDto.getAddress(),
                     requestDto.getActive()),
                     new Customer(
-                    requestDto.getNewId(),
+                    requestDto.getId(),
                     requestDto.getNewStoreId(),
                     requestDto.getNewFirstName(),
                     requestDto.getNewLastName(),
                     requestDto.getNewEmail(),
-                    requestDto.getNewAddressId(),
+                    requestDto.getNewAddress(),
                     requestDto.getNewActive())
             );
         } catch (OutOfBoundsException | UnknownStoreException | UnknownAddressException | UnknownCustomerException e) {

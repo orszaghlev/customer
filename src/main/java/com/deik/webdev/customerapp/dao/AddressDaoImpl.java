@@ -2,12 +2,10 @@ package com.deik.webdev.customerapp.dao;
 
 import com.deik.webdev.customerapp.entity.AddressEntity;
 import com.deik.webdev.customerapp.entity.CityEntity;
-import com.deik.webdev.customerapp.entity.CountryEntity;
 import com.deik.webdev.customerapp.exception.*;
 import com.deik.webdev.customerapp.model.Address;
 import com.deik.webdev.customerapp.repository.AddressRepository;
 import com.deik.webdev.customerapp.repository.CityRepository;
-import com.deik.webdev.customerapp.repository.CountryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.locationtech.jts.geom.Coordinate;
@@ -28,10 +26,9 @@ public class AddressDaoImpl implements AddressDao {
 
     private final AddressRepository addressRepository;
     private final CityRepository cityRepository;
-    private final CountryRepository countryRepository;
 
     @Override
-    public void createAddress(Address address) throws UnknownCountryException {
+    public void createAddress(Address address) throws UnknownCityException {
         AddressEntity addressEntity;
         GeometryFactory geometryFactory = new GeometryFactory();
 
@@ -39,11 +36,11 @@ public class AddressDaoImpl implements AddressDao {
                 .address(address.getAddress())
                 .address2(address.getAddress2())
                 .district(address.getDistrict())
+                .city(queryCity(address.getCity()))
                 .postalCode(address.getPostalCode())
                 .phone(address.getPhone())
                 .location(geometryFactory.createPoint(new Coordinate()))
                 .lastUpdate(new Timestamp((new Date()).getTime()))
-                .city(queryCity(address.getCity(), address.getCountry()))
                 .build();
         log.info("AddressEntity: {}", addressEntity);
         try {
@@ -55,28 +52,18 @@ public class AddressDaoImpl implements AddressDao {
         }
     }
 
-    protected CityEntity queryCity(String city, String country) throws UnknownCountryException {
+    protected CityEntity queryCity(String city) throws UnknownCityException {
         Optional<CityEntity> cityEntity = cityRepository.findByCity(city);
         if (!cityEntity.isPresent()) {
-            Optional<CountryEntity> countryEntity = countryRepository.findByCountry(country);
-            if (!countryEntity.isPresent()) {
-                throw new UnknownCountryException(country);
-            }
-            cityEntity = Optional.ofNullable(CityEntity.builder()
-                    .city(city)
-                    .country(countryEntity.get())
-                    .lastUpdate(new Timestamp((new Date()).getTime()))
-                    .build());
-            cityRepository.save(cityEntity.get());
-            log.info("Recorded new City: {}, {}", city, country);
+            throw new UnknownCityException("No City Found");
         }
         log.trace("CityEntity: {}", cityEntity);
         return cityEntity.get();
     }
 
     private void correctValue(int value) throws OutOfBoundsException {
-        if (value < 0) {
-            throw new OutOfBoundsException("Value can't be smaller than 0!");
+        if (value <= 0) {
+            throw new OutOfBoundsException("Value can't be smaller than 1!");
         }
     }
 
@@ -85,11 +72,11 @@ public class AddressDaoImpl implements AddressDao {
         log.info("Read all addresses");
         return StreamSupport.stream(addressRepository.findAll().spliterator(),false)
                 .map(entity -> new Address(
+                        entity.getId(),
                         entity.getAddress(),
                         entity.getAddress2(),
                         entity.getDistrict(),
                         entity.getCity().getCity(),
-                        entity.getCity().getCountry().getCountry(),
                         entity.getPostalCode(),
                         entity.getPhone()
                 ))
@@ -110,11 +97,11 @@ public class AddressDaoImpl implements AddressDao {
             log.info("Read all addresses (by city)");
             return StreamSupport.stream(addressRepository.findByCity(cityEntity).spliterator(), false)
                     .map(entity -> new Address(
+                            entity.getId(),
                             entity.getAddress(),
                             entity.getAddress2(),
                             entity.getDistrict(),
                             entity.getCity().getCity(),
-                            entity.getCity().getCountry().getCountry(),
                             entity.getPostalCode(),
                             entity.getPhone()
                     ))
@@ -135,11 +122,11 @@ public class AddressDaoImpl implements AddressDao {
             log.info("Read all addresses (by district)");
             return StreamSupport.stream(addressRepository.findByDistrict(district).spliterator(), false)
                     .map(entity -> new Address(
+                            entity.getId(),
                             entity.getAddress(),
                             entity.getAddress2(),
                             entity.getDistrict(),
                             entity.getCity().getCity(),
-                            entity.getCity().getCountry().getCountry(),
                             entity.getPostalCode(),
                             entity.getPhone()
                     ))
@@ -160,11 +147,11 @@ public class AddressDaoImpl implements AddressDao {
             log.info("Read all addresses (by postal code)");
             return StreamSupport.stream(addressRepository.findByPostalCode(postalCode).spliterator(), false)
                     .map(entity -> new Address(
+                            entity.getId(),
                             entity.getAddress(),
                             entity.getAddress2(),
                             entity.getDistrict(),
                             entity.getCity().getCity(),
-                            entity.getCity().getCountry().getCountry(),
                             entity.getPostalCode(),
                             entity.getPhone()
                     ))
@@ -185,11 +172,11 @@ public class AddressDaoImpl implements AddressDao {
         else {
             log.info("Read address (by ID)");
             return new Address(
+                    addressEntity.get().getId(),
                     addressEntity.get().getAddress(),
                     addressEntity.get().getAddress2(),
                     addressEntity.get().getDistrict(),
                     addressEntity.get().getCity().getCity(),
-                    addressEntity.get().getCity().getCountry().getCountry(),
                     addressEntity.get().getPostalCode(),
                     addressEntity.get().getPhone()
             );
@@ -200,11 +187,13 @@ public class AddressDaoImpl implements AddressDao {
     public void deleteAddress(Address address) throws UnknownAddressException {
         Optional<AddressEntity> addressEntity = StreamSupport.stream(addressRepository.findAll().spliterator(),false).filter(
                 entity ->{
-                    return address.getAddress().equals(entity.getAddress())  &&
+                    return address.getId() == entity.getId() &&
+                            address.getAddress().equals(entity.getAddress())  &&
                             address.getAddress2().equals(entity.getAddress2()) &&
                             address.getDistrict().equals(entity.getDistrict()) &&
                             address.getCity().equals(entity.getCity().getCity()) &&
-                            address.getCountry().equals(entity.getCity().getCountry().getCountry());
+                            address.getPostalCode().equals(entity.getPostalCode()) &&
+                            address.getPhone().equals(entity.getPhone());
                 }
         ).findAny();
         if (!addressEntity.isPresent()) {
@@ -215,17 +204,17 @@ public class AddressDaoImpl implements AddressDao {
     }
 
     @Override
-    public void updateAddress(Address address, Address newAddress) throws UnknownCountryException, UnknownAddressException {
+    public void updateAddress(Address address, Address newAddress) throws UnknownCityException, UnknownAddressException {
         Optional<AddressEntity> addressEntity = addressRepository.findByAddress(address.getAddress());
         GeometryFactory geometryFactory = new GeometryFactory();
         if (!addressEntity.isPresent()) {
-            throw new UnknownAddressException(String.format("Address Not Found %s", address), address);
+            throw new UnknownAddressException(String.format("Address Not Found %s", address));
         }
         log.info("Original: " + addressEntity.toString());
         addressEntity.get().setAddress(newAddress.getAddress());
         addressEntity.get().setAddress2(newAddress.getAddress2());
         addressEntity.get().setDistrict(newAddress.getDistrict());
-        addressEntity.get().setCity(queryCity(newAddress.getCity(), newAddress.getCountry()));
+        addressEntity.get().setCity(queryCity(newAddress.getCity()));
         addressEntity.get().setPostalCode(newAddress.getPostalCode());
         addressEntity.get().setPhone(newAddress.getPhone());
         addressEntity.get().setLocation(geometryFactory.createPoint(new Coordinate()));

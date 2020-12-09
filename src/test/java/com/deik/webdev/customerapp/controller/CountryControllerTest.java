@@ -65,12 +65,14 @@ public class CountryControllerTest {
 
     private Country getCountry() {
         return new Country(
+                1,
                 "country"
         );
     }
 
     private CountryDto getCountryDto() {
         return new CountryDto(
+                1,
                 "country"
         );
     }
@@ -84,12 +86,15 @@ public class CountryControllerTest {
     private Collection<Country> getCountries() {
         return Arrays.asList(
                 new Country(
+                        1,
                         "country"
                 ),
                 new Country(
+                        2,
                         "country1"
                 ),
                 new Country(
+                        3,
                         "country2"
                 ));
     }

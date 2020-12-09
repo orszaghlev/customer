@@ -50,23 +50,15 @@ public class CityDaoImpl implements CityDao {
     protected CountryEntity queryCountry(String country) throws UnknownCountryException {
         Optional<CountryEntity> countryEntity = countryRepository.findByCountry(country);
         if (!countryEntity.isPresent()) {
-            throw new UnknownCountryException(country);
+            throw new UnknownCountryException("No Country Found");
         }
-        else {
-            countryEntity = Optional.ofNullable(CountryEntity.builder()
-                    .country(country)
-                    .lastUpdate(new Timestamp((new Date()).getTime()))
-                    .build());
-            countryRepository.save(countryEntity.get());
-            log.info("Recorded new Country: {}", country);
-        }
-        log.trace("Country Entity: {}", countryEntity);
+        log.trace("CountryEntity: {}", countryEntity);
         return countryEntity.get();
     }
 
     private void correctValue(int value) throws OutOfBoundsException {
-        if (value < 0) {
-            throw new OutOfBoundsException("Value can't be smaller than 0!");
+        if (value <= 0) {
+            throw new OutOfBoundsException("Value can't be smaller than 1!");
         }
     }
 
@@ -75,6 +67,7 @@ public class CityDaoImpl implements CityDao {
         log.info("Read all cities");
         return StreamSupport.stream(cityRepository.findAll().spliterator(),false)
                 .map(entity -> new City(
+                        entity.getId(),
                         entity.getCity(),
                         entity.getCountry().getCountry()
                 ))
@@ -95,6 +88,7 @@ public class CityDaoImpl implements CityDao {
             log.info("Read all cities (by country)");
             return StreamSupport.stream(cityRepository.findByCountry(countryEntity).spliterator(),false)
                     .map(entity -> new City(
+                            entity.getId(),
                             entity.getCity(),
                             entity.getCountry().getCountry()
                     ))
@@ -115,6 +109,7 @@ public class CityDaoImpl implements CityDao {
         else {
             log.info("Read city (by ID)");
             return new City(
+                    cityEntity.get().getId(),
                     cityEntity.get().getCity(),
                     cityEntity.get().getCountry().getCountry()
             );
@@ -125,7 +120,8 @@ public class CityDaoImpl implements CityDao {
     public void deleteCity(City city) throws UnknownCityException {
         Optional<CityEntity> cityEntity = StreamSupport.stream(cityRepository.findAll().spliterator(),false).filter(
                 entity ->{
-                    return city.getCity().equals(entity.getCity()) &&
+                    return city.getId() == entity.getId() &&
+                            city.getCity().equals(entity.getCity()) &&
                             city.getCountry().equals(entity.getCountry().getCountry());
                 }
         ).findAny();
@@ -138,7 +134,7 @@ public class CityDaoImpl implements CityDao {
 
     @Override
     public void updateCity(City city, City newCity) throws UnknownCountryException, UnknownCityException {
-        Optional<CityEntity> cityEntity = cityRepository.findByCity(city.getCity());
+        Optional<CityEntity> cityEntity = cityRepository.findById(city.getId());
         if (!cityEntity.isPresent()) {
             throw new UnknownCityException(String.format("City Not Found %s", city), city);
         }

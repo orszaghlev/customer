@@ -11,10 +11,12 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class AddressDto {
 
+    private int id;
     private String address;
     private String address2;
     private String district;
     private String city;
-    private String country;
+    private String postalCode;
+    private String phone;
 
 }

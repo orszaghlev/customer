@@ -32,13 +32,13 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Collection<Customer> getCustomersByStoreId(Integer storeId) throws UnknownCustomerException, EmptyException {
+    public Collection<Customer> getCustomersByStoreId(Integer storeId) throws UnknownCustomerException, EmptyException, OutOfBoundsException {
         return customerDao.readCustomersByStoreId(storeId);
     }
 
     @Override
-    public Collection<Customer> getActiveCustomers(Integer active) throws UnknownCustomerException, OutOfBoundsException, EmptyException {
-        return customerDao.readActiveCustomers(active);
+    public Collection<Customer> getCustomersByActivity(Integer active) throws UnknownCustomerException, OutOfBoundsException, EmptyException {
+        return customerDao.readCustomersByActivity(active);
     }
 
     @Override

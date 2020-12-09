@@ -53,9 +53,9 @@ public class StoreServiceImplTest {
     }
 
     @Test
-    public void testReadStoresByStaffId() throws UnknownStoreException, EmptyException {
-        final Integer staffId = 1;
-        Collection<Store> actual = service.getStoresByStaffId(staffId);
+    public void testReadStoresByStaff() throws UnknownStoreException, EmptyException {
+        final String staff = "staff";
+        Collection<Store> actual = service.getStoresByStaff(staff);
 
         assertThat(Collections.emptyList(), is(actual));
     }
@@ -88,16 +88,16 @@ public class StoreServiceImplTest {
     private Store getStore() {
         return new Store(
                 1,
-                1,
-                1
+                "staff",
+                "address"
         );
     }
 
     private Store getNewStore() {
         return new Store(
                 2,
-                2,
-                2
+                "newStaff",
+                "newAddress"
         );
     }
 
@@ -105,18 +105,18 @@ public class StoreServiceImplTest {
         return Arrays.asList(
                 new Store(
                         1,
-                        1,
-                        1
+                        "staff",
+                        "address"
                 ),
                 new Store(
                         2,
-                        2,
-                        2
+                        "staff",
+                        "address"
                 ),
                 new Store(
                         3,
-                        3,
-                        3
+                        "staff",
+                        "address"
                 ));
     }
 

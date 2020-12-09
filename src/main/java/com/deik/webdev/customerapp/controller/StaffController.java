@@ -29,7 +29,7 @@ public class StaffController {
                         .id(model.getId())
                         .firstName(model.getFirstName())
                         .lastName(model.getLastName())
-                        .addressId(model.getAddressId())
+                        .address(model.getAddress())
                         .email(model.getEmail())
                         .storeId(model.getStoreId())
                         .active(model.getActive())
@@ -39,16 +39,16 @@ public class StaffController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/staff/{username}")
-    public Collection<StaffDto> listStaffByUsername(String username) {
+    @GetMapping("/staff/{firstName}/{lastName}")
+    public Collection<StaffDto> listStaffByFirstNameAndLastName(String firstName, String lastName) {
         try {
-            return service.getStaffByUsername(username)
+            return service.getStaffByFirstNameAndLastName(firstName, lastName)
                 .stream()
                 .map(model -> StaffDto.builder()
                         .id(model.getId())
                         .firstName(model.getFirstName())
                         .lastName(model.getLastName())
-                        .addressId(model.getAddressId())
+                        .address(model.getAddress())
                         .email(model.getEmail())
                         .storeId(model.getStoreId())
                         .active(model.getActive())
@@ -70,7 +70,7 @@ public class StaffController {
                             .id(model.getId())
                             .firstName(model.getFirstName())
                             .lastName(model.getLastName())
-                            .addressId(model.getAddressId())
+                            .address(model.getAddress())
                             .email(model.getEmail())
                             .storeId(model.getStoreId())
                             .active(model.getActive())
@@ -92,7 +92,7 @@ public class StaffController {
                             .id(model.getId())
                             .firstName(model.getFirstName())
                             .lastName(model.getLastName())
-                            .addressId(model.getAddressId())
+                            .address(model.getAddress())
                             .email(model.getEmail())
                             .storeId(model.getStoreId())
                             .active(model.getActive())
@@ -100,21 +100,21 @@ public class StaffController {
                             .password(model.getPassword())
                             .build())
                     .collect(Collectors.toList());
-        } catch (EmptyException | UnknownStaffException e) {
+        } catch (OutOfBoundsException | EmptyException | UnknownStaffException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 
     @GetMapping("/staff/{active}")
-    public Collection<StaffDto> listActiveStaff(Integer active) {
+    public Collection<StaffDto> listStaffByActivity(Integer active) {
         try {
-            return service.getActiveStaff(active)
+            return service.getStaffByActivity(active)
                     .stream()
                     .map(model -> StaffDto.builder()
                             .id(model.getId())
                             .firstName(model.getFirstName())
                             .lastName(model.getLastName())
-                            .addressId(model.getAddressId())
+                            .address(model.getAddress())
                             .email(model.getEmail())
                             .storeId(model.getStoreId())
                             .active(model.getActive())
@@ -135,7 +135,7 @@ public class StaffController {
                     staff.getId(),
                     staff.getFirstName(),
                     staff.getLastName(),
-                    staff.getAddressId(),
+                    staff.getAddress(),
                     staff.getEmail(),
                     staff.getStoreId(),
                     staff.getActive(),
@@ -153,7 +153,7 @@ public class StaffController {
                     requestDto.getId(),
                     requestDto.getFirstName(),
                     requestDto.getLastName(),
-                    requestDto.getAddressId(),
+                    requestDto.getAddress(),
                     requestDto.getEmail(),
                     requestDto.getStoreId(),
                     requestDto.getActive(),
@@ -172,7 +172,7 @@ public class StaffController {
                     requestDto.getId(),
                     requestDto.getFirstName(),
                     requestDto.getLastName(),
-                    requestDto.getAddressId(),
+                    requestDto.getAddress(),
                     requestDto.getEmail(),
                     requestDto.getStoreId(),
                     requestDto.getActive(),
@@ -191,17 +191,17 @@ public class StaffController {
                     requestDto.getId(),
                     requestDto.getFirstName(),
                     requestDto.getLastName(),
-                    requestDto.getAddressId(),
+                    requestDto.getAddress(),
                     requestDto.getEmail(),
                     requestDto.getStoreId(),
                     requestDto.getActive(),
                     requestDto.getUsername(),
                     requestDto.getPassword()),
                     new Staff(
-                    requestDto.getNewId(),
+                    requestDto.getId(),
                     requestDto.getNewFirstName(),
                     requestDto.getNewLastName(),
-                    requestDto.getNewAddressId(),
+                    requestDto.getNewAddress(),
                     requestDto.getNewEmail(),
                     requestDto.getNewStoreId(),
                     requestDto.getNewActive(),

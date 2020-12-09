@@ -49,7 +49,7 @@ public class CustomerControllerTest {
     }
 
     @Test
-    public void testListCustomersByStoreId() throws UnknownCustomerException, EmptyException {
+    public void testListCustomersByStoreId() throws UnknownCustomerException, EmptyException, OutOfBoundsException {
         when(customerService.getCustomersByStoreId(any())).thenReturn(getCustomers());
         customerController.listCustomersByStoreId(anyInt());
 
@@ -57,11 +57,11 @@ public class CustomerControllerTest {
     }
 
     @Test
-    public void testListActiveCustomers() throws UnknownCustomerException, EmptyException, OutOfBoundsException {
-        when(customerService.getActiveCustomers(any())).thenReturn(getCustomers());
-        customerController.listActiveCustomers(anyInt());
+    public void testListCustomersByActivity() throws UnknownCustomerException, EmptyException, OutOfBoundsException {
+        when(customerService.getCustomersByActivity(any())).thenReturn(getCustomers());
+        customerController.listCustomersByActivity(anyInt());
 
-        verify(customerService, times(1)).getActiveCustomers(anyInt());
+        verify(customerService, times(1)).getCustomersByActivity(anyInt());
     }
 
     @Test
@@ -100,7 +100,7 @@ public class CustomerControllerTest {
                 "firstName",
                 "lastName",
                 "email",
-                1,
+                "address",
                 0
         );
     }
@@ -112,7 +112,7 @@ public class CustomerControllerTest {
                 "firstName",
                 "lastName",
                 "email",
-                1,
+                "address",
                 0
         );
     }
@@ -120,11 +120,10 @@ public class CustomerControllerTest {
     private CustomerUpdateRequestDto getCustomerUpdateRequestDto() {
         return new CustomerUpdateRequestDto(
                 1,
-                1,
                 "firstName",
                 "lastName",
                 "email",
-                1,
+                "address",
                 0
         );
     }
@@ -137,7 +136,7 @@ public class CustomerControllerTest {
                         "firstName",
                         "lastName",
                         "email",
-                        1,
+                        "address",
                         0
                 ),
                 new Customer(
@@ -146,7 +145,7 @@ public class CustomerControllerTest {
                         "firstName",
                         "lastName",
                         "email",
-                        2,
+                        "address",
                         1
                 ),
                 new Customer(
@@ -155,7 +154,7 @@ public class CustomerControllerTest {
                         "firstName",
                         "lastName",
                         "email",
-                        3,
+                        "address",
                         0
                 ));
     }

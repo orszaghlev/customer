@@ -30,15 +30,13 @@ public class CustomerDaoImpl implements CustomerDao {
         activeValue(customer.getActive());
         correctValue(customer.getId());
         correctValue(customer.getStoreId());
-        correctValue(customer.getAddressId());
 
         customerEntity = CustomerEntity.builder()
-                .id(customer.getId())
                 .store(queryStore(customer.getStoreId()))
                 .firstName(customer.getFirstName())
                 .lastName(customer.getLastName())
                 .email(customer.getEmail())
-                .address(queryAddress(customer.getAddressId()))
+                .address(queryAddress(customer.getAddress()))
                 .active(customer.getActive())
                 .createDate(new Timestamp((new Date()).getTime()))
                 .lastUpdate(new Timestamp((new Date()).getTime()))
@@ -56,16 +54,16 @@ public class CustomerDaoImpl implements CustomerDao {
     protected StoreEntity queryStore(int storeId) throws UnknownStoreException {
         Optional<StoreEntity> storeEntity = storeRepository.findById(storeId);
         if (!storeEntity.isPresent()) {
-            throw new UnknownStoreException(String.valueOf(storeId));
+            throw new UnknownStoreException("No Store Found");
         }
         log.trace("StoreEntity: {}", storeEntity);
         return storeEntity.get();
     }
 
-    protected AddressEntity queryAddress(int addressId) throws UnknownAddressException {
-        Optional<AddressEntity> addressEntity = addressRepository.findById(addressId);
+    protected AddressEntity queryAddress(String address) throws UnknownAddressException {
+        Optional<AddressEntity> addressEntity = addressRepository.findByAddress(address);
         if (!addressEntity.isPresent()) {
-            throw new UnknownAddressException(String.valueOf(addressId));
+            throw new UnknownAddressException("No Address Found");
         }
         else {
             log.trace("AddressEntity: {}", addressEntity);
@@ -80,8 +78,8 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     private void correctValue(int value) throws OutOfBoundsException {
-        if (value < 0) {
-            throw new OutOfBoundsException("Value can't be smaller than 0!");
+        if (value <= 0) {
+            throw new OutOfBoundsException("Value can't be smaller than 1!");
         }
     }
 
@@ -95,7 +93,7 @@ public class CustomerDaoImpl implements CustomerDao {
                         entity.getFirstName(),
                         entity.getLastName(),
                         entity.getEmail(),
-                        entity.getAddress().getId(),
+                        entity.getAddress().getAddress(),
                         entity.getActive()
                 ))
                 .collect(Collectors.toList());
@@ -122,7 +120,7 @@ public class CustomerDaoImpl implements CustomerDao {
                             entity.getFirstName(),
                             entity.getLastName(),
                             entity.getEmail(),
-                            entity.getAddress().getId(),
+                            entity.getAddress().getAddress(),
                             entity.getActive()
                     ))
                     .collect(Collectors.toList());
@@ -147,7 +145,7 @@ public class CustomerDaoImpl implements CustomerDao {
                             entity.getFirstName(),
                             entity.getLastName(),
                             entity.getEmail(),
-                            entity.getAddress().getId(),
+                            entity.getAddress().getAddress(),
                             entity.getActive()
                     ))
                     .collect(Collectors.toList());
@@ -155,10 +153,11 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
-    public Collection<Customer> readCustomersByStoreId(Integer storeId) throws UnknownCustomerException, EmptyException {
+    public Collection<Customer> readCustomersByStoreId(Integer storeId) throws UnknownCustomerException, EmptyException, OutOfBoundsException {
         if (storeId == null) {
             throw new EmptyException("Add a store ID!");
         }
+        correctValue(storeId);
         Collection<CustomerEntity> customerEntity = customerRepository.findByStoreId(storeId);
         if (customerEntity.isEmpty()) {
             throw new UnknownCustomerException("No Customers Found");
@@ -172,7 +171,7 @@ public class CustomerDaoImpl implements CustomerDao {
                             entity.getFirstName(),
                             entity.getLastName(),
                             entity.getEmail(),
-                            entity.getAddress().getId(),
+                            entity.getAddress().getAddress(),
                             entity.getActive()
                     ))
                     .collect(Collectors.toList());
@@ -180,7 +179,7 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
-    public Collection<Customer> readActiveCustomers(Integer active) throws UnknownCustomerException, OutOfBoundsException, EmptyException {
+    public Collection<Customer> readCustomersByActivity(Integer active) throws UnknownCustomerException, OutOfBoundsException, EmptyException {
         if (active == null) {
             throw new EmptyException("Add 0 (inactive) or 1 (active)!");
         }
@@ -198,7 +197,7 @@ public class CustomerDaoImpl implements CustomerDao {
                             entity.getFirstName(),
                             entity.getLastName(),
                             entity.getEmail(),
-                            entity.getAddress().getId(),
+                            entity.getAddress().getAddress(),
                             entity.getActive()
                     ))
                     .collect(Collectors.toList());
@@ -223,7 +222,7 @@ public class CustomerDaoImpl implements CustomerDao {
                     customerEntity.get().getFirstName(),
                     customerEntity.get().getLastName(),
                     customerEntity.get().getEmail(),
-                    customerEntity.get().getAddress().getId(),
+                    customerEntity.get().getAddress().getAddress(),
                     customerEntity.get().getActive()
             );
         }
@@ -238,7 +237,7 @@ public class CustomerDaoImpl implements CustomerDao {
                             customer.getFirstName().equals(entity.getFirstName()) &&
                             customer.getLastName().equals(entity.getLastName()) &&
                             customer.getEmail().equals(entity.getEmail()) &&
-                            customer.getAddressId() == entity.getAddress().getId() &&
+                            customer.getAddress().equals(entity.getAddress().getAddress()) &&
                             customer.getActive() == entity.getActive();
                 }
         ).findAny();
@@ -258,14 +257,12 @@ public class CustomerDaoImpl implements CustomerDao {
         activeValue(newCustomer.getActive());
         correctValue(newCustomer.getId());
         correctValue(newCustomer.getStoreId());
-        correctValue(newCustomer.getAddressId());
         log.info("Original: " + customerEntity.toString());
-        customerEntity.get().setId(newCustomer.getId());
         customerEntity.get().setStore(queryStore(newCustomer.getStoreId()));
         customerEntity.get().setFirstName(newCustomer.getFirstName());
         customerEntity.get().setLastName(newCustomer.getLastName());
         customerEntity.get().setEmail(newCustomer.getEmail());
-        customerEntity.get().setAddress(queryAddress(newCustomer.getAddressId()));
+        customerEntity.get().setAddress(queryAddress(newCustomer.getAddress()));
         customerEntity.get().setActive(newCustomer.getActive());
         customerEntity.get().setLastUpdate(new Timestamp((new Date()).getTime()));
         log.info("Updated: " + customerEntity.toString());

@@ -33,11 +33,11 @@ public class StoreControllerTest {
     }
 
     @Test
-    public void testListStoresByStaffId() throws UnknownStoreException, EmptyException {
-        when(storeService.getStoresByStaffId(any())).thenReturn(getStores());
-        storeController.listStoresByStaffId(anyInt());
+    public void testListStoresByStaff() throws UnknownStoreException, EmptyException {
+        when(storeService.getStoresByStaff(any())).thenReturn(getStores());
+        storeController.listStoresByStaff(anyString());
 
-        verify(storeService, times(1)).getStoresByStaffId(anyInt());
+        verify(storeService, times(1)).getStoresByStaff(anyString());
     }
 
     @Test
@@ -72,24 +72,23 @@ public class StoreControllerTest {
     private Store getStore() {
         return new Store(
                 1,
-                1,
-                1
+                "staff",
+                "address"
         );
     }
 
     private StoreDto getStoreDto() {
         return new StoreDto(
                 1,
-                1,
-                1
+                "staff",
+                "address"
         );
     }
 
     private StoreUpdateRequestDto getStoreUpdateRequestDto() {
         return new StoreUpdateRequestDto(
-                1,
-                1,
-                1
+                "staff",
+                "address"
         );
     }
 
@@ -97,18 +96,18 @@ public class StoreControllerTest {
         return Arrays.asList(
                 new Store(
                         1,
-                        1,
-                        1
+                        "staff",
+                        "address"
                 ),
                 new Store(
                         2,
-                        2,
-                        2
+                        "staff",
+                        "address"
                 ),
                 new Store(
                         3,
-                        3,
-                        3
+                        "staff",
+                        "address"
                 ));
     }
 

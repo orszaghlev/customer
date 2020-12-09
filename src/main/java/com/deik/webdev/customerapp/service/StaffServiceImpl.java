@@ -22,8 +22,8 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public Collection<Staff> getStaffByUsername(String username) throws UnknownStaffException, EmptyException {
-        return staffDao.readStaffByUsername(username);
+    public Collection<Staff> getStaffByFirstNameAndLastName(String firstName, String lastName) throws UnknownStaffException, EmptyException {
+        return staffDao.readStaffByFirstNameAndLastName(firstName, lastName);
     }
 
     @Override
@@ -32,13 +32,13 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public Collection<Staff> getStaffByStoreId(Integer storeId) throws UnknownStaffException, EmptyException {
+    public Collection<Staff> getStaffByStoreId(Integer storeId) throws UnknownStaffException, EmptyException, OutOfBoundsException {
         return staffDao.readStaffByStoreId(storeId);
     }
 
     @Override
-    public Collection<Staff> getActiveStaff(Integer active) throws UnknownStaffException, OutOfBoundsException, EmptyException {
-        return staffDao.readActiveStaff(active);
+    public Collection<Staff> getStaffByActivity(Integer active) throws UnknownStaffException, OutOfBoundsException, EmptyException {
+        return staffDao.readStaffByActivity(active);
     }
 
     @Override

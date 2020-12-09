@@ -43,8 +43,8 @@ public class CountryDaoImpl implements CountryDao {
     }
 
     private void correctValue(int value) throws OutOfBoundsException {
-        if (value < 0) {
-            throw new OutOfBoundsException("Value can't be smaller than 0!");
+        if (value <= 0) {
+            throw new OutOfBoundsException("Value can't be smaller than 1!");
         }
     }
 
@@ -53,6 +53,7 @@ public class CountryDaoImpl implements CountryDao {
         log.info("Read all countries");
         return StreamSupport.stream(countryRepository.findAll().spliterator(),false)
                 .map(entity -> new Country(
+                        entity.getId(),
                         entity.getCountry()
                 ))
                 .collect(Collectors.toList());
@@ -71,6 +72,7 @@ public class CountryDaoImpl implements CountryDao {
         else {
             log.info("Read country (by ID)");
             return new Country(
+                    countryEntity.get().getId(),
                     countryEntity.get().getCountry()
             );
         }
@@ -80,7 +82,8 @@ public class CountryDaoImpl implements CountryDao {
     public void deleteCountry(Country country) throws UnknownCountryException {
         Optional<CountryEntity> countryEntity = StreamSupport.stream(countryRepository.findAll().spliterator(),false).filter(
                 entity ->{
-                    return country.getCountry().equals(entity.getCountry());
+                    return country.getId() == entity.getId() &&
+                            country.getCountry().equals(entity.getCountry());
                 }
         ).findAny();
         if (!countryEntity.isPresent()) {
@@ -92,7 +95,7 @@ public class CountryDaoImpl implements CountryDao {
 
     @Override
     public void updateCountry(Country country, Country newCountry) throws UnknownCountryException {
-        Optional<CountryEntity> countryEntity = countryRepository.findByCountry(country.getCountry());
+        Optional<CountryEntity> countryEntity = countryRepository.findById(country.getId());
         if (!countryEntity.isPresent()) {
             throw new UnknownCountryException(String.format("Country Not Found %s", country), country);
         }

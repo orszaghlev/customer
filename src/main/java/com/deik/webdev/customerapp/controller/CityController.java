@@ -29,6 +29,7 @@ public class CityController {
         return service.getAllCity()
                 .stream()
                 .map(model -> CityDto.builder()
+                        .id(model.getId())
                         .city(model.getCity())
                         .country(model.getCountry())
                         .build())
@@ -41,6 +42,7 @@ public class CityController {
             return service.getCitiesByCountry(country)
                     .stream()
                     .map(model -> CityDto.builder()
+                            .id(model.getId())
                             .city(model.getCity())
                             .country(model.getCountry())
                             .build())
@@ -55,6 +57,7 @@ public class CityController {
         try {
             City city = service.getCityById(id);
             return new CityDto(
+                    city.getId(),
                     city.getCity(),
                     city.getCountry());
         } catch (OutOfBoundsException | EmptyException | UnknownCityException e) {
@@ -66,6 +69,7 @@ public class CityController {
     public void recordCity(@RequestBody CityDto requestDto) {
         try {
             service.recordCity(new City(
+                    requestDto.getId(),
                     requestDto.getCity(),
                     requestDto.getCountry()
             ));
@@ -78,6 +82,7 @@ public class CityController {
     public void deleteCity(@RequestBody CityDto requestDto) {
         try {
             service.deleteCity(new City(
+                    requestDto.getId(),
                     requestDto.getCity(),
                     requestDto.getCountry()
             ));
@@ -90,9 +95,11 @@ public class CityController {
     public void updateCity(@RequestBody CityUpdateRequestDto requestDto) {
         try {
             service.updateCity(new City(
+                            requestDto.getId(),
                             requestDto.getCity(),
                             requestDto.getCountry()),
                     new City(
+                            requestDto.getId(),
                             requestDto.getNewCity(),
                             requestDto.getNewCountry())
             );

@@ -30,13 +30,11 @@ public class StaffDaoImpl implements StaffDao {
         activeValue(staff.getActive());
         correctValue(staff.getId());
         correctValue(staff.getStoreId());
-        correctValue(staff.getAddressId());
 
         staffEntity = StaffEntity.builder()
-                .id(staff.getId())
                 .firstName(staff.getFirstName())
                 .lastName(staff.getLastName())
-                .address(queryAddress(staff.getAddressId()))
+                .address(queryAddress(staff.getAddress()))
                 .email(staff.getEmail())
                 .store(queryStore(staff.getStoreId()))
                 .active(staff.getActive())
@@ -53,10 +51,10 @@ public class StaffDaoImpl implements StaffDao {
         }
     }
 
-    protected AddressEntity queryAddress(int addressId) throws UnknownAddressException {
-        Optional<AddressEntity> addressEntity = addressRepository.findById(addressId);
+    protected AddressEntity queryAddress(String address) throws UnknownAddressException {
+        Optional<AddressEntity> addressEntity = addressRepository.findByAddress(address);
         if (!addressEntity.isPresent()) {
-            throw new UnknownAddressException(String.valueOf(addressId));
+            throw new UnknownAddressException("No Address Found");
         }
         else {
             log.trace("AddressEntity: {}", addressEntity);
@@ -67,7 +65,7 @@ public class StaffDaoImpl implements StaffDao {
     protected StoreEntity queryStore(int storeId) throws UnknownStoreException {
         Optional<StoreEntity> storeEntity = storeRepository.findById(storeId);
         if (!storeEntity.isPresent()) {
-            throw new UnknownStoreException(String.valueOf(storeId));
+            throw new UnknownStoreException("No Store Found");
         }
         else {
             log.trace("StoreEntity: {}", storeEntity);
@@ -82,8 +80,8 @@ public class StaffDaoImpl implements StaffDao {
     }
 
     private void correctValue(int value) throws OutOfBoundsException {
-        if (value < 0) {
-            throw new OutOfBoundsException("Value can't be smaller than 0!");
+        if (value <= 0) {
+            throw new OutOfBoundsException("Value can't be smaller than 1!");
         }
     }
 
@@ -95,7 +93,7 @@ public class StaffDaoImpl implements StaffDao {
                         entity.getId(),
                         entity.getFirstName(),
                         entity.getLastName(),
-                        entity.getAddress().getId(),
+                        entity.getAddress().getAddress(),
                         entity.getEmail(),
                         entity.getStore().getId(),
                         entity.getActive(),
@@ -106,22 +104,25 @@ public class StaffDaoImpl implements StaffDao {
     }
 
     @Override
-    public Collection<Staff> readStaffByUsername(String username) throws UnknownStaffException, EmptyException {
-        if (username == null) {
-            throw new EmptyException("Add a username!");
+    public Collection<Staff> readStaffByFirstNameAndLastName(String firstName, String lastName) throws UnknownStaffException, EmptyException {
+        if (firstName == null && lastName == null) {
+            throw new EmptyException("Add a first name and a last name!");
         }
-        Collection<StaffEntity> staffEntity = staffRepository.findByUsername(username);
+        if ((firstName != null && lastName == null) || (firstName == null && lastName != null)) {
+            throw new EmptyException("You forgot to add a first name or a last name!");
+        }
+        Collection<StaffEntity> staffEntity = staffRepository.findByFirstNameAndLastName(firstName, lastName);
         if (staffEntity.isEmpty()) {
             throw new UnknownStaffException("No Staff Found");
         }
         else {
             log.info("Read all staff (by username)");
-            return StreamSupport.stream(staffRepository.findByUsername(username).spliterator(),false)
+            return StreamSupport.stream(staffRepository.findByFirstNameAndLastName(firstName, lastName).spliterator(),false)
                     .map(entity -> new Staff(
                             entity.getId(),
                             entity.getFirstName(),
                             entity.getLastName(),
-                            entity.getAddress().getId(),
+                            entity.getAddress().getAddress(),
                             entity.getEmail(),
                             entity.getStore().getId(),
                             entity.getActive(),
@@ -148,7 +149,7 @@ public class StaffDaoImpl implements StaffDao {
                             entity.getId(),
                             entity.getFirstName(),
                             entity.getLastName(),
-                            entity.getAddress().getId(),
+                            entity.getAddress().getAddress(),
                             entity.getEmail(),
                             entity.getStore().getId(),
                             entity.getActive(),
@@ -160,10 +161,11 @@ public class StaffDaoImpl implements StaffDao {
     }
 
     @Override
-    public Collection<Staff> readStaffByStoreId(Integer storeId) throws UnknownStaffException, EmptyException {
+    public Collection<Staff> readStaffByStoreId(Integer storeId) throws UnknownStaffException, EmptyException, OutOfBoundsException {
         if (storeId == null) {
             throw new EmptyException("Add a store ID!");
         }
+        correctValue(storeId);
         Collection<StaffEntity> staffEntity = staffRepository.findByStoreId(storeId);
         if (staffEntity.isEmpty()) {
             throw new UnknownStaffException("No Staff Found");
@@ -175,7 +177,7 @@ public class StaffDaoImpl implements StaffDao {
                             entity.getId(),
                             entity.getFirstName(),
                             entity.getLastName(),
-                            entity.getAddress().getId(),
+                            entity.getAddress().getAddress(),
                             entity.getEmail(),
                             entity.getStore().getId(),
                             entity.getActive(),
@@ -187,7 +189,7 @@ public class StaffDaoImpl implements StaffDao {
     }
 
     @Override
-    public Collection<Staff> readActiveStaff(Integer active) throws UnknownStaffException, OutOfBoundsException, EmptyException {
+    public Collection<Staff> readStaffByActivity(Integer active) throws UnknownStaffException, OutOfBoundsException, EmptyException {
         if (active == null) {
             throw new EmptyException("Add 0 (inactive) or 1 (active)!");
         }
@@ -203,7 +205,7 @@ public class StaffDaoImpl implements StaffDao {
                             entity.getId(),
                             entity.getFirstName(),
                             entity.getLastName(),
-                            entity.getAddress().getId(),
+                            entity.getAddress().getAddress(),
                             entity.getEmail(),
                             entity.getStore().getId(),
                             entity.getActive(),
@@ -230,7 +232,7 @@ public class StaffDaoImpl implements StaffDao {
                     staffEntity.get().getId(),
                     staffEntity.get().getFirstName(),
                     staffEntity.get().getLastName(),
-                    staffEntity.get().getAddress().getId(),
+                    staffEntity.get().getAddress().getAddress(),
                     staffEntity.get().getEmail(),
                     staffEntity.get().getStore().getId(),
                     staffEntity.get().getActive(),
@@ -247,7 +249,7 @@ public class StaffDaoImpl implements StaffDao {
                     return staff.getId() == entity.getId() &&
                             staff.getFirstName().equals(entity.getFirstName()) &&
                             staff.getLastName().equals(entity.getLastName()) &&
-                            staff.getAddressId() == entity.getAddress().getId() &&
+                            staff.getAddress().equals(entity.getAddress().getAddress()) &&
                             staff.getEmail().equals(entity.getEmail()) &&
                             staff.getStoreId() == entity.getStore().getId() &&
                             staff.getActive() == entity.getActive() &&
@@ -271,12 +273,10 @@ public class StaffDaoImpl implements StaffDao {
         activeValue(newStaff.getActive());
         correctValue(newStaff.getId());
         correctValue(newStaff.getStoreId());
-        correctValue(newStaff.getAddressId());
         log.info("Original: " + staffEntity.toString());
-        staffEntity.get().setId(newStaff.getId());
         staffEntity.get().setFirstName(newStaff.getFirstName());
         staffEntity.get().setLastName(newStaff.getLastName());
-        staffEntity.get().setAddress(queryAddress(newStaff.getAddressId()));
+        staffEntity.get().setAddress(queryAddress(newStaff.getAddress()));
         staffEntity.get().setEmail(newStaff.getEmail());
         staffEntity.get().setStore(queryStore(newStaff.getStoreId()));
         staffEntity.get().setActive(newStaff.getActive());

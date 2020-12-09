@@ -27,21 +27,21 @@ public class StoreController {
                 .stream()
                 .map(model -> StoreDto.builder()
                         .id(model.getId())
-                        .staffId(model.getStaffId())
-                        .addressId(model.getAddressId())
+                        .staff(model.getStaff())
+                        .address(model.getAddress())
                         .build())
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/store/{staffId}")
-    public Collection<StoreDto> listStoresByStaffId(Integer staffId) {
+    @GetMapping("/store/{staff}")
+    public Collection<StoreDto> listStoresByStaff(String staff) {
         try {
-            return service.getStoresByStaffId(staffId)
+            return service.getStoresByStaff(staff)
                     .stream()
                     .map(model -> StoreDto.builder()
                             .id(model.getId())
-                            .staffId(model.getStaffId())
-                            .addressId(model.getAddressId())
+                            .staff(model.getStaff())
+                            .address(model.getAddress())
                             .build())
                     .collect(Collectors.toList());
         } catch (EmptyException | UnknownStoreException e) {
@@ -55,8 +55,8 @@ public class StoreController {
             Store store = service.getStoreById(id);
             return new StoreDto(
                     store.getId(),
-                    store.getStaffId(),
-                    store.getAddressId());
+                    store.getStaff(),
+                    store.getAddress());
         } catch (OutOfBoundsException | EmptyException | UnknownStoreException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
@@ -67,8 +67,8 @@ public class StoreController {
         try {
             service.recordStore(new Store(
                     requestDto.getId(),
-                    requestDto.getStaffId(),
-                    requestDto.getAddressId()
+                    requestDto.getStaff(),
+                    requestDto.getAddress()
             ));
         } catch (OutOfBoundsException | UnknownStaffException | UnknownAddressException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
@@ -80,8 +80,8 @@ public class StoreController {
         try {
             service.deleteStore(new Store(
                     requestDto.getId(),
-                    requestDto.getStaffId(),
-                    requestDto.getAddressId()
+                    requestDto.getStaff(),
+                    requestDto.getAddress()
             ));
         } catch (UnknownStoreException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
@@ -93,12 +93,12 @@ public class StoreController {
         try {
             service.updateStore(new Store(
                     requestDto.getId(),
-                    requestDto.getStaffId(),
-                    requestDto.getAddressId()),
+                    requestDto.getStaff(),
+                    requestDto.getAddress()),
                     new Store(
-                    requestDto.getNewId(),
-                    requestDto.getNewStaffId(),
-                    requestDto.getNewAddressId())
+                    requestDto.getId(),
+                    requestDto.getNewStaff(),
+                    requestDto.getNewAddress())
             );
         } catch (OutOfBoundsException | UnknownStaffException | UnknownAddressException | UnknownStoreException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());

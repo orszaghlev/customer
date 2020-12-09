@@ -1,7 +1,7 @@
 package com.deik.webdev.customerapp.dao;
 
 import com.deik.webdev.customerapp.entity.CityEntity;
-import com.deik.webdev.customerapp.exception.UnknownCountryException;
+import com.deik.webdev.customerapp.exception.UnknownCityException;
 import com.deik.webdev.customerapp.model.Address;
 import com.deik.webdev.customerapp.repository.AddressRepository;
 import org.junit.jupiter.api.Test;
@@ -23,9 +23,9 @@ class AddressDaoImplTest {
     private AddressRepository addressRepository;
 
     @Test
-    public void testCreateAddress() throws UnknownCountryException {
-        doReturn(CityEntity.builder().city("Debrecen").build())
-                .when(dao).queryCity(any(),any());
+    public void testCreateAddress() throws UnknownCityException {
+        doReturn(CityEntity.builder().city("city").build())
+                .when(dao).queryCity(any());
         dao.createAddress(getAddress());
 
         verify(addressRepository, times(1)).save(any());
@@ -40,11 +40,11 @@ class AddressDaoImplTest {
 
     private Address getAddress() {
         return new Address(
+                1,
                 "address1",
                 "address2",
                 "district",
-                "UnknownCity",
-                "Algeria_1234",
+                "city",
                 "1234",
                 "061234567"
         );

@@ -1,10 +1,7 @@
 package com.deik.webdev.customerapp.service;
 
 import com.deik.webdev.customerapp.dao.AddressDao;
-import com.deik.webdev.customerapp.exception.EmptyException;
-import com.deik.webdev.customerapp.exception.OutOfBoundsException;
-import com.deik.webdev.customerapp.exception.UnknownAddressException;
-import com.deik.webdev.customerapp.exception.UnknownCountryException;
+import com.deik.webdev.customerapp.exception.*;
 import com.deik.webdev.customerapp.model.Address;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +42,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public void recordAddress(Address address) throws UnknownCountryException {
+    public void recordAddress(Address address) throws UnknownCityException {
         addressDao.createAddress(address);
     }
 
@@ -55,7 +52,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public void updateAddress(Address address, Address newAddress) throws UnknownCountryException, UnknownAddressException {
+    public void updateAddress(Address address, Address newAddress) throws UnknownCityException, UnknownAddressException {
         addressDao.updateAddress(address, newAddress);
     }
 

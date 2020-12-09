@@ -1,7 +1,6 @@
 package com.deik.webdev.customerapp.controller;
 
 import com.deik.webdev.customerapp.dto.AddressDto;
-import com.deik.webdev.customerapp.dto.AddressRecordRequestDto;
 import com.deik.webdev.customerapp.dto.AddressUpdateRequestDto;
 import com.deik.webdev.customerapp.exception.*;
 import com.deik.webdev.customerapp.model.Address;
@@ -26,12 +25,12 @@ public class AddressController {
     public Collection<AddressDto> listAddresses() {
         return service.getAllAddress()
                 .stream()
-                .map(model -> AddressRecordRequestDto.builder()
+                .map(model -> AddressDto.builder()
+                        .id(model.getId())
                         .address(model.getAddress())
                         .address2(model.getAddress2())
                         .district(model.getDistrict())
                         .city(model.getCity())
-                        .country(model.getCountry())
                         .postalCode(model.getPostalCode())
                         .phone(model.getPhone())
                         .build())
@@ -43,12 +42,12 @@ public class AddressController {
         try {
             return service.getAddressesByCity(city)
                     .stream()
-                    .map(model -> AddressRecordRequestDto.builder()
+                    .map(model -> AddressDto.builder()
+                            .id(model.getId())
                             .address(model.getAddress())
                             .address2(model.getAddress2())
                             .district(model.getDistrict())
                             .city(model.getCity())
-                            .country(model.getCountry())
                             .postalCode(model.getPostalCode())
                             .phone(model.getPhone())
                             .build())
@@ -63,12 +62,12 @@ public class AddressController {
         try {
             return service.getAddressesByDistrict(district)
                     .stream()
-                    .map(model -> AddressRecordRequestDto.builder()
+                    .map(model -> AddressDto.builder()
+                            .id(model.getId())
                             .address(model.getAddress())
                             .address2(model.getAddress2())
                             .district(model.getDistrict())
                             .city(model.getCity())
-                            .country(model.getCountry())
                             .postalCode(model.getPostalCode())
                             .phone(model.getPhone())
                             .build())
@@ -83,12 +82,12 @@ public class AddressController {
         try {
             return service.getAddressesByPostalCode(postalCode)
                     .stream()
-                    .map(model -> AddressRecordRequestDto.builder()
+                    .map(model -> AddressDto.builder()
+                            .id(model.getId())
                             .address(model.getAddress())
                             .address2(model.getAddress2())
                             .district(model.getDistrict())
                             .city(model.getCity())
-                            .country(model.getCountry())
                             .postalCode(model.getPostalCode())
                             .phone(model.getPhone())
                             .build())
@@ -103,42 +102,44 @@ public class AddressController {
         try {
             Address address = service.getAddressById(id);
             return new AddressDto(
+                    address.getId(),
                     address.getAddress(),
                     address.getAddress2(),
                     address.getDistrict(),
                     address.getCity(),
-                    address.getCountry());
+                    address.getPostalCode(),
+                    address.getPhone());
         } catch (OutOfBoundsException | EmptyException | UnknownAddressException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 
     @PostMapping("/address")
-    public void recordAddress(@RequestBody AddressRecordRequestDto requestDto) {
+    public void recordAddress(@RequestBody AddressDto requestDto) {
         try {
             service.recordAddress(new Address(
+                    requestDto.getId(),
                     requestDto.getAddress(),
                     requestDto.getAddress2(),
                     requestDto.getDistrict(),
                     requestDto.getCity(),
-                    requestDto.getCountry(),
                     requestDto.getPostalCode(),
                     requestDto.getPhone()
             ));
-        } catch (UnknownCountryException e) {
+        } catch (UnknownCityException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 
     @DeleteMapping("/address")
-    public void deleteAddress(@RequestBody AddressRecordRequestDto requestDto) {
+    public void deleteAddress(@RequestBody AddressDto requestDto) {
         try {
             service.deleteAddress(new Address(
+                    requestDto.getId(),
                     requestDto.getAddress(),
                     requestDto.getAddress2(),
                     requestDto.getDistrict(),
                     requestDto.getCity(),
-                    requestDto.getCountry(),
                     requestDto.getPostalCode(),
                     requestDto.getPhone()
             ));
@@ -151,23 +152,23 @@ public class AddressController {
     public void updateAddress(@RequestBody AddressUpdateRequestDto requestDto) {
         try {
             service.updateAddress(new Address(
+                    requestDto.getId(),
                     requestDto.getAddress(),
                     requestDto.getAddress2(),
                     requestDto.getDistrict(),
                     requestDto.getCity(),
-                    requestDto.getCountry(),
                     requestDto.getPostalCode(),
                     requestDto.getPhone()),
                     new Address(
+                    requestDto.getId(),
                     requestDto.getNewAddress(),
                     requestDto.getNewAddress2(),
                     requestDto.getNewDistrict(),
                     requestDto.getNewCity(),
-                    requestDto.getNewCountry(),
                     requestDto.getNewPostalCode(),
                     requestDto.getNewPhone())
             );
-        } catch (UnknownCountryException | UnknownAddressException e) {
+        } catch (UnknownCityException | UnknownAddressException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
