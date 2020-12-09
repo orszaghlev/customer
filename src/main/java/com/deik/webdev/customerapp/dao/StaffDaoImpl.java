@@ -80,8 +80,8 @@ public class StaffDaoImpl implements StaffDao {
     }
 
     private void correctValue(int value) throws OutOfBoundsException {
-        if (value < 0) {
-            throw new OutOfBoundsException("Value can't be smaller than 0!");
+        if (value <= 0) {
+            throw new OutOfBoundsException("Value can't be smaller than 1!");
         }
     }
 
@@ -161,10 +161,11 @@ public class StaffDaoImpl implements StaffDao {
     }
 
     @Override
-    public Collection<Staff> readStaffByStoreId(Integer storeId) throws UnknownStaffException, EmptyException {
+    public Collection<Staff> readStaffByStoreId(Integer storeId) throws UnknownStaffException, EmptyException, OutOfBoundsException {
         if (storeId == null) {
             throw new EmptyException("Add a store ID!");
         }
+        correctValue(storeId);
         Collection<StaffEntity> staffEntity = staffRepository.findByStoreId(storeId);
         if (staffEntity.isEmpty()) {
             throw new UnknownStaffException("No Staff Found");

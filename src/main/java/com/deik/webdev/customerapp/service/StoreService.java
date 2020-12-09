@@ -8,7 +8,7 @@ import java.util.Collection;
 public interface StoreService {
 
     Collection<Store> getAllStore();
-    Collection<Store> getStoresByStaffId(Integer staffId) throws UnknownStoreException, EmptyException;
+    Collection<Store> getStoresByStaffId(Integer staffId) throws UnknownStoreException, EmptyException, OutOfBoundsException;
     Store getStoreById(Integer id) throws UnknownStoreException, EmptyException, OutOfBoundsException;
 
     void recordStore(Store store) throws UnknownStaffException, UnknownAddressException, OutOfBoundsException;

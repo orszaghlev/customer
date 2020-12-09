@@ -33,7 +33,7 @@ public class StoreControllerTest {
     }
 
     @Test
-    public void testListStoresByStaffId() throws UnknownStoreException, EmptyException {
+    public void testListStoresByStaffId() throws UnknownStoreException, EmptyException, OutOfBoundsException {
         when(storeService.getStoresByStaffId(any())).thenReturn(getStores());
         storeController.listStoresByStaffId(anyInt());
 

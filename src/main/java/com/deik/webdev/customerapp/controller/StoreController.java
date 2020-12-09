@@ -44,7 +44,7 @@ public class StoreController {
                             .address(model.getAddress())
                             .build())
                     .collect(Collectors.toList());
-        } catch (EmptyException | UnknownStoreException e) {
+        } catch (OutOfBoundsException | EmptyException | UnknownStoreException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

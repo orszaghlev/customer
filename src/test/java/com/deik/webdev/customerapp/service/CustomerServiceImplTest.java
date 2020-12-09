@@ -79,7 +79,7 @@ public class CustomerServiceImplTest {
     }
 
     @Test
-    public void testReadCustomersFromStoreId() throws UnknownCustomerException, EmptyException {
+    public void testReadCustomersFromStoreId() throws UnknownCustomerException, EmptyException, OutOfBoundsException {
         final Integer storeId = 1;
         Collection<Customer> actual = service.getCustomersByStoreId(storeId);
 

@@ -49,7 +49,7 @@ public class StaffControllerTest {
     }
 
     @Test
-    public void testListStaffByStoreId() throws UnknownStaffException, EmptyException {
+    public void testListStaffByStoreId() throws UnknownStaffException, EmptyException, OutOfBoundsException {
         when(staffService.getStaffByStoreId(any())).thenReturn(getStaffs());
         staffController.listStaffByStoreId(anyInt());
 

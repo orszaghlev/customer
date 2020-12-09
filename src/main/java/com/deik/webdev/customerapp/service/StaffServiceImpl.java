@@ -32,7 +32,7 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public Collection<Staff> getStaffByStoreId(Integer storeId) throws UnknownStaffException, EmptyException {
+    public Collection<Staff> getStaffByStoreId(Integer storeId) throws UnknownStaffException, EmptyException, OutOfBoundsException {
         return staffDao.readStaffByStoreId(storeId);
     }
 

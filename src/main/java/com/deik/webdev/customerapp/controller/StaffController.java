@@ -100,7 +100,7 @@ public class StaffController {
                             .password(model.getPassword())
                             .build())
                     .collect(Collectors.toList());
-        } catch (EmptyException | UnknownStaffException e) {
+        } catch (OutOfBoundsException | EmptyException | UnknownStaffException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

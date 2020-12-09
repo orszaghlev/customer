@@ -49,7 +49,7 @@ public class CustomerControllerTest {
     }
 
     @Test
-    public void testListCustomersByStoreId() throws UnknownCustomerException, EmptyException {
+    public void testListCustomersByStoreId() throws UnknownCustomerException, EmptyException, OutOfBoundsException {
         when(customerService.getCustomersByStoreId(any())).thenReturn(getCustomers());
         customerController.listCustomersByStoreId(anyInt());
 

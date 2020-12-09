@@ -78,8 +78,8 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     private void correctValue(int value) throws OutOfBoundsException {
-        if (value < 0) {
-            throw new OutOfBoundsException("Value can't be smaller than 0!");
+        if (value <= 0) {
+            throw new OutOfBoundsException("Value can't be smaller than 1!");
         }
     }
 
@@ -153,10 +153,11 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
-    public Collection<Customer> readCustomersByStoreId(Integer storeId) throws UnknownCustomerException, EmptyException {
+    public Collection<Customer> readCustomersByStoreId(Integer storeId) throws UnknownCustomerException, EmptyException, OutOfBoundsException {
         if (storeId == null) {
             throw new EmptyException("Add a store ID!");
         }
+        correctValue(storeId);
         Collection<CustomerEntity> customerEntity = customerRepository.findByStoreId(storeId);
         if (customerEntity.isEmpty()) {
             throw new UnknownCustomerException("No Customers Found");

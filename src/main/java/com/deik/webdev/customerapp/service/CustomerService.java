@@ -10,7 +10,7 @@ public interface CustomerService {
     Collection<Customer> getAllCustomer();
     Collection<Customer> getCustomersByName(String firstName, String lastName) throws UnknownCustomerException, EmptyException;
     Collection<Customer> getCustomersByEmail(String email) throws UnknownCustomerException, EmptyException;
-    Collection<Customer> getCustomersByStoreId(Integer storeId) throws UnknownCustomerException, EmptyException;
+    Collection<Customer> getCustomersByStoreId(Integer storeId) throws UnknownCustomerException, EmptyException, OutOfBoundsException;
     Collection<Customer> getActiveCustomers(Integer active) throws UnknownCustomerException, OutOfBoundsException, EmptyException;
     Customer getCustomerById(Integer id) throws UnknownCustomerException, OutOfBoundsException, EmptyException;
 

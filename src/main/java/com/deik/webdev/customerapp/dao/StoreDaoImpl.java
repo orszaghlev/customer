@@ -67,8 +67,8 @@ public class StoreDaoImpl implements StoreDao {
     }
 
     private void correctValue(int value) throws OutOfBoundsException {
-        if (value < 0) {
-            throw new OutOfBoundsException("Value can't be smaller than 0!");
+        if (value <= 0) {
+            throw new OutOfBoundsException("Value can't be smaller than 1!");
         }
     }
 
@@ -105,10 +105,11 @@ public class StoreDaoImpl implements StoreDao {
     }
 
     @Override
-    public Collection<Store> readStoresByStaffId(Integer staffId) throws UnknownStoreException, EmptyException {
+    public Collection<Store> readStoresByStaffId(Integer staffId) throws UnknownStoreException, EmptyException, OutOfBoundsException {
         if (staffId == null) {
             throw new EmptyException("Add a staff ID!");
         }
+        correctValue(staffId);
         Collection<StoreEntity> storeEntity = storeRepository.findByStaffId(staffId);
         if (storeEntity.isEmpty()) {
             throw new UnknownStoreException("No Stores Found");

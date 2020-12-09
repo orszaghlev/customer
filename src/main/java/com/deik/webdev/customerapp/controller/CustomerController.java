@@ -92,7 +92,7 @@ public class CustomerController {
                             .active(model.getActive())
                             .build())
                     .collect(Collectors.toList());
-        } catch (EmptyException | UnknownCustomerException e) {
+        } catch (OutOfBoundsException | EmptyException | UnknownCustomerException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

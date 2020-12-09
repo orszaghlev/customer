@@ -70,7 +70,7 @@ public class StaffServiceImplTest {
     }
 
     @Test
-    public void testReadStaffFromStoreId() throws UnknownStaffException, EmptyException {
+    public void testReadStaffFromStoreId() throws UnknownStaffException, EmptyException, OutOfBoundsException {
         final Integer storeId = 1;
         Collection<Staff> actual = service.getStaffByStoreId(storeId);
 
