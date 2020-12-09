@@ -105,18 +105,18 @@ public class StoreDaoImpl implements StoreDao {
     }
 
     @Override
-    public Collection<Store> readStoresByStaffId(Integer staffId) throws UnknownStoreException, EmptyException, OutOfBoundsException {
-        if (staffId == null) {
-            throw new EmptyException("Add a staff ID!");
+    public Collection<Store> readStoresByStaff(String staff) throws UnknownStoreException, EmptyException {
+        if (staff == null) {
+            throw new EmptyException("Add a staff username!");
         }
-        correctValue(staffId);
-        Collection<StoreEntity> storeEntity = storeRepository.findByStaffId(staffId);
+        Optional<StaffEntity> staffEntity = staffRepository.findByUsername(staff);
+        Collection<StoreEntity> storeEntity = storeRepository.findByStaff(staffEntity);
         if (storeEntity.isEmpty()) {
             throw new UnknownStoreException("No Stores Found");
         }
         else {
-            log.info("Read all stores (by staff ID)");
-            return StreamSupport.stream(storeRepository.findByStaffId(staffId).spliterator(),false)
+            log.info("Read all stores (by staff username)");
+            return StreamSupport.stream(storeRepository.findByStaff(staffEntity).spliterator(),false)
                     .map(entity -> new Store(
                             entity.getId(),
                             entity.getStaff().getUsername(),

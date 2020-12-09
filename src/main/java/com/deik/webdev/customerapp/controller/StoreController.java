@@ -33,10 +33,10 @@ public class StoreController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/store/{staffId}")
-    public Collection<StoreDto> listStoresByStaffId(Integer staffId) {
+    @GetMapping("/store/{staff}")
+    public Collection<StoreDto> listStoresByStaff(String staff) {
         try {
-            return service.getStoresByStaffId(staffId)
+            return service.getStoresByStaff(staff)
                     .stream()
                     .map(model -> StoreDto.builder()
                             .id(model.getId())
@@ -44,7 +44,7 @@ public class StoreController {
                             .address(model.getAddress())
                             .build())
                     .collect(Collectors.toList());
-        } catch (OutOfBoundsException | EmptyException | UnknownStoreException e) {
+        } catch (EmptyException | UnknownStoreException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
