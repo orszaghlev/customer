@@ -28,7 +28,6 @@ public class CustomerDaoImpl implements CustomerDao {
     public void createCustomer(Customer customer) throws UnknownStoreException, UnknownAddressException, OutOfBoundsException {
         CustomerEntity customerEntity;
         activeValue(customer.getActive());
-        correctValue(customer.getId());
         correctValue(customer.getStoreId());
 
         customerEntity = CustomerEntity.builder()
@@ -79,7 +78,7 @@ public class CustomerDaoImpl implements CustomerDao {
 
     private void correctValue(int value) throws OutOfBoundsException {
         if (value <= 0) {
-            throw new OutOfBoundsException("Value can't be smaller than 1!");
+            throw new OutOfBoundsException("IDs can't be less than 1!");
         }
     }
 

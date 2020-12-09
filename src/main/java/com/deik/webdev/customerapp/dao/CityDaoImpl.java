@@ -58,7 +58,7 @@ public class CityDaoImpl implements CityDao {
 
     private void correctValue(int value) throws OutOfBoundsException {
         if (value <= 0) {
-            throw new OutOfBoundsException("Value can't be smaller than 1!");
+            throw new OutOfBoundsException("ID can't be less than 1!");
         }
     }
 

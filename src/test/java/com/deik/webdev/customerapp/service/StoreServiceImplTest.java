@@ -28,7 +28,7 @@ public class StoreServiceImplTest {
     private StoreDao dao;
 
     @Test
-    public void testRecordStore() throws UnknownStaffException, UnknownAddressException, OutOfBoundsException {
+    public void testRecordStore() throws UnknownStaffException, UnknownAddressException {
         Store store = getStore();
         service.recordStore(store);
 
@@ -36,7 +36,7 @@ public class StoreServiceImplTest {
     }
 
     @Test
-    public void testRecordStoreWithUnknownAddress() throws UnknownStaffException, UnknownAddressException, OutOfBoundsException {
+    public void testRecordStoreWithUnknownAddress() throws UnknownStaffException, UnknownAddressException {
         doThrow(UnknownAddressException.class).when(dao).createStore(any());
 
         assertThrows(UnknownAddressException.class, ()->{

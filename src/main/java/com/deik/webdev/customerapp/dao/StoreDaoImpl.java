@@ -25,9 +25,8 @@ public class StoreDaoImpl implements StoreDao {
     private final StaffRepository staffRepository;
 
     @Override
-    public void createStore(Store store) throws UnknownStaffException, UnknownAddressException, OutOfBoundsException {
+    public void createStore(Store store) throws UnknownStaffException, UnknownAddressException {
         StoreEntity storeEntity;
-        correctValue(store.getId());
 
         storeEntity = StoreEntity.builder()
                 .staff(queryStaff(store.getStaff()))
@@ -68,7 +67,7 @@ public class StoreDaoImpl implements StoreDao {
 
     private void correctValue(int value) throws OutOfBoundsException {
         if (value <= 0) {
-            throw new OutOfBoundsException("Value can't be smaller than 1!");
+            throw new OutOfBoundsException("ID can't be less than 1!");
         }
     }
 

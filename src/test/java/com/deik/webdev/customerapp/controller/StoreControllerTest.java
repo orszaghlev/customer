@@ -49,7 +49,7 @@ public class StoreControllerTest {
     }
 
     @Test
-    public void testRecordStore() throws UnknownAddressException, UnknownStaffException, OutOfBoundsException {
+    public void testRecordStore() throws UnknownAddressException, UnknownStaffException {
         storeController.recordStore(getStoreDto());
 
         verify(storeService, times(1)).recordStore(getStore());

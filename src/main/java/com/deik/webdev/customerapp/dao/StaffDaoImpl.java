@@ -28,7 +28,6 @@ public class StaffDaoImpl implements StaffDao {
     public void createStaff(Staff staff) throws UnknownStoreException, UnknownAddressException, OutOfBoundsException {
         StaffEntity staffEntity;
         activeValue(staff.getActive());
-        correctValue(staff.getId());
         correctValue(staff.getStoreId());
 
         staffEntity = StaffEntity.builder()
@@ -81,7 +80,7 @@ public class StaffDaoImpl implements StaffDao {
 
     private void correctValue(int value) throws OutOfBoundsException {
         if (value <= 0) {
-            throw new OutOfBoundsException("Value can't be smaller than 1!");
+            throw new OutOfBoundsException("IDs can't be less than 1!");
         }
     }
 

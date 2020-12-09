@@ -32,7 +32,7 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public void recordStore(Store store) throws UnknownStaffException, UnknownAddressException, OutOfBoundsException {
+    public void recordStore(Store store) throws UnknownStaffException, UnknownAddressException {
         storeDao.createStore(store);
     }
 

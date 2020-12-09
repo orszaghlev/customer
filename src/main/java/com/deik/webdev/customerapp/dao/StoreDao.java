@@ -7,7 +7,7 @@ import java.util.Collection;
 
 public interface StoreDao {
 
-    void createStore(Store store) throws UnknownStaffException, UnknownAddressException, OutOfBoundsException;
+    void createStore(Store store) throws UnknownStaffException, UnknownAddressException;
     Collection<Store> readAll();
     Collection<Store> readStoresByStaff(String staff) throws UnknownStoreException, EmptyException;
     Store readStoreById(Integer id) throws UnknownStoreException, EmptyException, OutOfBoundsException;

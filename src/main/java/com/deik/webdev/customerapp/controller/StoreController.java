@@ -70,7 +70,7 @@ public class StoreController {
                     requestDto.getStaff(),
                     requestDto.getAddress()
             ));
-        } catch (OutOfBoundsException | UnknownStaffException | UnknownAddressException e) {
+        } catch (UnknownStaffException | UnknownAddressException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

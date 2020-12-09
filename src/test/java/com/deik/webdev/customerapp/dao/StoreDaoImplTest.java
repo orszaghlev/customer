@@ -2,7 +2,6 @@ package com.deik.webdev.customerapp.dao;
 
 import com.deik.webdev.customerapp.entity.AddressEntity;
 import com.deik.webdev.customerapp.entity.StaffEntity;
-import com.deik.webdev.customerapp.exception.OutOfBoundsException;
 import com.deik.webdev.customerapp.exception.UnknownAddressException;
 import com.deik.webdev.customerapp.exception.UnknownStaffException;
 import com.deik.webdev.customerapp.model.Store;
@@ -27,7 +26,7 @@ public class StoreDaoImplTest {
     private StoreRepository storeRepository;
 
     @Test
-    public void testCreateStore() throws UnknownStaffException, UnknownAddressException, OutOfBoundsException {
+    public void testCreateStore() throws UnknownStaffException, UnknownAddressException {
         doReturn(AddressEntity.builder().address("address").build())
                 .when(dao).queryAddress(any());
         doReturn(StaffEntity.builder().username("username").build())
