@@ -1,7 +1,6 @@
 package com.deik.webdev.customerapp.controller;
 
 import com.deik.webdev.customerapp.dto.AddressDto;
-import com.deik.webdev.customerapp.dto.AddressRecordRequestDto;
 import com.deik.webdev.customerapp.dto.AddressUpdateRequestDto;
 import com.deik.webdev.customerapp.exception.*;
 import com.deik.webdev.customerapp.model.Address;
@@ -67,14 +66,14 @@ public class AddressControllerTest {
 
     @Test
     public void testRecordAddress() throws UnknownCountryException {
-        addressController.recordAddress(getAddressRecordRequestDto());
+        addressController.recordAddress(getAddressDto());
 
         verify(addressService, times(1)).recordAddress(getAddress());
     }
 
     @Test
     public void testDeleteAddress() throws UnknownAddressException {
-        addressController.deleteAddress(getAddressRecordRequestDto());
+        addressController.deleteAddress(getAddressDto());
 
         verify(addressService, times(1)).deleteAddress(any());
     }
@@ -88,11 +87,11 @@ public class AddressControllerTest {
 
     private Address getAddress() {
         return new Address(
-                null,
-                null,
-                null,
-                null,
-                null,
+                "address1",
+                "address2",
+                "district",
+                "UnknownCity",
+                "Algeria_1234",
                 "1234",
                 "061234567"
         );
@@ -104,14 +103,9 @@ public class AddressControllerTest {
                 "address2",
                 "district",
                 "UnknownCity",
-                "Algeria_1234"
-        );
-    }
-
-    private AddressRecordRequestDto getAddressRecordRequestDto() {
-        return new AddressRecordRequestDto(
-                "061234567",
-                "1234"
+                "Algeria_1234",
+                "1234",
+                "061234567"
         );
     }
 

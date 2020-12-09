@@ -1,7 +1,6 @@
 package com.deik.webdev.customerapp.controller;
 
 import com.deik.webdev.customerapp.dto.AddressDto;
-import com.deik.webdev.customerapp.dto.AddressRecordRequestDto;
 import com.deik.webdev.customerapp.dto.AddressUpdateRequestDto;
 import com.deik.webdev.customerapp.exception.*;
 import com.deik.webdev.customerapp.model.Address;
@@ -26,7 +25,7 @@ public class AddressController {
     public Collection<AddressDto> listAddresses() {
         return service.getAllAddress()
                 .stream()
-                .map(model -> AddressRecordRequestDto.builder()
+                .map(model -> AddressDto.builder()
                         .address(model.getAddress())
                         .address2(model.getAddress2())
                         .district(model.getDistrict())
@@ -43,7 +42,7 @@ public class AddressController {
         try {
             return service.getAddressesByCity(city)
                     .stream()
-                    .map(model -> AddressRecordRequestDto.builder()
+                    .map(model -> AddressDto.builder()
                             .address(model.getAddress())
                             .address2(model.getAddress2())
                             .district(model.getDistrict())
@@ -63,7 +62,7 @@ public class AddressController {
         try {
             return service.getAddressesByDistrict(district)
                     .stream()
-                    .map(model -> AddressRecordRequestDto.builder()
+                    .map(model -> AddressDto.builder()
                             .address(model.getAddress())
                             .address2(model.getAddress2())
                             .district(model.getDistrict())
@@ -83,7 +82,7 @@ public class AddressController {
         try {
             return service.getAddressesByPostalCode(postalCode)
                     .stream()
-                    .map(model -> AddressRecordRequestDto.builder()
+                    .map(model -> AddressDto.builder()
                             .address(model.getAddress())
                             .address2(model.getAddress2())
                             .district(model.getDistrict())
@@ -107,14 +106,16 @@ public class AddressController {
                     address.getAddress2(),
                     address.getDistrict(),
                     address.getCity(),
-                    address.getCountry());
+                    address.getCountry(),
+                    address.getPostalCode(),
+                    address.getPhone());
         } catch (OutOfBoundsException | EmptyException | UnknownAddressException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 
     @PostMapping("/address")
-    public void recordAddress(@RequestBody AddressRecordRequestDto requestDto) {
+    public void recordAddress(@RequestBody AddressDto requestDto) {
         try {
             service.recordAddress(new Address(
                     requestDto.getAddress(),
@@ -131,7 +132,7 @@ public class AddressController {
     }
 
     @DeleteMapping("/address")
-    public void deleteAddress(@RequestBody AddressRecordRequestDto requestDto) {
+    public void deleteAddress(@RequestBody AddressDto requestDto) {
         try {
             service.deleteAddress(new Address(
                     requestDto.getAddress(),

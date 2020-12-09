@@ -16,5 +16,7 @@ public class AddressDto {
     private String district;
     private String city;
     private String country;
+    private String postalCode;
+    private String phone;
 
 }
