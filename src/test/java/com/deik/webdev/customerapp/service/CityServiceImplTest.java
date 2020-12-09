@@ -91,7 +91,7 @@ public class CityServiceImplTest {
         return new City(
                 1,
                 "city",
-                "country"
+                1
         );
     }
 
@@ -99,7 +99,7 @@ public class CityServiceImplTest {
         return new City(
                 1,
                 "newCity",
-                "newCountry"
+                1
         );
     }
 
@@ -108,17 +108,17 @@ public class CityServiceImplTest {
                 new City(
                         1,
                         "city",
-                        "country"
+                        1
                 ),
                 new City(
                         2,
                         "city1",
-                        "country1"
+                        2
                 ),
                 new City(
                         3,
                         "city2",
-                        "country2"
+                        3
                 ));
     }
 

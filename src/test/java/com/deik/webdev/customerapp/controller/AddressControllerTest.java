@@ -65,7 +65,7 @@ public class AddressControllerTest {
     }
 
     @Test
-    public void testRecordAddress() throws UnknownCountryException {
+    public void testRecordAddress() throws UnknownCityException {
         addressController.recordAddress(getAddressDto());
 
         verify(addressService, times(1)).recordAddress(getAddress());
@@ -79,7 +79,7 @@ public class AddressControllerTest {
     }
 
     @Test
-    public void testUpdateAddress() throws UnknownAddressException, UnknownCountryException {
+    public void testUpdateAddress() throws UnknownAddressException, UnknownCityException {
         addressController.updateAddress(getAddressUpdateRequestDto());
 
         verify(addressService, times(1)).updateAddress(any(), any());
@@ -91,8 +91,7 @@ public class AddressControllerTest {
                 "address1",
                 "address2",
                 "district",
-                "UnknownCity",
-                "Algeria_1234",
+                1,
                 "1234",
                 "061234567"
         );
@@ -104,8 +103,7 @@ public class AddressControllerTest {
                 "address1",
                 "address2",
                 "district",
-                "UnknownCity",
-                "Algeria_1234",
+                1,
                 "1234",
                 "061234567"
         );
@@ -116,8 +114,7 @@ public class AddressControllerTest {
                 "address1",
                 "address2",
                 "district",
-                "UnknownCity",
-                "Algeria_1234",
+                1,
                 "1234",
                 "061234567"
         );
@@ -130,8 +127,7 @@ public class AddressControllerTest {
                         "address1",
                         "address2",
                         "district",
-                        "UnknownCity",
-                        "Algeria_1234",
+                        1,
                         "1234",
                         "061234567"
                 ),
@@ -140,8 +136,7 @@ public class AddressControllerTest {
                         "address3",
                         "address4",
                         "district",
-                        "UnknownCity",
-                        "Algeria_1234",
+                        2,
                         "1234",
                         "061234567"
                 ),
@@ -150,8 +145,7 @@ public class AddressControllerTest {
                         "address5",
                         "address6",
                         "district",
-                        "UnknownCity",
-                        "Algeria_1234",
+                        3,
                         "1234",
                         "061234567"
                 )

@@ -49,7 +49,7 @@ public class StoreDaoImpl implements StoreDao {
     protected StaffEntity queryStaff(int staffId) throws UnknownStaffException {
         Optional<StaffEntity> staffEntity = staffRepository.findById(staffId);
         if (!staffEntity.isPresent()) {
-            throw new UnknownStaffException(String.valueOf(staffId));
+            throw new UnknownStaffException("No Staff Found");
         }
         else {
             log.trace("StaffEntity: {}", staffEntity);
@@ -60,7 +60,7 @@ public class StoreDaoImpl implements StoreDao {
     protected AddressEntity queryAddress(int addressId) throws UnknownAddressException {
         Optional<AddressEntity> addressEntity = addressRepository.findById(addressId);
         if (!addressEntity.isPresent()) {
-            throw new UnknownAddressException(String.valueOf(addressId));
+            throw new UnknownAddressException("No Address Found");
         }
         else {
             log.trace("AddressEntity: {}", addressEntity);

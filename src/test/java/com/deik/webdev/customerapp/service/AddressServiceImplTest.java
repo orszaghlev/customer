@@ -27,7 +27,7 @@ class AddressServiceImplTest {
     private AddressDao dao;
 
     @Test
-    public void testRecordAddress() throws UnknownCountryException {
+    public void testRecordAddress() throws UnknownCityException {
         Address address = getAddress();
         service.recordAddress(address);
 
@@ -35,10 +35,10 @@ class AddressServiceImplTest {
     }
 
     @Test
-    public void testRecordAddressWithUnknownCountry() throws UnknownCountryException {
-        doThrow(UnknownCountryException.class).when(dao).createAddress(any());
+    public void testRecordAddressWithUnknownCity() throws UnknownCityException {
+        doThrow(UnknownCityException.class).when(dao).createAddress(any());
 
-        assertThrows(UnknownCountryException.class, ()->{
+        assertThrows(UnknownCityException.class, ()->{
             service.recordAddress(getAddress());
         });
     }
@@ -92,7 +92,7 @@ class AddressServiceImplTest {
     }
 
     @Test
-    public void testUpdateAddress() throws UnknownCountryException, UnknownAddressException {
+    public void testUpdateAddress() throws UnknownCityException, UnknownAddressException {
         Address address = getAddress();
         Address newAddress = getNewAddress();
         service.updateAddress(address, newAddress);
@@ -106,8 +106,7 @@ class AddressServiceImplTest {
                 "address1",
                 "address2",
                 "district",
-                "UnknownCity",
-                "Algeria_1234",
+                1,
                 "1234",
                 "061234567"
         );
@@ -119,8 +118,7 @@ class AddressServiceImplTest {
                 "newAddress1",
                 "newAddress2",
                 "newDistrict",
-                "newUnknownCity",
-                "newAlgeria_1234",
+                1,
                 "2345",
                 "062345678"
         );
@@ -133,8 +131,7 @@ class AddressServiceImplTest {
                         "address1",
                         "address2",
                         "district",
-                        "Atlantis",
-                        "Greece",
+                        1,
                         "1234",
                         "061234567"
                 ),
@@ -143,8 +140,7 @@ class AddressServiceImplTest {
                         "address10",
                         "address20",
                         "district",
-                        "Atlantis",
-                        "Greece",
+                        2,
                         "2345",
                         "062345678"
                 ),
@@ -153,8 +149,7 @@ class AddressServiceImplTest {
                         "address1",
                         "address2",
                         "district",
-                        "Debrecen",
-                        "Hungary",
+                        3,
                         "3456",
                         "063456789"
                 ));

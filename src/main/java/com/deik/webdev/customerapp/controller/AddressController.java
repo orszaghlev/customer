@@ -30,8 +30,7 @@ public class AddressController {
                         .address(model.getAddress())
                         .address2(model.getAddress2())
                         .district(model.getDistrict())
-                        .city(model.getCity())
-                        .country(model.getCountry())
+                        .cityId(model.getCityId())
                         .postalCode(model.getPostalCode())
                         .phone(model.getPhone())
                         .build())
@@ -48,8 +47,7 @@ public class AddressController {
                             .address(model.getAddress())
                             .address2(model.getAddress2())
                             .district(model.getDistrict())
-                            .city(model.getCity())
-                            .country(model.getCountry())
+                            .cityId(model.getCityId())
                             .postalCode(model.getPostalCode())
                             .phone(model.getPhone())
                             .build())
@@ -69,8 +67,7 @@ public class AddressController {
                             .address(model.getAddress())
                             .address2(model.getAddress2())
                             .district(model.getDistrict())
-                            .city(model.getCity())
-                            .country(model.getCountry())
+                            .cityId(model.getCityId())
                             .postalCode(model.getPostalCode())
                             .phone(model.getPhone())
                             .build())
@@ -90,8 +87,7 @@ public class AddressController {
                             .address(model.getAddress())
                             .address2(model.getAddress2())
                             .district(model.getDistrict())
-                            .city(model.getCity())
-                            .country(model.getCountry())
+                            .cityId(model.getCityId())
                             .postalCode(model.getPostalCode())
                             .phone(model.getPhone())
                             .build())
@@ -110,8 +106,7 @@ public class AddressController {
                     address.getAddress(),
                     address.getAddress2(),
                     address.getDistrict(),
-                    address.getCity(),
-                    address.getCountry(),
+                    address.getCityId(),
                     address.getPostalCode(),
                     address.getPhone());
         } catch (OutOfBoundsException | EmptyException | UnknownAddressException e) {
@@ -127,12 +122,11 @@ public class AddressController {
                     requestDto.getAddress(),
                     requestDto.getAddress2(),
                     requestDto.getDistrict(),
-                    requestDto.getCity(),
-                    requestDto.getCountry(),
+                    requestDto.getCityId(),
                     requestDto.getPostalCode(),
                     requestDto.getPhone()
             ));
-        } catch (UnknownCountryException e) {
+        } catch (UnknownCityException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
@@ -145,8 +139,7 @@ public class AddressController {
                     requestDto.getAddress(),
                     requestDto.getAddress2(),
                     requestDto.getDistrict(),
-                    requestDto.getCity(),
-                    requestDto.getCountry(),
+                    requestDto.getCityId(),
                     requestDto.getPostalCode(),
                     requestDto.getPhone()
             ));
@@ -163,8 +156,7 @@ public class AddressController {
                     requestDto.getAddress(),
                     requestDto.getAddress2(),
                     requestDto.getDistrict(),
-                    requestDto.getCity(),
-                    requestDto.getCountry(),
+                    requestDto.getCityId(),
                     requestDto.getPostalCode(),
                     requestDto.getPhone()),
                     new Address(
@@ -172,12 +164,11 @@ public class AddressController {
                     requestDto.getNewAddress(),
                     requestDto.getNewAddress2(),
                     requestDto.getNewDistrict(),
-                    requestDto.getNewCity(),
-                    requestDto.getNewCountry(),
+                    requestDto.getNewCityId(),
                     requestDto.getNewPostalCode(),
                     requestDto.getNewPhone())
             );
-        } catch (UnknownCountryException | UnknownAddressException e) {
+        } catch (UnknownCityException | UnknownAddressException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

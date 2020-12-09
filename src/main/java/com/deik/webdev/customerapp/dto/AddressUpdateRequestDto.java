@@ -14,8 +14,7 @@ public class AddressUpdateRequestDto extends AddressDto {
     private String newAddress;
     private String newAddress2;
     private String newDistrict;
-    private String newCity;
-    private String newCountry;
+    private int newCityId;
     private String newPostalCode;
     private String newPhone;
 

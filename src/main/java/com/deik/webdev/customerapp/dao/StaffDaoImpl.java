@@ -55,7 +55,7 @@ public class StaffDaoImpl implements StaffDao {
     protected AddressEntity queryAddress(int addressId) throws UnknownAddressException {
         Optional<AddressEntity> addressEntity = addressRepository.findById(addressId);
         if (!addressEntity.isPresent()) {
-            throw new UnknownAddressException(String.valueOf(addressId));
+            throw new UnknownAddressException("No Address Found");
         }
         else {
             log.trace("AddressEntity: {}", addressEntity);
@@ -66,7 +66,7 @@ public class StaffDaoImpl implements StaffDao {
     protected StoreEntity queryStore(int storeId) throws UnknownStoreException {
         Optional<StoreEntity> storeEntity = storeRepository.findById(storeId);
         if (!storeEntity.isPresent()) {
-            throw new UnknownStoreException(String.valueOf(storeId));
+            throw new UnknownStoreException("No Store Found");
         }
         else {
             log.trace("StoreEntity: {}", storeEntity);
